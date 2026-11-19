@@ -9,11 +9,11 @@ Persönliche Portfolio-Website zur Präsentation von Software-, Webentwicklungs-
 | Bereich         | Technologie                                        |
 | --------------- | -------------------------------------------------- |
 | Frontend        | [React 19](https://react.dev)                      |
-| Sprache         | [TypeScript](https://www.typescriptlang.org)       |
+| Sprache         | [TypeScript 6.0](https://www.typescriptlang.org)   |
 | Build / Dev     | [Vite 8](https://vite.dev)                         |
 | Styling         | [Tailwind CSS 4](https://tailwindcss.com) (Vite-Plugin) |
 | Animationen     | [Motion](https://motion.dev) (`motion/react`) – installiert, noch nicht verwendet |
-| Linting         | [oxlint](https://oxc.rs)                           |
+| Linting         | [ESLint](https://eslint.org) + typescript-eslint, React-Hooks- & React-Refresh-Regeln |
 | Hosting         | GitHub Pages via GitHub Actions                    |
 
 ## Voraussetzungen
@@ -35,7 +35,7 @@ npm install
 | `npm run dev`     | Development Server starten (http://localhost:5173)     |
 | `npm run build`   | Typprüfung (`tsc -b`) und Produktions-Build nach `dist/` |
 | `npm run preview` | Produktions-Build lokal ausliefern (http://localhost:4173) |
-| `npm run lint`    | Code mit oxlint prüfen                                 |
+| `npm run lint`    | Code mit ESLint prüfen                                 |
 
 ## Projektstruktur
 
@@ -43,6 +43,7 @@ npm install
 .github/workflows/deploy.yml   GitHub-Pages-Deployment (Build + Deploy)
 index.html                     HTML-Einstiegspunkt
 vite.config.ts                 Vite-Konfiguration (React, Tailwind, base-Pfad)
+eslint.config.js               ESLint-Konfiguration (Flat Config)
 src/
 ├── main.tsx                   React-Einstiegspunkt
 ├── App.tsx                    App-Wurzel (später Routing/Layout)
@@ -63,6 +64,7 @@ Statische Dateien, die unverändert ausgeliefert werden sollen (z. B. `favicon.s
 - **Dark Mode:** Folgt vorerst der Systemeinstellung (`prefers-color-scheme`).
 - **Dynamischer `base`-Pfad:** `vite.config.ts` liest `BASE_PATH` aus der Umgebung (Standard `/`). Der Workflow setzt den Wert automatisch über `actions/configure-pages` – für ein Projekt-Repository z. B. `/Portfolio/`, für ein `<user>.github.io`-Repository `/`. Ein Umbenennen des Repositorys erfordert daher keine Codeänderung.
 - **Keine absoluten Asset-Pfade:** Assets werden in Komponenten importiert (`import img from '../assets/x.png'`), damit Vite den `base`-Pfad korrekt voranstellt. Für Dateien aus `public/` im Code `import.meta.env.BASE_URL` verwenden.
+- **ESLint statt oxlint, TypeScript 6.0 statt 7:** typescript-eslint unterstützt derzeit nur TypeScript `< 6.1`. Deshalb ist TypeScript auf `~6.0` festgelegt. Ein Upgrade auf TypeScript 7 ist möglich, sobald typescript-eslint es unterstützt.
 - **Motion** ist bereits installiert, wird aber erst mit dem Design eingesetzt (`import { motion } from 'motion/react'`).
 
 ## Deployment (GitHub Pages)
@@ -87,7 +89,3 @@ Benötigte Workflow-Berechtigungen (bereits gesetzt): `contents: read`, `pages: 
 5. Die Seite ist anschließend erreichbar unter `https://<user>.github.io/<repo>/`.
 
 Optional: Unter **Settings → Environments → github-pages** sind die Deployment-Branch-Regeln einsehbar (Standard: nur `main`).
-
-## Hinweis zu oxlint unter Windows
-
-Falls `npm run lint` mit *„An Application Control policy has blocked this file“* abbricht, blockiert Windows (Smart App Control / WDAC) die native oxlint-Binary. Das betrifft nur die lokale Maschine, nicht den Code.
