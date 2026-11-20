@@ -28,9 +28,9 @@ function Navbar({ active }: NavbarProps) {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
         open
-          ? 'border-b border-line/70 bg-ivory/95 backdrop-blur-md'
+          ? 'border-b border-line/70 bg-ivory'
           : scrolled
-            ? 'border-b border-line/70 bg-ivory/80 backdrop-blur-md'
+            ? 'border-b border-line/70 bg-ivory/95'
             : 'border-b border-transparent'
       }`}
     >

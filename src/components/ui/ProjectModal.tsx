@@ -100,7 +100,7 @@ function ProjectModal({ project, title, onClose }: ProjectModalProps) {
               type="button"
               aria-label={t.projects.modal.close}
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 grid size-11 place-items-center rounded-full bg-ivory/85 text-galaxy shadow-md shadow-galaxy/10 backdrop-blur-sm transition hover:rotate-90 hover:bg-ivory"
+              className="absolute top-4 right-4 z-10 grid size-11 place-items-center rounded-full bg-ivory/90 text-galaxy shadow-md shadow-galaxy/10 transition hover:rotate-90 hover:bg-ivory"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="size-5" aria-hidden>
                 <path d="M18 6 6 18M6 6l12 12" />
