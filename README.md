@@ -53,9 +53,9 @@ src/
 │   ├── decor/                 HeroBackdrop, HeroSplit, Sparkle
 │   ├── layout/                Container, Grid, Section, Footer
 │   ├── navigation/            Navbar (centered links, mobile menu), SideNav (node line), LanguageSwitch (EN/DE toggle)
-│   ├── ui/                    Button, SectionHeading, ProjectCard, Reveal, RichText, placeholders
+│   ├── ui/                    Button, SectionHeading, ProjectCard, ProjectModal, Slideshow, Reveal, RichText, placeholders
 │   └── dev/GridOverlay.tsx    Column overlay (dev mode only)
-├── data/sections.ts           Section ids (order = page order)
+├── data/                      sections.ts (section ids, page order), projects.ts (project list)
 ├── i18n/                      Translations (EN/DE), LanguageProvider, useLanguage
 ├── hooks/                     useActiveSection, useScrolled, useInitialScroll, useIdle
 ├── styles/index.css           Design tokens (@theme), utilities, global base styles
