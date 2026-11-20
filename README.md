@@ -71,15 +71,15 @@ All tokens live in the `@theme` block of [`src/styles/index.css`](src/styles/ind
 
 | Area       | Definition |
 | ---------- | ---------- |
-| Surfaces   | `ivory` `#f8f4ec` and `sand` `#ebe1cf` (gradient to `sand-deep`) – sections alternate between them |
-| Text       | `ink` `#161836` (body), `muted` `#5b5d78` (secondary) |
-| Accents    | `galaxy` `#1d2160` (headings, primary button), `violet` `#6a4bd6`, `teal` `#17a2a0`; gradient via `bg-gradient-galaxy` / `text-gradient` |
+| Surfaces   | `ivory` `#dcdce3` (slightly bluish) and `sand` `#d1c5af` (muted, warm off-whites that are easy on the eyes at night) (gradient to `sand-deep`) – sections alternate between them |
+| Text       | `ink` `#161836` (body), `muted` `#4a4c66` (secondary) |
+| Accents    | `galaxy` `#1d2160` (headings, primary button), `violet` `#6a4bd6`, `teal` `#17a2a0` (accents), `teal-deep` `#0a5654` (small labels); gradient via `bg-gradient-galaxy` / `text-gradient` |
 | Fonts      | **Fraunces** (`font-display`: headings, name, logo) – a soft humanist serif with the `SOFT` axis at 100; the hero name additionally uses the `WONK` alternates (`font-wonky`). **Inter** (`font-sans`: body text, navigation, buttons, labels). Both self-hosted via `@fontsource-variable` (no requests to Google Fonts, GDPR-friendly) |
 | Type scale | `text-display` (hero, fluid 48–120 px) › `text-heading` (section titles, fluid 36–64 px) › `text-lg/xl` (lead) › `text-base` › `text-xs` uppercase + tracking (labels) |
 | Grid       | 4 columns (mobile) → 8 (from `md`) → 12 (from `lg`), gutters 16/24/32 px, max width 1280 px – `components/layout/Grid.tsx`. Above 1536 px the whole layout scales proportionally (root font size = 1/96 of the viewport width, capped at 28 px), so large monitors keep the laptop proportions instead of growing empty margins |
 | Spacing    | Tailwind's 4 px scale used in 8 px steps; section top padding `--spacing-section-top` (fluid 40–64 px), bottom padding `--spacing-section` (fluid 96–160 px), navbar height `--spacing-nav` (72 px) |
 | Headings   | Point-symmetric placement: the About title is centered over the right half (above the text), Projects is centered on the page, the Contact title is centered over the left half (from `md`; always left on phones) |
-| Hero split | Two complementary halves: a calm warm cream panel behind the text and a light, cool "galaxy" side (mesh, shapes) behind the portrait. No visible line: an invisible S-curve (wave when stacked) guides a heavily blurred panel edge, and the dot grid fades in towards the galaxy side (`HeroSplit.tsx`) |
+| Hero split | Two complementary halves: a calm bluish off-white panel behind the text (colours: `--color-hero-panel-from/-to`) and a light, cool "galaxy" side (mesh, shapes) behind the portrait. No visible line: an invisible S-curve (wave when stacked) guides a heavily blurred panel edge, and the dot grid fades in towards the galaxy side (`HeroSplit.tsx`) |
 | Asymmetry  | Deliberate and sparing: offset column starts, staggered project cards (7/5 – 5/7), a few slightly rotated elements (portrait frame, badge, individual cards) |
 | Motion     | Subtle fade-in on scroll (`Reveal`) and navigation transitions; respects `prefers-reduced-motion` |
 

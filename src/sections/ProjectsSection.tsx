@@ -18,8 +18,21 @@ function ProjectsSection() {
   const placeholderTitle = { en: translations.en.projects.placeholderTitle, de: translations.de.projects.placeholderTitle }
 
   return (
-    <Section id="projects" tone="ivory">
-      <div aria-hidden className="absolute top-1/4 -left-56 -z-10 size-160 bg-glow-violet" />
+    <Section id="projects" tone="ivory-flip">
+      {/* Divider to Skills (same background colour): a beige line that fades out
+          gently towards both ends, broken in the middle by three dots in the
+          accent colours. The line halves are mirrored copies of one gradient. */}
+      <Container className="absolute inset-x-0 top-0">
+        <div
+          aria-hidden
+          className="flex items-center gap-5 [--divider:color-mix(in_oklab,var(--color-line),var(--color-ink)_12%)] *:data-line:h-0.5 *:data-line:flex-1 *:data-line:rounded-full *:data-line:bg-[linear-gradient(to_right,transparent,color-mix(in_oklab,var(--divider)_45%,transparent)_12%,var(--divider)_45%)]"
+        >
+          <span data-line />
+          {/* Short, darker and more saturated beige segment in the middle */}
+          <span className="block h-0.5 w-14 rounded-full bg-[color-mix(in_oklab,#a8875a,var(--color-ink)_15%)]" />
+          <span data-line className="-scale-x-100" />
+        </div>
+      </Container>
 
       <Container>
         <Reveal>

@@ -3,14 +3,18 @@ import type { SectionId } from '../../data/sections.ts'
 
 type SectionProps = {
   id: SectionId
-  /** Alternating surface: ivory (light) or sand (warm). */
-  tone: 'ivory' | 'sand'
+  /**
+   * Surface: ivory (light, faint violet/teal tint), sand (warm) or ivory-flip
+   * (mirrored tint, for a light section directly below another light one).
+   */
+  tone: 'ivory' | 'ivory-flip' | 'sand'
   children: ReactNode
   className?: string
 }
 
 const tones = {
-  ivory: 'bg-ivory',
+  ivory: 'bg-ivory-wash',
+  'ivory-flip': 'bg-ivory-wash-flip',
   sand: 'bg-linear-to-b from-sand to-sand-deep',
 } as const
 
