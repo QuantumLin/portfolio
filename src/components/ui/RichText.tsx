@@ -1,18 +1,21 @@
-import type { ReactNode } from 'react'
+import { externalLinkProps, isExternalUrl } from '../../utils/links.ts'
 
 type RichTextProps = {
   text: string
 }
 
-// Matches **bold** or [label](href)
-const token = /(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g
+// Splits the text at **bold** and [label](href) parts. The capture group keeps
+// those parts in the result, e.g. "a **b** c" → ["a ", "**b**", " c"].
+const MARKUP = /(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g
+const LINK = /^\[([^\]]+)\]\(([^)]+)\)$/
 
 /**
- * Renders translation strings with minimal inline markup:
- * **bold** → highlighted text, [label](href) → styled link (external links open in a new tab).
+ * Renders translation strings with a tiny bit of Markdown-like markup:
+ * - **bold**       → highlighted text
+ * - [label](href)  → styled link (links to other websites open in a new tab)
  */
 function RichText({ text }: RichTextProps) {
-  const parts: ReactNode[] = text.split(token).map((part, i) => {
+  const parts = text.split(MARKUP).map((part, i) => {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
         <strong key={i} className="font-medium text-galaxy">
@@ -20,20 +23,23 @@ function RichText({ text }: RichTextProps) {
         </strong>
       )
     }
-    const link = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(part)
+
+    const link = LINK.exec(part)
     if (link) {
+      const [, label, href] = link
       return (
         <a
           key={i}
-          href={link[2]}
-          {...(/^https?:/.test(link[2]) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          href={href}
+          {...(isExternalUrl(href) ? externalLinkProps : {})}
           className="font-medium text-violet underline decoration-violet/30 underline-offset-4 transition-colors hover:decoration-violet"
         >
-          {link[1]}
+          {label}
         </a>
       )
     }
-    return part
+
+    return part // plain text
   })
 
   return <>{parts}</>

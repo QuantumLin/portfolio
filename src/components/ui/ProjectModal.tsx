@@ -1,76 +1,59 @@
-import { useEffect, useId, useRef } from 'react'
+import { useEffect, useId, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import type { Project } from '../../data/projects.ts'
 import { useLanguage } from '../../i18n/languageContext.ts'
+import { EASE_OUT } from '../../utils/motion.ts'
 import { PlaceholderLines } from './Placeholder.tsx'
 import Slideshow from './Slideshow.tsx'
 
 type ProjectModalProps = {
+  /** The project to show, or `null` while the window is closed. */
   project: Project | null
   onClose: () => void
 }
 
-const focusableSelector =
-  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
-
 /**
- * Large project window (not fullscreen) over a dimmed page. (Dimmed, not blurred:
- * a backdrop blur over the whole page is very slow without GPU acceleration.)
+ * Large project window (not fullscreen) over a dimmed page.
  * Top: slideshow. Below: title, meta, description, my role and technologies
  * (placeholder lines for projects without content yet).
- * Closes via ✕, Esc or a click on the backdrop; locks page scroll, keeps
- * keyboard focus inside and returns it to the card afterwards.
- * Rendered into <body> via a portal so it sits above the navbar (sections
- * create their own stacking contexts).
+ *
+ * - Closes via ✕, Esc or a click on the dimmed background.
+ * - While open, the page behind can't scroll and Tab stays inside the window;
+ *   afterwards the keyboard focus returns to the card that opened it.
+ * - Dimmed, not blurred: a backdrop blur over the whole page is very slow
+ *   without GPU acceleration.
+ * - Rendered into <body> via a portal, so it sits above the navbar (each
+ *   section creates its own stacking context).
  */
 function ProjectModal({ project, onClose }: ProjectModalProps) {
   const { lang, t } = useLanguage()
   const titleId = useId()
   const panelRef = useRef<HTMLDivElement>(null)
-  const closeRef = useRef<HTMLButtonElement>(null)
-  const open = project !== null
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const isOpen = project !== null
 
   useEffect(() => {
-    if (!open) return
+    if (!isOpen) return
+
     const previouslyFocused = document.activeElement as HTMLElement | null
-    // Lock page scroll; pad by the scrollbar width so the page doesn't shift sideways.
-    const root = document.documentElement
-    const scrollbarWidth = window.innerWidth - root.clientWidth
-    const previous = { overflow: root.style.overflow, paddingRight: root.style.paddingRight }
-    root.style.overflow = 'hidden'
-    if (scrollbarWidth > 0) root.style.paddingRight = `${scrollbarWidth}px`
-    closeRef.current?.focus()
+    const unlockScroll = lockPageScroll()
+    closeButtonRef.current?.focus()
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose()
-        return
-      }
-      // Simple focus trap: Tab cycles within the panel.
-      if (event.key === 'Tab' && panelRef.current) {
-        const focusables = [...panelRef.current.querySelectorAll<HTMLElement>(focusableSelector)]
-        if (focusables.length === 0) return
-        const first = focusables[0]
-        const last = focusables[focusables.length - 1]
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault()
-          last.focus()
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault()
-          first.focus()
-        }
-      }
+      if (event.key === 'Escape') onClose()
+      if (event.key === 'Tab' && panelRef.current) keepFocusInside(panelRef.current, event)
     }
     document.addEventListener('keydown', onKeyDown)
 
     return () => {
       document.removeEventListener('keydown', onKeyDown)
-      root.style.overflow = previous.overflow
-      root.style.paddingRight = previous.paddingRight
+      unlockScroll()
       previouslyFocused?.focus()
     }
-  }, [open, onClose])
+  }, [isOpen, onClose])
+
+  const content = project?.content
 
   return createPortal(
     <AnimatePresence>
@@ -93,11 +76,12 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
             initial={{ opacity: 0, y: 32, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.97 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.35, ease: EASE_OUT }}
+            // Clicks inside the window must not reach the background (which closes it)
             onClick={(event) => event.stopPropagation()}
           >
             <button
-              ref={closeRef}
+              ref={closeButtonRef}
               type="button"
               aria-label={t.projects.modal.close}
               onClick={onClose}
@@ -108,49 +92,37 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
               </svg>
             </button>
 
-            {/* Upper half: slideshow */}
             <Slideshow count={project.imageCount} className="aspect-2/1 max-h-[40dvh] w-full shrink-0" />
 
-            {/* Lower half: project details (scrolls if long) */}
+            {/* Project details (scroll if they don't fit) */}
             <div className="overflow-y-auto px-6 pt-8 pb-10 md:px-10">
               <h2 id={titleId} className="text-3xl font-semibold text-galaxy md:text-4xl">
-                {project.content?.title[lang] ?? t.projects.placeholderTitle}
+                {content?.title[lang] ?? t.projects.placeholderTitle}
               </h2>
 
-              {project.content ? (
+              {content ? (
                 <>
-                  <p className="mt-3 font-sans text-sm text-muted">{project.content.meta[lang]}</p>
+                  <p className="mt-3 font-sans text-sm text-muted">{content.meta[lang]}</p>
 
                   <div className="mt-8 grid gap-8 md:grid-cols-[3fr_2fr] md:gap-10">
                     <div className="space-y-6">
-                      <section>
-                        <h3 className="mb-2 font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">
-                          {t.projects.details.description}
-                        </h3>
-                        <p className="text-base leading-relaxed text-ink/80">{project.content.description[lang]}</p>
-                      </section>
-                      <section>
-                        <h3 className="mb-2 font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">
-                          {t.projects.details.role}
-                        </h3>
-                        <p className="text-base leading-relaxed text-ink/80">{project.content.role[lang]}</p>
-                      </section>
+                      <DetailSection title={t.projects.details.description}>
+                        <p className="text-base leading-relaxed text-ink/80">{content.description[lang]}</p>
+                      </DetailSection>
+                      <DetailSection title={t.projects.details.role}>
+                        <p className="text-base leading-relaxed text-ink/80">{content.role[lang]}</p>
+                      </DetailSection>
                     </div>
-                    <section>
-                      <h3 className="mb-3 font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">
-                        {t.projects.details.tech}
-                      </h3>
+
+                    <DetailSection title={t.projects.details.tech}>
                       <ul className="flex flex-wrap gap-2">
-                        {project.content.tech.map((tech) => (
-                          <li
-                            key={tech}
-                            className="rounded-full border border-galaxy/15 bg-sand/50 px-3 py-1 font-sans text-sm text-galaxy"
-                          >
+                        {content.tech.map((tech) => (
+                          <li key={tech} className="rounded-full border border-galaxy/15 bg-sand/50 px-3 py-1 font-sans text-sm text-galaxy">
                             {tech}
                           </li>
                         ))}
                       </ul>
-                    </section>
+                    </DetailSection>
                   </div>
                 </>
               ) : (
@@ -163,6 +135,52 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
     </AnimatePresence>,
     document.body,
   )
+}
+
+/** Small labelled block inside the project window ("About the project", "My role" …). */
+function DetailSection({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section>
+      <h3 className="mb-2.5 text-label text-teal-deep">{title}</h3>
+      {children}
+    </section>
+  )
+}
+
+/**
+ * Stops the page behind the window from scrolling. Returns a function that undoes it.
+ * Hiding the scrollbar would make the page jump sideways, so its width is added as padding.
+ */
+function lockPageScroll(): () => void {
+  const root = document.documentElement
+  const scrollbarWidth = window.innerWidth - root.clientWidth
+  const previous = { overflow: root.style.overflow, paddingRight: root.style.paddingRight }
+
+  root.style.overflow = 'hidden'
+  if (scrollbarWidth > 0) root.style.paddingRight = `${scrollbarWidth}px`
+
+  return () => {
+    root.style.overflow = previous.overflow
+    root.style.paddingRight = previous.paddingRight
+  }
+}
+
+const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+
+/** Simple focus trap: Tab on the last element jumps to the first, Shift+Tab on the first to the last. */
+function keepFocusInside(container: HTMLElement, event: KeyboardEvent) {
+  const focusables = [...container.querySelectorAll<HTMLElement>(FOCUSABLE)]
+  if (focusables.length === 0) return
+
+  const first = focusables[0]
+  const last = focusables[focusables.length - 1]
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault()
+    last.focus()
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault()
+    first.focus()
+  }
 }
 
 export default ProjectModal

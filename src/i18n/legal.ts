@@ -1,4 +1,4 @@
-import { orPlaceholder, type ContactDetails } from '../data/contact.ts'
+import type { ContactDetails } from '../data/contact.ts'
 import type { Language } from './translations.ts'
 
 /*
@@ -33,35 +33,41 @@ const GITHUB_PRIVACY_URL = 'https://docs.github.com/en/site-policy/privacy-polic
 
 const country = { de: 'Deutschland', en: 'Germany' }
 
+/** Shown instead of missing contact details, e.g. "[Phone number]" – easy to spot before publishing. */
 const placeholders = {
   de: { street: 'Straße und Hausnummer', city: 'PLZ und Ort', email: 'E-Mail-Adresse', phone: 'Telefonnummer' },
   en: { street: 'Street and house number', city: 'Postal code and city', email: 'Email address', phone: 'Phone number' },
 }
 
-function fields(lang: Language, c: ContactDetails) {
-  const p = placeholders[lang]
-  const email = c.email ? `[${c.email}](mailto:${c.email})` : `[${p.email}]`
+function orPlaceholder(value: string | null, placeholder: string): string {
+  return value ?? `[${placeholder}]`
+}
+
+/** Contact details as ready-to-use text, with placeholders for missing values. */
+function contactFields(lang: Language, details: ContactDetails) {
+  const missing = placeholders[lang]
   return {
-    street: orPlaceholder(c.street, p.street),
-    city: orPlaceholder(c.city, p.city),
-    phone: orPlaceholder(c.phone, p.phone),
-    email,
-    // Address lines are plain text (no markup).
-    emailPlain: orPlaceholder(c.email, p.email),
+    street: orPlaceholder(details.street, missing.street),
+    city: orPlaceholder(details.city, missing.city),
+    phone: orPlaceholder(details.phone, missing.phone),
+    /** Clickable email link (RichText markup) – for paragraphs. */
+    emailLink: details.email ? `[${details.email}](mailto:${details.email})` : `[${missing.email}]`,
+    /** Plain email address – for address lines, which render no markup. */
+    email: orPlaceholder(details.email, missing.email),
   }
 }
 
-function imprint(lang: Language, c: ContactDetails): LegalDocument {
-  const f = fields(lang, c)
-  const address = [c.name, f.street, f.city, country[lang]]
+function imprint(lang: Language, details: ContactDetails): LegalDocument {
+  const fields = contactFields(lang, details)
+  const address = [details.name, fields.street, fields.city, country[lang]]
 
   if (lang === 'de') {
     return {
       title: 'Impressum',
       sections: [
         { heading: 'Angaben gemäß § 5 DDG', lines: address },
-        { heading: 'Kontakt', paragraphs: [`E-Mail: ${f.email}`, `Telefon: ${f.phone}`] },
-        { heading: 'Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV', lines: [c.name, 'Anschrift wie oben'] },
+        { heading: 'Kontakt', paragraphs: [`E-Mail: ${fields.emailLink}`, `Telefon: ${fields.phone}`] },
+        { heading: 'Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV', lines: [details.name, 'Anschrift wie oben'] },
         {
           heading: 'Urheberrecht',
           paragraphs: [
@@ -84,8 +90,8 @@ function imprint(lang: Language, c: ContactDetails): LegalDocument {
     intro: 'This legal notice (“Impressum”) is required by German law. In case of doubt, the German version applies.',
     sections: [
       { heading: 'Information pursuant to § 5 DDG (German Digital Services Act)', lines: address },
-      { heading: 'Contact', paragraphs: [`Email: ${f.email}`, `Phone: ${f.phone}`] },
-      { heading: 'Responsible for content pursuant to § 18 (2) MStV', lines: [c.name, 'Address as above'] },
+      { heading: 'Contact', paragraphs: [`Email: ${fields.emailLink}`, `Phone: ${fields.phone}`] },
+      { heading: 'Responsible for content pursuant to § 18 (2) MStV', lines: [details.name, 'Address as above'] },
       {
         heading: 'Copyright',
         paragraphs: [
@@ -110,11 +116,12 @@ function numbered(sections: (LegalSection | false)[]): LegalSection[] {
     .map((section, i) => ({ ...section, heading: `${i + 1}. ${section.heading}` }))
 }
 
-function privacy(lang: Language, c: ContactDetails): LegalDocument {
-  const f = fields(lang, c)
-  const controller = [c.name, f.street, f.city, country[lang]]
-  // Only mention external profiles that are actually linked.
-  const profiles = [c.github && 'GitHub', c.linkedin && 'LinkedIn'].filter(Boolean).join(lang === 'de' ? ' und ' : ' and ')
+function privacy(lang: Language, details: ContactDetails): LegalDocument {
+  const fields = contactFields(lang, details)
+  const controller = [details.name, fields.street, fields.city, country[lang]]
+  // Only mention external profiles that are actually linked, e.g. 'GitHub and LinkedIn'.
+  const linkedProfiles = [details.github && 'GitHub', details.linkedin && 'LinkedIn'].filter(Boolean)
+  const profiles = linkedProfiles.join(lang === 'de' ? ' und ' : ' and ')
 
   if (lang === 'de') {
     return {
@@ -123,7 +130,7 @@ function privacy(lang: Language, c: ContactDetails): LegalDocument {
         {
           heading: 'Verantwortlicher',
           paragraphs: ['Verantwortlich für die Datenverarbeitung auf dieser Website ist:'],
-          lines: [...controller, `E-Mail: ${f.emailPlain}`],
+          lines: [...controller, `E-Mail: ${fields.email}`],
         },
         {
           heading: 'Überblick',
@@ -151,7 +158,7 @@ function privacy(lang: Language, c: ContactDetails): LegalDocument {
             'Wenn Sie mir eine E-Mail schreiben, verarbeite ich Ihre Angaben (z. B. Name, E-Mail-Adresse und Inhalt der Nachricht), um Ihre Anfrage zu beantworten. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage auf eine Zusammenarbeit oder einen Vertrag abzielt, andernfalls Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen). Ihre Daten werden gelöscht, sobald sie für diesen Zweck nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.',
           ],
         },
-        Boolean(profiles) && {
+        linkedProfiles.length > 0 && {
           heading: 'Links zu anderen Websites',
           paragraphs: [
             `Diese Website enthält Links zu externen Angeboten (${profiles}). Daten werden erst übertragen, wenn Sie einen solchen Link anklicken; ab dann gelten die Datenschutzbestimmungen des jeweiligen Anbieters.`,
@@ -176,7 +183,7 @@ function privacy(lang: Language, c: ContactDetails): LegalDocument {
       {
         heading: 'Controller',
         paragraphs: ['The person responsible for data processing on this website is:'],
-        lines: [...controller, `Email: ${f.emailPlain}`],
+        lines: [...controller, `Email: ${fields.email}`],
       },
       {
         heading: 'Overview',
@@ -204,7 +211,7 @@ function privacy(lang: Language, c: ContactDetails): LegalDocument {
           'If you send me an email, I process the information you provide (e.g. name, email address and the content of your message) to answer your request. The legal basis is Art. 6 (1) (b) GDPR if your request concerns a collaboration or a contract, otherwise Art. 6 (1) (f) GDPR (legitimate interest in answering enquiries). Your data is deleted as soon as it is no longer needed for this purpose and no statutory retention obligations apply.',
         ],
       },
-      Boolean(profiles) && {
+      linkedProfiles.length > 0 && {
         heading: 'Links to other websites',
         paragraphs: [
           `This website contains links to external services (${profiles}). Data is only transferred once you click such a link; from then on, the privacy policy of the respective provider applies.`,
@@ -222,8 +229,8 @@ function privacy(lang: Language, c: ContactDetails): LegalDocument {
   }
 }
 
-export function getLegalDocument(page: LegalPageId, lang: Language, c: ContactDetails): LegalDocument {
-  return page === 'imprint' ? imprint(lang, c) : privacy(lang, c)
+export function getLegalDocument(page: LegalPageId, lang: Language, details: ContactDetails): LegalDocument {
+  return page === 'imprint' ? imprint(lang, details) : privacy(lang, details)
 }
 
 /** Browser tab titles per page and language. */

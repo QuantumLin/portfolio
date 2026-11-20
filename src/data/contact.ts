@@ -38,8 +38,3 @@ export const contact: ContactDetails = {
   github: env(import.meta.env.VITE_CONTACT_GITHUB),
   linkedin: env(import.meta.env.VITE_CONTACT_LINKEDIN),
 }
-
-/** Shows a value or a clearly visible placeholder. */
-export function orPlaceholder(value: string | null, placeholder: string): string {
-  return value ?? `[${placeholder}]`
-}

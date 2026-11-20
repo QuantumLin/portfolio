@@ -1,7 +1,4 @@
-import type { Language } from '../i18n/translations.ts'
-
-/** A text in every site language. */
-export type Localized = Record<Language, string>
+import type { Localized } from '../i18n/translations.ts'
 
 /** Texts of a project card / project window. */
 export type ProjectContent = {

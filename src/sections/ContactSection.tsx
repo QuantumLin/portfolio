@@ -7,16 +7,35 @@ import Reveal from '../components/ui/Reveal.tsx'
 import SectionHeading from '../components/ui/SectionHeading.tsx'
 import { contact } from '../data/contact.ts'
 import { useLanguage } from '../i18n/languageContext.ts'
+import { externalLinkProps } from '../utils/links.ts'
 
 type Channel = {
   key: 'email' | 'github' | 'linkedin'
-  href: string | null
-  display: string | null
+  href: string
+  /** Text shown on the page */
+  display: string
   external: boolean
 }
 
 /** "https://www.github.com/name/" → "github.com/name" */
 const prettyUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
+
+/** Contact channels with a value in the environment (see src/data/contact.ts); empty ones are left out. */
+function getChannels(): Channel[] {
+  const channels: Channel[] = []
+  if (contact.email) {
+    channels.push({ key: 'email', href: `mailto:${contact.email}`, display: contact.email, external: false })
+  }
+  if (contact.github) {
+    channels.push({ key: 'github', href: contact.github, display: prettyUrl(contact.github), external: true })
+  }
+  if (contact.linkedin) {
+    channels.push({ key: 'linkedin', href: contact.linkedin, display: prettyUrl(contact.linkedin), external: true })
+  }
+  return channels
+}
+
+const channels = getChannels()
 
 /*
  * Mirrors the About layout (point-symmetric): heading + intro on the left
@@ -25,26 +44,16 @@ const prettyUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').repla
 function ContactSection() {
   const { t } = useLanguage()
 
-  // Channels without a value in contact.ts are simply not shown.
-  const allChannels: Channel[] = [
-    { key: 'email', href: contact.email && `mailto:${contact.email}`, display: contact.email, external: false },
-    { key: 'github', href: contact.github, display: contact.github && prettyUrl(contact.github), external: true },
-    { key: 'linkedin', href: contact.linkedin, display: contact.linkedin && prettyUrl(contact.linkedin), external: true },
-  ]
-  const channels = allChannels.filter(
-    (channel): channel is Channel & { href: string; display: string } => Boolean(channel.href && channel.display),
-  )
-
   return (
     // Last section: at least "screen − navbar − footer" tall, so that jumping here via
     // the navigation can put its top edge right below the navbar. lvh = largest
     // viewport height (mobile address bar hidden), so it also holds on phones.
+    // --footer-height is set by the Footer component.
     <Section id="contact" tone="sand" className="min-h-[calc(100lvh-var(--spacing-nav)-var(--footer-height,0px))]">
       <Container>
         <Grid className="items-center gap-y-12">
           <Reveal className="col-span-4 md:col-span-6 md:col-start-2 lg:col-span-5 lg:col-start-2">
-            <SectionHeading id="contact" title={t.contact.title} align="center" />
-            {/* Same size in every language (see LangStack) */}
+            <SectionHeading id="contact" title={t.contact.title} />
             <LangStack className="mt-6" itemClassName="self-center">
               {(tr) => <p className="text-base leading-relaxed text-ink/80 md:text-lg">{tr.contact.intro}</p>}
             </LangStack>
@@ -55,11 +64,7 @@ function ContactSection() {
               <ul className="divide-y divide-galaxy/10 border-y border-galaxy/10">
                 {channels.map(({ key, href, display, external }) => (
                   <li key={key}>
-                    <a
-                      href={href}
-                      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="group flex items-center py-5"
-                    >
+                    <a href={href} {...(external ? externalLinkProps : {})} className="group flex items-center py-5">
                       {/* Hover nudges the content via transform – no layout change, so the text never re-wraps */}
                       <span className="flex min-w-0 items-center gap-4 transition-transform duration-300 group-hover:translate-x-1.5">
                         <span
@@ -69,9 +74,7 @@ function ContactSection() {
                           <ContactIcon channel={key} />
                         </span>
                         <span className="flex min-w-0 flex-col gap-1">
-                          <span className="font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">
-                            {t.contact.channels[key]}
-                          </span>
+                          <span className="text-label text-teal-deep">{t.contact.channels[key]}</span>
                           <span className="truncate font-display text-base font-semibold text-galaxy sm:text-lg">{display}</span>
                         </span>
                       </span>

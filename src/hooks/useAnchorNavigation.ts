@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { scrollBehavior } from '../utils/motion.ts'
 
 /**
  * Handles all in-page links (`href="#section"`) in one place: smooth-scrolls to
@@ -12,7 +13,9 @@ import { useEffect } from 'react'
 export function useAnchorNavigation(): void {
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
-      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+      // Leave Ctrl/Cmd+click (new tab) etc. and already handled clicks to the browser
+      if (event.defaultPrevented || !isPlainLeftClick(event)) return
+
       const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]')
       if (!link) return
       const id = decodeURIComponent(link.hash.slice(1))
@@ -20,12 +23,15 @@ export function useAnchorNavigation(): void {
       if (!target) return
 
       event.preventDefault()
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' })
+      target.scrollIntoView({ behavior: scrollBehavior(), block: 'start' })
       if (window.location.hash !== link.hash) history.pushState(null, '', link.hash)
     }
 
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
   }, [])
+}
+
+function isPlainLeftClick(event: MouseEvent): boolean {
+  return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey
 }

@@ -11,11 +11,14 @@ type LangStackProps = {
 }
 
 /**
- * Keeps layout identical across languages: renders the block in every language,
- * stacked in the same grid cell. Only the active one is visible; the others are
- * invisible but still take up space (and are hidden from assistive tech and
- * keyboard focus). The cell is therefore always as large as the longest
- * translation, and shorter text can be positioned inside it (e.g. centered).
+ * Keeps layout identical across languages: renders a text block in every
+ * language, stacked in the same grid cell. Only the active one is visible; the
+ * others are invisible but still take up space (and are hidden from screen
+ * readers and keyboard focus). The cell is therefore always as large as the
+ * longest translation, and shorter text can be positioned inside it (e.g. centered).
+ *
+ * Usage: <LangStack>{(t) => <p>{t.contact.intro}</p>}</LangStack>
+ * For short inline labels, use LangLabel.
  */
 function LangStack({ children, className = '', itemClassName = '' }: LangStackProps) {
   const { lang } = useLanguage()
@@ -23,14 +26,14 @@ function LangStack({ children, className = '', itemClassName = '' }: LangStackPr
   return (
     <div className={`grid ${className}`}>
       {languages.map((code) => {
-        const active = code === lang
+        const isActive = code === lang
         return (
           <div
             key={code}
             lang={code}
-            aria-hidden={active ? undefined : true}
-            inert={!active}
-            className={`[grid-area:1/1] ${active ? '' : 'invisible'} ${itemClassName}`}
+            aria-hidden={isActive ? undefined : true}
+            inert={!isActive}
+            className={`[grid-area:1/1] ${isActive ? '' : 'invisible'} ${itemClassName}`}
           >
             {children(translations[code], code)}
           </div>

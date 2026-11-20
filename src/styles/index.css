@@ -6,12 +6,15 @@
 /* ==========================================================================
    Design tokens
    --------------------------------------------------------------------------
-   Colors   Two warm neutrals for surfaces, one "galaxy" family for accents.
-   Type     Space Grotesk (display) + Inter (text), fluid display sizes.
+   Every token below becomes a Tailwind class, e.g. --color-ivory → bg-ivory,
+   text-ivory; --text-heading → text-heading.
+
+   Colors   Two muted off-whites for surfaces, one "galaxy" family for accents.
+   Type     Fraunces (headings) + Inter (text), fluid display sizes.
    Spacing  Tailwind's 4px scale, used in 8px steps (2, 4, 6, 8, 12, 16 …).
    ========================================================================== */
 @theme {
-  /* Surfaces: alternate per section. Muted, warm off-whites – easy on the eyes at night */
+  /* Surfaces – muted off-whites, easy on the eyes at night */
   --color-ivory: #dcdce3; /* cool, slightly bluish off-white */
   --color-sand: #d1c5af;
   --color-sand-deep: #c8b9a0;
@@ -30,11 +33,14 @@
   --color-galaxy: #1d2160;
   --color-galaxy-deep: #0e1133;
   --color-violet: #6a4bd6;
-  --color-violet-soft: #b9a8f0;
   --color-teal: #17a2a0;
   /* Darker teal for small text (labels) – readable on the sand surfaces */
   --color-teal-deep: #0a5654;
   --color-teal-soft: #9fdcd8;
+
+  /* Section divider (Skills → Projects): beige line + a darker, warmer middle segment */
+  --color-divider: color-mix(in oklab, var(--color-line), var(--color-ink) 12%);
+  --color-divider-accent: color-mix(in oklab, #a8875a, var(--color-ink) 15%);
 
   /* Fonts */
   --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -57,19 +63,16 @@
 
   /* Brand gradient */
   --gradient-galaxy: linear-gradient(120deg, var(--color-galaxy) 0%, var(--color-violet) 55%, var(--color-teal) 100%);
+}
 
-  /* Animations */
-  --animate-scroll-cue: scroll-cue 2s ease-in-out infinite;
+/* ==========================================================================
+   Custom utilities (used like normal Tailwind classes)
+   ========================================================================== */
 
-
-  @keyframes scroll-cue {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(200%);
-    }
-  }
+/* Small uppercase label above a value or block ("STUDYING", "MY ROLE", "EMAIL" …).
+   Colour is set separately (usually text-teal-deep). */
+@utility text-label {
+  @apply font-sans text-xs font-medium tracking-[0.2em] uppercase;
 }
 
 /* Fraunces "wonky" alternates (leaning n, h, m …) – reserved for the hero name */
@@ -125,9 +128,15 @@
   );
 }
 
-/* Soft glow as a plain radial gradient – looks like a blurred circle, costs no filter */
-@utility bg-glow-violet {
-  background-image: radial-gradient(closest-side, color-mix(in oklab, var(--color-violet) 11%, transparent), transparent);
+/* Divider line that fades out to the left (mirror it with -scale-x-100 for the right half).
+   Stays at about half strength for a while, so the line remains visible towards the edge. */
+@utility bg-divider-fade {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--color-divider) 45%, transparent) 12%,
+    var(--color-divider) 45%
+  );
 }
 
 @utility bg-gradient-galaxy {
