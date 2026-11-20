@@ -13,7 +13,7 @@ Personal portfolio website showcasing software, web development, design and medi
 | Build / Dev | [Vite 8](https://vite.dev)                                                 |
 | Styling     | [Tailwind CSS 4](https://tailwindcss.com) (Vite plugin)                    |
 | Animation   | [Motion](https://motion.dev) (`motion/react`)                              |
-| Fonts       | Space Grotesk + Inter via [Fontsource](https://fontsource.org)             |
+| Fonts       | Fraunces + Inter via [Fontsource](https://fontsource.org)                  |
 | Linting     | [ESLint](https://eslint.org) + typescript-eslint, React Hooks & React Refresh rules |
 | Hosting     | GitHub Pages via GitHub Actions                                            |
 
@@ -71,7 +71,7 @@ All tokens live in the `@theme` block of [`src/styles/index.css`](src/styles/ind
 | Surfaces   | `ivory` `#f8f4ec` and `sand` `#ebe1cf` (gradient to `sand-deep`) – sections alternate between them |
 | Text       | `ink` `#161836` (body), `muted` `#5b5d78` (secondary) |
 | Accents    | `galaxy` `#1d2160` (headings, primary button), `violet` `#6a4bd6`, `teal` `#17a2a0`; gradient via `bg-gradient-galaxy` / `text-gradient` |
-| Fonts      | **Space Grotesk** (headings, labels) + **Inter** (body), self-hosted via `@fontsource-variable` (no requests to Google Fonts, GDPR-friendly) |
+| Fonts      | **Fraunces** (`font-display`: headings, name, logo) – a soft humanist serif with the `SOFT` axis at 100; the hero name additionally uses the `WONK` alternates (`font-wonky`). **Inter** (`font-sans`: body text, navigation, buttons, labels). Both self-hosted via `@fontsource-variable` (no requests to Google Fonts, GDPR-friendly) |
 | Type scale | `text-display` (hero, fluid 48–120 px) › `text-heading` (section titles, fluid 36–64 px) › `text-lg/xl` (lead) › `text-base` › `text-xs` uppercase + tracking (labels) |
 | Grid       | 4 columns (mobile) → 8 (from `md`) → 12 (from `lg`), gutters 16/24/32 px, max width 1280 px – `components/layout/Grid.tsx` |
 | Spacing    | Tailwind's 4 px scale used in 8 px steps; section padding `--spacing-section` (fluid 96–160 px), navbar height `--spacing-nav` (72 px) |

@@ -31,7 +31,7 @@ export function PlaceholderMedia({ label = 'Image', className = '' }: Placeholde
       aria-hidden
       className={`grid place-items-center rounded-2xl border border-galaxy/10 bg-ivory bg-hatch ${className}`}
     >
-      <span className="font-display text-[0.65rem] tracking-[0.3em] text-muted/70 uppercase">{label}</span>
+      <span className="font-sans text-[0.65rem] tracking-[0.3em] text-muted/70 uppercase">{label}</span>
     </div>
   )
 }

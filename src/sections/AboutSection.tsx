@@ -45,7 +45,7 @@ function AboutSection() {
                   index === 2 ? 'lg:-rotate-2' : ''
                 }`}
               >
-                <h3 className="mb-6 font-display text-xs font-medium tracking-[0.2em] text-teal uppercase">{label}</h3>
+                <h3 className="mb-6 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">{label}</h3>
                 <PlaceholderLines lines={2} />
               </article>
             </Reveal>

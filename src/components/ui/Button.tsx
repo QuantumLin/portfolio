@@ -6,7 +6,7 @@ type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
 }
 
 const base =
-  'group inline-flex h-12 items-center gap-3 rounded-full px-6 font-display text-sm font-medium tracking-wide transition duration-300'
+  'group inline-flex h-12 items-center gap-3 rounded-full px-6 font-sans text-sm font-semibold transition duration-300'
 
 const variants = {
   primary: 'bg-galaxy text-ivory shadow-lg shadow-galaxy/20 hover:-translate-y-0.5 hover:bg-violet',
