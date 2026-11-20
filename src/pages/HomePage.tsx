@@ -4,6 +4,7 @@ import SideNav from '../components/navigation/SideNav.tsx'
 import { sectionIds } from '../data/sections.ts'
 import { useActiveSection } from '../hooks/useActiveSection.ts'
 import { useScrollToHash } from '../hooks/useScrollToHash.ts'
+import { useLanguage } from '../i18n/languageContext.ts'
 import AboutSection from '../sections/AboutSection.tsx'
 import ContactSection from '../sections/ContactSection.tsx'
 import HeroSection from '../sections/HeroSection.tsx'
@@ -11,6 +12,7 @@ import ProjectsSection from '../sections/ProjectsSection.tsx'
 
 /** One-page layout: all sections stacked, navigation via in-page anchors. */
 function HomePage() {
+  const { t } = useLanguage()
   const active = useActiveSection(sectionIds)
   useScrollToHash()
 
@@ -20,7 +22,7 @@ function HomePage() {
         href="#about"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60 focus:rounded-full focus:bg-galaxy focus:px-4 focus:py-2 focus:text-ivory"
       >
-        Skip to content
+        {t.a11y.skipToContent}
       </a>
       <Navbar active={active} />
       <SideNav active={active} visible={active !== 'home'} />

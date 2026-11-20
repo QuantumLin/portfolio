@@ -3,28 +3,39 @@ import Grid from '../components/layout/Grid.tsx'
 import Section from '../components/layout/Section.tsx'
 import { PlaceholderLines, PlaceholderMedia } from '../components/ui/Placeholder.tsx'
 import Reveal from '../components/ui/Reveal.tsx'
+import RichText from '../components/ui/RichText.tsx'
 import SectionHeading from '../components/ui/SectionHeading.tsx'
-
-const facts = ['Focus', 'Stack', 'Based in']
+import { useLanguage } from '../i18n/languageContext.ts'
 
 function AboutSection() {
+  const { t } = useLanguage()
+  const { studying, background, focus } = t.about.facts
+  const facts: { label: string; value?: string; detail?: string }[] = [studying, background, focus]
+
   return (
-    <Section id="about" tone="sand">
+    <Section id="about" tone="sand" divider={{ flip: true }}>
       <Container>
-        <Grid className="gap-y-12">
-          <Reveal className="col-span-4 md:col-span-8 lg:col-span-4">
-            <SectionHeading id="about" title="About me" />
+        {/* Heading and text share the right half; the heading is centered over the text.
+            Mirrors the contact heading, which is centered over the left half. */}
+        <Grid className="gap-y-6">
+          <Reveal className="col-span-4 md:col-span-6 md:col-start-3 lg:col-span-6 lg:col-start-7">
+            <SectionHeading id="about" title={t.about.title} align="center" />
           </Reveal>
 
-          {/* Text block starts one column later → asymmetric gutter */}
-          <Reveal delay={0.1} className="col-span-4 md:col-span-7 lg:col-span-6 lg:col-start-6 lg:pt-20">
-            <PlaceholderLines lines={4} className="[&>div]:h-3.5" />
-            <PlaceholderLines lines={5} className="mt-10" />
+          <Reveal delay={0.1} className="col-span-4 md:col-span-6 md:col-start-3 lg:col-span-6 lg:col-start-7">
+            <p className="font-display text-xl leading-snug font-medium text-galaxy md:text-2xl">{t.about.lead}</p>
+            <div className="mt-5 space-y-4 text-base leading-relaxed text-ink/80">
+              {t.about.paragraphs.map((paragraph) => (
+                <p key={paragraph}>
+                  <RichText text={paragraph} />
+                </p>
+              ))}
+            </div>
           </Reveal>
         </Grid>
 
-        <Grid className="mt-20 gap-y-6 lg:mt-28">
-          {facts.map((label, index) => (
+        <Grid className="mt-16 gap-y-6 lg:mt-20">
+          {facts.map(({ label, value, detail }, index) => (
             <Reveal
               key={label}
               delay={index * 0.08}
@@ -33,17 +44,24 @@ function AboutSection() {
               }`}
             >
               <article
-                className={`rounded-2xl border border-galaxy/10 bg-ivory/70 p-6 shadow-sm shadow-galaxy/5 ${
+                className={`h-full rounded-2xl border border-galaxy/10 bg-ivory/70 p-6 shadow-sm shadow-galaxy/5 ${
                   index === 2 ? 'lg:-rotate-2' : ''
                 }`}
               >
-                <h3 className="mb-6 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">{label}</h3>
-                <PlaceholderLines lines={2} />
+                <h3 className="mb-4 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">{label}</h3>
+                {value ? (
+                  <>
+                    <p className="font-display text-xl leading-snug font-semibold text-galaxy hyphens-auto">{value}</p>
+                    {detail && <p className="mt-1 text-sm text-muted">{detail}</p>}
+                  </>
+                ) : (
+                  <PlaceholderLines lines={2} className="mt-6" />
+                )}
               </article>
             </Reveal>
           ))}
           <Reveal delay={0.24} className="col-span-4 md:col-span-4 lg:col-span-2 lg:col-start-11 lg:self-end">
-            <PlaceholderMedia label="Detail" className="aspect-square rotate-3 bg-sand" />
+            <PlaceholderMedia label={t.about.detailImage} className="aspect-square rotate-3 bg-sand" />
           </Reveal>
         </Grid>
       </Container>

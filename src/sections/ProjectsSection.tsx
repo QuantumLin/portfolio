@@ -4,6 +4,7 @@ import Section from '../components/layout/Section.tsx'
 import ProjectCard from '../components/ui/ProjectCard.tsx'
 import Reveal from '../components/ui/Reveal.tsx'
 import SectionHeading from '../components/ui/SectionHeading.tsx'
+import { useLanguage } from '../i18n/languageContext.ts'
 
 /**
  * Asymmetric 7/5 – 5/7 layout. The second column is pushed down so the cards
@@ -17,35 +18,33 @@ const slots = [
 ] as const
 
 function ProjectsSection() {
+  const { t } = useLanguage()
+
   return (
-    <Section id="projects" tone="ivory">
+    <Section id="projects" tone="ivory" divider={{}}>
       <div aria-hidden className="absolute top-1/3 -left-40 -z-10 size-120 rounded-full bg-violet/10 blur-3xl" />
 
       <Container>
-        <Grid className="items-end gap-y-8">
-          <Reveal className="col-span-4 md:col-span-6 lg:col-span-6">
-            <SectionHeading id="projects" title="Projects" />
-          </Reveal>
-          <Reveal delay={0.1} className="col-span-4 md:col-span-6 lg:col-span-4 lg:col-start-9">
-            <div className="flex flex-wrap gap-2" aria-hidden>
-              {['Software', 'Web', 'Design', 'Media'].map((tag, i) => (
-                <span
-                  key={tag}
-                  className={`rounded-full border px-3 py-1 font-sans text-xs tracking-wide ${
-                    i === 0 ? 'border-galaxy bg-galaxy text-ivory' : 'border-galaxy/20 text-muted'
-                  }`}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-        </Grid>
+        <Reveal className="flex flex-col gap-6 md:items-center">
+          <SectionHeading id="projects" title={t.projects.title} align="center" />
+          <div className="flex flex-wrap gap-2 md:justify-center" aria-hidden>
+            {t.projects.tags.map((tag, i) => (
+              <span
+                key={tag}
+                className={`rounded-full border px-3 py-1 font-sans text-xs tracking-wide ${
+                  i === 0 ? 'border-galaxy bg-galaxy text-ivory' : 'border-galaxy/20 text-muted'
+                }`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </Reveal>
 
-        <Grid className="mt-16 gap-y-10 lg:mt-20 lg:gap-y-16">
+        <Grid className="mt-14 gap-y-10 lg:mt-16 lg:gap-y-16">
           {slots.map((slot, index) => (
             <Reveal key={slot} delay={(index % 2) * 0.1} className={`col-span-4 md:col-span-4 ${slot}`}>
-              <ProjectCard index={index + 1} wide={slot.includes('col-span-7')} />
+              <ProjectCard index={index + 1} wide={slot.includes('col-span-7')} previewLabel={t.projects.preview} />
             </Reveal>
           ))}
         </Grid>
