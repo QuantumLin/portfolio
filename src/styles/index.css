@@ -147,6 +147,21 @@
     }
   }
 
+  /*
+   * Large desktop screens: scale the whole layout proportionally instead of
+   * leaving ever wider empty margins. Almost every size (type, spacing, grid
+   * width, navbar) is in rem, so raising the root font size keeps the layout
+   * looking like a laptop screen, just larger. Up to 1536px nothing changes;
+   * above, 1rem = 1/96 of the viewport width (= the 1536px proportions),
+   * capped at 28px so ultrawide / 4K screens don't get oversized.
+   * (Media queries use the browser default size, so breakpoints are unaffected.)
+   */
+  @media (min-width: 96rem) {
+    html {
+      font-size: min(calc(100vw / 96), 28px);
+    }
+  }
+
   body {
     @apply bg-ivory font-sans text-ink antialiased;
     text-rendering: optimizeLegibility;
