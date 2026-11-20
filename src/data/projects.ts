@@ -51,7 +51,32 @@ export const projects: Project[] = [
       tech: ['Angular', 'TypeScript', 'SCSS', 'RxJS', 'Vitest', 'Docker'],
     },
   },
-  { id: 'project-2', imageCount: 3 },
+  {
+    // Sources: MidiAnalysis/README.md, docs/features.md, docs/architecture.md,
+    // docs/analysis.md, docs/video-export.md, git history (Nov 2026);
+    // solo project, developed with Claude Code (confirmed by Daniel).
+    id: 'midi-analysis',
+    imageCount: 3,
+    content: {
+      title: {
+        de: 'MIDI Analysis – Neon-Overlays für Klaviervideos',
+        en: 'MIDI Analysis – Neon Overlays for Piano Videos',
+      },
+      meta: {
+        de: 'Eigenprojekt · 2026 · 1 Person, KI-gestützt (Claude Code)',
+        en: 'Personal project · 2026 · solo, AI-assisted (Claude Code)',
+      },
+      description: {
+        de: 'Webanwendung, die MIDI-Dateien musikalisch analysiert, von Tonart und Akkorden bis zu Motiven und Abschnitten, und die Ergebnisse als transparente Neon-Overlays für Piano-Visualizer-Videos exportiert, etwa für den Schnitt in DaVinci Resolve. Spielerische Elemente wie Achievements, ein Endgegner und ein „Song Wrapped“-Abspann machen die Analyse anschaulich.',
+        en: 'A web app that analyses MIDI files musically, from key and chords to motifs and sections, and exports the results as transparent neon overlays for piano visualizer videos, e.g. for editing in DaVinci Resolve. Playful elements such as achievements, a boss fight and a “Song Wrapped” outro make the analysis easy to follow.',
+      },
+      role: {
+        de: 'Alleiniges Eigenprojekt: Ich habe die Anwendung KI-gestützt mit Claude Code entwickelt, von der Idee bis zur fertigen Version: Backend mit Musikanalyse und Video-Rendering, Frontend mit synchroner Live-Vorschau und das Docker-Setup.',
+        en: 'A solo personal project: I developed the app with AI assistance using Claude Code, from the idea to the finished version: a backend for music analysis and video rendering, a frontend with a synchronised live preview, and the Docker setup.',
+      },
+      tech: ['Python', 'FastAPI', 'NumPy', 'ffmpeg', 'React', 'TypeScript'],
+    },
+  },
   { id: 'project-3', imageCount: 3 },
   { id: 'project-4', imageCount: 3 },
 ]
