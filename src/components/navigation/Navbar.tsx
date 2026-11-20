@@ -35,10 +35,10 @@ function Navbar({ active }: NavbarProps) {
     >
       <Container className="flex h-(--spacing-nav) items-center justify-between">
         <a href="#home" className="group flex items-center gap-3" aria-label="Daniel Dang – Home">
-          <span className="grid size-9 -rotate-6 place-items-center rounded-lg bg-galaxy font-display text-sm font-bold text-ivory transition-transform duration-300 group-hover:rotate-0">
+          <span className="grid size-10 -rotate-6 place-items-center rounded-lg bg-galaxy font-display text-base font-bold text-ivory transition-transform duration-300 group-hover:rotate-0">
             DD
           </span>
-          <span className="hidden font-display text-sm font-semibold tracking-wide text-galaxy sm:inline">
+          <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline">
             Daniel Dang
           </span>
         </a>
@@ -50,7 +50,7 @@ function Navbar({ active }: NavbarProps) {
                 <a
                   href={`#${id}`}
                   aria-current={active === id ? 'location' : undefined}
-                  className={`relative block px-4 py-2 font-display text-sm font-medium transition-colors ${
+                  className={`relative block px-4 py-2 font-sans text-base font-medium transition-colors ${
                     active === id ? 'text-galaxy' : 'text-muted hover:text-galaxy'
                   }`}
                 >
@@ -109,7 +109,7 @@ function Navbar({ active }: NavbarProps) {
                       href={`#${id}`}
                       onClick={() => setOpen(false)}
                       aria-current={active === id ? 'location' : undefined}
-                      className={`flex items-baseline gap-4 py-3 font-display text-2xl font-medium ${
+                      className={`flex items-baseline gap-4 py-3 font-display text-3xl font-medium ${
                         active === id ? 'text-galaxy' : 'text-muted'
                       }`}
                     >

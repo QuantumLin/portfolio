@@ -3,6 +3,7 @@ import Container from '../components/layout/Container.tsx'
 import Grid from '../components/layout/Grid.tsx'
 import Button from '../components/ui/Button.tsx'
 import { PlaceholderMedia } from '../components/ui/Placeholder.tsx'
+import HeroBackdrop from '../components/decor/HeroBackdrop.tsx'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -13,13 +14,7 @@ function HeroSection() {
       aria-labelledby="home-title"
       className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-20 lg:pt-(--spacing-nav) lg:pb-16"
     >
-      {/* Background: dot grid fading out + two soft galaxy glows */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-dot-grid mask-radial-from-10% mask-radial-to-70% mask-radial-at-top-right"
-      />
-      <div aria-hidden className="absolute -top-40 -right-32 -z-10 size-136 rounded-full bg-violet/15 blur-3xl" />
-      <div aria-hidden className="absolute -bottom-48 -left-40 -z-10 size-120 rounded-full bg-teal/10 blur-3xl" />
+      <HeroBackdrop />
 
       <Container>
         <Grid className="items-center gap-y-16">
@@ -30,12 +25,12 @@ function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease }}
           >
-            <p className="mb-8 inline-flex items-center gap-3 rounded-full border border-galaxy/15 bg-ivory/70 px-4 py-1.5 font-display text-xs font-medium tracking-[0.2em] text-muted uppercase">
+            <p className="mb-8 inline-flex items-center gap-3 rounded-full border border-galaxy/15 bg-ivory/70 px-4 py-1.5 font-sans text-xs font-medium tracking-[0.2em] text-muted uppercase">
               <span className="size-1.5 rounded-full bg-teal" />
               Portfolio
             </p>
 
-            <h1 id="home-title" className="text-display font-bold text-galaxy">
+            <h1 id="home-title" className="font-wonky text-display font-semibold text-galaxy">
               Daniel
               <br />
               <span className="text-gradient">Dang</span>
@@ -61,13 +56,21 @@ function HeroSection() {
             transition={{ duration: 0.9, delay: 0.15, ease }}
           >
             <div className="relative mx-auto max-w-64 sm:max-w-xs lg:max-w-sm">
+              {/* Orbit: dashed ring with two planets, slowly rotating behind the portrait */}
+              <div
+                aria-hidden
+                className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[150%] -translate-1/2 animate-orbit rounded-full border border-dashed border-violet/35 motion-reduce:animate-none"
+              >
+                <span className="absolute top-[14.6%] left-[14.6%] size-4 -translate-1/2 rounded-full bg-teal shadow-[0_0_0_6px] shadow-teal/15" />
+                <span className="absolute right-[14.6%] bottom-[14.6%] size-2.5 translate-1/2 rounded-full bg-violet" />
+              </div>
               {/* Offset frame, rotated against the image */}
               <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 -rotate-5 rounded-3xl border-2 border-teal/60" />
               <div className="relative rounded-3xl bg-ivory p-2 shadow-2xl shadow-galaxy/15 ring-1 ring-galaxy/10">
                 <PlaceholderMedia label="Portrait" className="aspect-4/5 rounded-[1.25rem]" />
               </div>
               {/* Sticker badge */}
-              <div className="absolute -bottom-6 -left-6 -rotate-8 rounded-xl bg-galaxy px-4 py-3 font-display text-xs font-semibold tracking-[0.2em] text-ivory uppercase shadow-lg shadow-galaxy/30">
+              <div className="absolute -bottom-6 -left-6 -rotate-8 rounded-xl bg-galaxy px-4 py-3 font-sans text-xs font-semibold tracking-[0.2em] text-ivory uppercase shadow-lg shadow-galaxy/30">
                 <span className="text-teal-soft">{'</>'}</span> Dev
               </div>
             </div>
@@ -79,7 +82,7 @@ function HeroSection() {
       <a
         href="#about"
         aria-label="Scroll to About"
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 font-display text-[0.65rem] tracking-[0.3em] text-muted uppercase md:flex"
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 font-sans text-[0.65rem] tracking-[0.3em] text-muted uppercase md:flex"
       >
         Scroll
         <span className="relative h-10 w-px overflow-hidden bg-galaxy/15">

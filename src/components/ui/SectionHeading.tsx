@@ -12,7 +12,7 @@ type SectionHeadingProps = {
 function SectionHeading({ id, index, eyebrow, title, className = '' }: SectionHeadingProps) {
   return (
     <header className={className}>
-      <p className="mb-6 flex items-center gap-4 font-display text-xs font-medium tracking-[0.25em] text-muted uppercase">
+      <p className="mb-6 flex items-center gap-4 font-sans text-xs font-medium tracking-[0.25em] text-muted uppercase">
         <span className="text-teal">{String(index).padStart(2, '0')}</span>
         <span aria-hidden className="h-px w-12 bg-gradient-galaxy" />
         {eyebrow}

@@ -19,7 +19,7 @@ function ContactSection() {
             <ul className="mt-12 space-y-4" aria-hidden>
               {['Email', 'GitHub', 'LinkedIn'].map((channel) => (
                 <li key={channel} className="flex items-center gap-6 border-b border-galaxy/10 pb-4">
-                  <span className="w-24 font-display text-xs tracking-[0.2em] text-teal uppercase">{channel}</span>
+                  <span className="w-24 font-sans text-xs tracking-[0.2em] text-teal uppercase">{channel}</span>
                   <span className="h-2.5 w-40 rounded-full bg-galaxy/10" />
                 </li>
               ))}
@@ -34,7 +34,7 @@ function ContactSection() {
                 <div className="space-y-6" aria-hidden>
                   {fields.map((field) => (
                     <div key={field}>
-                      <p className="mb-2 font-display text-xs tracking-[0.2em] text-muted uppercase">{field}</p>
+                      <p className="mb-2 font-sans text-xs tracking-[0.2em] text-muted uppercase">{field}</p>
                       <div
                         className={`rounded-xl border border-galaxy/15 bg-sand/40 ${field === 'Message' ? 'h-32' : 'h-12'}`}
                       />

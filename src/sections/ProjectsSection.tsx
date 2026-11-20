@@ -31,7 +31,7 @@ function ProjectsSection() {
               {['Software', 'Web', 'Design', 'Media'].map((tag, i) => (
                 <span
                   key={tag}
-                  className={`rounded-full border px-3 py-1 font-display text-xs tracking-wide ${
+                  className={`rounded-full border px-3 py-1 font-sans text-xs tracking-wide ${
                     i === 0 ? 'border-galaxy bg-galaxy text-ivory' : 'border-galaxy/20 text-muted'
                   }`}
                 >

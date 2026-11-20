@@ -52,7 +52,7 @@ function SideNav({ active, visible }: SideNavProps) {
                       <span
                         // Labels show on hover/focus; the active one stays visible only on
                         // very wide screens where the gutter has room for it.
-                        className={`rounded-full bg-ivory/85 px-2.5 py-1 font-display text-xs font-medium tracking-[0.2em] uppercase shadow-sm shadow-galaxy/5 backdrop-blur-sm transition-all duration-300 ${
+                        className={`rounded-full bg-ivory/85 px-2.5 py-1 font-sans text-xs font-medium tracking-[0.2em] uppercase shadow-sm shadow-galaxy/5 backdrop-blur-sm transition-all duration-300 ${
                           isActive ? 'text-galaxy 2xl:translate-x-0 2xl:opacity-100' : 'text-muted'
                         } translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100`}
                       >

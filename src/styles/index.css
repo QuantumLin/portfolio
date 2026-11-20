@@ -1,5 +1,6 @@
 @import '@fontsource-variable/inter';
-@import '@fontsource-variable/space-grotesk';
+/* "full" = all variable axes (wght, opsz, SOFT, WONK) */
+@import '@fontsource-variable/fraunces/full.css';
 @import 'tailwindcss';
 
 /* ==========================================================================
@@ -30,15 +31,17 @@
 
   /* Fonts */
   --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
+  /* Fraunces: soft, humanist serif. SOFT rounds the terminals and joins. */
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-display--font-variation-settings: 'SOFT' 100, 'WONK' 0;
 
   /* Fluid display sizes (min @ 360px → max @ ~1440px) */
   --text-display: clamp(3rem, 1.6rem + 6.4vw, 7.5rem);
   --text-display--line-height: 0.95;
-  --text-display--letter-spacing: -0.035em;
+  --text-display--letter-spacing: -0.02em;
   --text-heading: clamp(2.25rem, 1.6rem + 2.8vw, 4rem);
   --text-heading--line-height: 1.05;
-  --text-heading--letter-spacing: -0.025em;
+  --text-heading--letter-spacing: -0.015em;
 
   /* Layout */
   --spacing-nav: 4.5rem;
@@ -49,6 +52,20 @@
 
   /* Animations */
   --animate-scroll-cue: scroll-cue 2s ease-in-out infinite;
+  --animate-orbit: spin 60s linear infinite;
+  --animate-twinkle: twinkle 4s ease-in-out infinite;
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.8);
+    }
+  }
 
   @keyframes scroll-cue {
     0% {
@@ -60,12 +77,34 @@
   }
 }
 
+/* Fraunces "wonky" alternates (leaning n, h, m …) – reserved for the hero name */
+@utility font-wonky {
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+}
+
 /* Reusable text gradient for headline accents */
 @utility text-gradient {
   background-image: var(--gradient-galaxy);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
+  /* Glyphs like the Fraunces "g" overhang their advance width; extend the
+     painted box so the gradient covers them, without shifting the layout. */
+  padding-inline-end: 0.12em;
+  margin-inline-end: -0.12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Hero background: layered galaxy glows over a warm ivory → lavender base */
+@utility bg-hero-mesh {
+  background-color: var(--color-ivory);
+  background-image:
+    radial-gradient(55% 60% at 88% 12%, color-mix(in oklab, var(--color-violet) 34%, transparent), transparent 70%),
+    radial-gradient(40% 45% at 62% 78%, color-mix(in oklab, var(--color-galaxy) 14%, transparent), transparent 70%),
+    radial-gradient(45% 55% at 0% 100%, color-mix(in oklab, var(--color-teal) 30%, transparent), transparent 70%),
+    radial-gradient(30% 35% at 18% 8%, color-mix(in oklab, var(--color-teal) 12%, transparent), transparent 70%),
+    linear-gradient(165deg, var(--color-ivory) 35%, #efe9f3 100%);
 }
 
 @utility bg-gradient-galaxy {
