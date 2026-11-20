@@ -42,7 +42,8 @@ npm install
 
 ```
 .github/workflows/deploy.yml   GitHub Pages deployment (build + deploy)
-index.html                     HTML entry point
+index.html                     HTML entry point (portfolio)
+impressum.html, datenschutz.html  Legal pages (entry: src/legal-main.tsx → pages/LegalPage.tsx)
 vite.config.ts                 Vite config (React, Tailwind, base path)
 eslint.config.js               ESLint config (flat config)
 src/
@@ -55,8 +56,8 @@ src/
 │   ├── navigation/            Navbar (centered links, mobile menu), SideNav (node line), LanguageSwitch (EN/DE toggle)
 │   ├── ui/                    Button, SectionHeading, ProjectCard, ProjectModal, Slideshow, Reveal, RichText, placeholders
 │   └── dev/GridOverlay.tsx    Column overlay (dev mode only)
-├── data/                      sections.ts (section ids, page order), projects.ts (project list)
-├── i18n/                      Translations (EN/DE), LanguageProvider, useLanguage
+├── data/                      sections.ts (section ids), projects.ts (project list), contact.ts (personal/contact details)
+├── i18n/                      Translations (EN/DE), legal texts (legal.ts), LanguageProvider, useLanguage
 ├── hooks/                     useActiveSection, useScrolled, useInitialScroll, useIdle
 ├── styles/index.css           Design tokens (@theme), utilities, global base styles
 └── assets/                    Imported assets (images, fonts …)
@@ -96,6 +97,25 @@ All tokens live in the `@theme` block of [`src/styles/index.css`](src/styles/ind
 - **ESLint instead of oxlint, TypeScript 6.0 instead of 7:** typescript-eslint currently only supports TypeScript `< 6.1`, so TypeScript is pinned to `~6.0`. Upgrading to TypeScript 7 is possible once typescript-eslint supports it.
 - **Motion** (`motion/react`) powers the navigation transitions and scroll reveals; it is globally tied to the OS setting via `MotionConfig reducedMotion="user"`.
 
+## Legal pages & personal data
+
+- **Legal notice (Impressum)** and **privacy policy (Datenschutzerklärung)** are separate pages (`impressum.html`, `datenschutz.html`), linked in the footer, available in German and English. The texts live in [`src/i18n/legal.ts`](src/i18n/legal.ts).
+- **Personal details** (address, email, phone, GitHub, LinkedIn) are **not stored in the repository**. [`src/data/contact.ts`](src/data/contact.ts) reads them at build time from environment variables:
+  - **locally** from `.env.local` (git-ignored):
+    ```env
+    VITE_CONTACT_NAME="Daniel Dang"
+    VITE_CONTACT_STREET="…"
+    VITE_CONTACT_CITY="…"
+    VITE_CONTACT_EMAIL="…"
+    VITE_CONTACT_PHONE="…"
+    VITE_CONTACT_GITHUB=""      # optional, empty = hidden
+    VITE_CONTACT_LINKEDIN=""    # optional, empty = hidden
+    ```
+  - **on GitHub** from repository secrets `CONTACT_NAME`, `CONTACT_STREET`, `CONTACT_CITY`, `CONTACT_EMAIL`, `CONTACT_PHONE` (required) and `CONTACT_GITHUB`, `CONTACT_LINKEDIN` (optional) under *Settings → Secrets and variables → Actions*. The deploy fails with a clear error if a required one is missing.
+  
+  The values still appear on the live site (the legal notice requires that), but never in the git history. Restart `npm run dev` after editing `.env.local`.
+- The privacy policy reflects the current setup (GitHub Pages hosting, no cookies/tracking, self-hosted fonts, language preference in localStorage, email contact). Update it if that changes (e.g. analytics, embeds, a contact form, another host). This is not legal advice.
+
 ## Deployment (GitHub Pages)
 
 The workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) runs on every push to `main` (or manually via *Actions → Run workflow*):
@@ -108,6 +128,7 @@ Required workflow permissions (already set): `contents: read`, `pages: write`, `
 ### Manual Steps on GitHub
 
 1. Create the repository on GitHub (e.g. `Portfolio`) – **without** a README/.gitignore, since they already exist.
+1. Add the contact secrets (see *Legal pages & personal data* above).
 2. Add the remote and push:
    ```bash
    git remote add origin https://github.com/<user>/<repo>.git

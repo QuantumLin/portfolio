@@ -9,7 +9,7 @@ const token = /(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g
 
 /**
  * Renders translation strings with minimal inline markup:
- * **bold** → highlighted text, [label](href) → styled link.
+ * **bold** → highlighted text, [label](href) → styled link (external links open in a new tab).
  */
 function RichText({ text }: RichTextProps) {
   const parts: ReactNode[] = text.split(token).map((part, i) => {
@@ -26,6 +26,7 @@ function RichText({ text }: RichTextProps) {
         <a
           key={i}
           href={link[2]}
+          {...(/^https?:/.test(link[2]) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
           className="font-medium text-violet underline decoration-violet/30 underline-offset-4 transition-colors hover:decoration-violet"
         >
           {link[1]}

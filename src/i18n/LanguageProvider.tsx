@@ -15,21 +15,27 @@ function getInitialLanguage(): Language {
   return navigator.language.toLowerCase().startsWith('de') ? 'de' : 'en'
 }
 
-function LanguageProvider({ children }: { children: ReactNode }) {
+type LanguageProviderProps = {
+  children: ReactNode
+  /** Page-specific browser tab titles (default: the portfolio title). */
+  titles?: Record<Language, string>
+}
+
+function LanguageProvider({ children, titles }: LanguageProviderProps) {
   const [lang, setLang] = useState<Language>(getInitialLanguage)
   const t = translations[lang]
 
   // Keep <html lang>, title and description in sync and remember the choice.
   useEffect(() => {
     document.documentElement.lang = lang
-    document.title = t.meta.title
-    document.querySelector('meta[name="description"]')?.setAttribute('content', t.meta.description)
+    document.title = titles?.[lang] ?? t.meta.title
+    if (!titles) document.querySelector('meta[name="description"]')?.setAttribute('content', t.meta.description)
     try {
       window.localStorage.setItem(STORAGE_KEY, lang)
     } catch {
       // Ignore – the choice simply isn't remembered.
     }
-  }, [lang, t])
+  }, [lang, t, titles])
 
   const value = useMemo(() => ({ lang, setLang, t }), [lang, t])
 
