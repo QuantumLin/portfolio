@@ -1,17 +1,14 @@
 import type { ReactNode } from 'react'
+import { containerClasses } from './layoutClasses.ts'
 
 type ContainerProps = {
   children: ReactNode
   className?: string
 }
 
-/** Centers content horizontally with a max width and responsive side padding. */
+/** Centers content with a max width and responsive side gutters. */
 function Container({ children, className = '' }: ContainerProps) {
-  return (
-    <div className={`mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 ${className}`}>
-      {children}
-    </div>
-  )
+  return <div className={`${containerClasses} ${className}`}>{children}</div>
 }
 
 export default Container
