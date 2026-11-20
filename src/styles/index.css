@@ -118,6 +118,18 @@
     linear-gradient(165deg, #f8f6f6 35%, #f1edf4 100%);
 }
 
+/* Soft glow as a plain radial gradient – looks like a blurred circle, costs no filter */
+@utility bg-glow-violet {
+  background-image: radial-gradient(closest-side, color-mix(in oklab, var(--color-violet) 11%, transparent), transparent);
+}
+
+/* Pause the hero's looping decorations while the hero is off screen (set in HeroSection) */
+[data-offscreen] .animate-orbit,
+[data-offscreen] .animate-twinkle,
+[data-offscreen] .animate-nudge {
+  animation-play-state: paused;
+}
+
 @utility bg-gradient-galaxy {
   background-image: var(--gradient-galaxy);
 }

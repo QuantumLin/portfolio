@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 80" preserveAspectRatio="none">
+  <!--
+    Bottom edge of the hero text panel in the stacked (phone/tablet) layout:
+    solid panel colour on top, a soft wave below. The blur lives inside the SVG,
+    so it is rasterized once instead of costing a CSS filter on every repaint.
+    The shape extends beyond the viewBox so only the wave edge is soft.
+  -->
+  <defs>
+    <filter id="soft" filterUnits="userSpaceOnUse" x="-60" y="-120" width="220" height="260">
+      <feGaussianBlur stdDeviation="3 9" />
+    </filter>
+  </defs>
+  <path filter="url(#soft)" fill="#f4ede1" d="M-40 44L0 44C18 66 36 36 56 52S86 66 100 44L140 44V-80H-40Z" />
+</svg>

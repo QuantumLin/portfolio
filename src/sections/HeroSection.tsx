@@ -1,4 +1,5 @@
-import { motion } from 'motion/react'
+import { useRef } from 'react'
+import { motion, useInView } from 'motion/react'
 import HeroBackdrop from '../components/decor/HeroBackdrop.tsx'
 import { HeroSplitStacked } from '../components/decor/HeroSplit.tsx'
 import Container from '../components/layout/Container.tsx'
@@ -12,9 +13,14 @@ const ease = [0.22, 1, 0.36, 1] as const
 
 function HeroSection() {
   const { t } = useLanguage()
+  // Looping decorations (orbit, sparkles, scroll cue) pause while the hero is off screen.
+  const sectionRef = useRef<HTMLElement>(null)
+  const inView = useInView(sectionRef)
 
   return (
     <section
+      ref={sectionRef}
+      data-offscreen={inView ? undefined : true}
       id="home"
       aria-labelledby="home-title"
       className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-20 lg:pt-[calc(var(--spacing-nav)+4rem)] lg:pb-20"

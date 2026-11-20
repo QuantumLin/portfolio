@@ -161,14 +161,14 @@ function Slideshow({ count, className = '' }: SlideshowProps) {
       {count > 1 && (
         <>
           {/* Counter */}
-          <span className="pointer-events-none absolute top-4 left-4 rounded-full bg-ivory/85 px-3 py-1 font-sans text-xs font-medium text-galaxy tabular-nums backdrop-blur-sm">
+          <span className="pointer-events-none absolute top-4 left-4 rounded-full bg-ivory/90 px-3 py-1 font-sans text-xs font-medium text-galaxy tabular-nums">
             {index + 1} / {count}
           </span>
 
           {/* How-to hint, fades out after the first interaction */}
           <span
             aria-hidden
-            className={`pointer-events-none absolute bottom-12 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-galaxy/80 px-4 py-2 font-sans text-xs font-medium whitespace-nowrap text-ivory backdrop-blur-sm transition-opacity duration-500 ${
+            className={`pointer-events-none absolute bottom-12 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-galaxy/85 px-4 py-2 font-sans text-xs font-medium whitespace-nowrap text-ivory transition-opacity duration-500 ${
               hintVisible ? 'opacity-100' : 'opacity-0'
             }`}
           >
@@ -196,7 +196,7 @@ function Slideshow({ count, className = '' }: SlideshowProps) {
               aria-label={label}
               disabled={hidden}
               onClick={() => goTo(index + step)}
-              className={`absolute top-1/2 ${side} grid size-11 -translate-y-1/2 place-items-center rounded-full bg-ivory/85 text-galaxy shadow-md shadow-galaxy/10 backdrop-blur-sm transition duration-300 hover:scale-105 hover:bg-ivory ${
+              className={`absolute top-1/2 ${side} grid size-11 -translate-y-1/2 place-items-center rounded-full bg-ivory/90 text-galaxy shadow-md shadow-galaxy/10 transition duration-300 hover:scale-105 hover:bg-ivory ${
                 hidden ? 'pointer-events-none opacity-0' : 'opacity-100'
               }`}
             >
