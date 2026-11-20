@@ -11,32 +11,41 @@ import {
   siTypescript,
   type SimpleIcon,
 } from 'simple-icons'
+import type { Localized } from '../i18n/translations.ts'
 import type { GlyphName } from './skillGlyphs.ts'
-import type { Localized } from './projects.ts'
 
 /**
  * Skills shown in the Skills section, grouped by category (display order).
  *
- * - `logo`: brand logo from Simple Icons (CC0, https://simpleicons.org) – import it
- *   by slug, e.g. `siFigma`.
- * - `glyph`: a simple line icon (see skillGlyphs.ts) for skills without a logo.
- * - `name`: a plain string, or `{ en, de }` if it should be translated.
+ * Every skill has either
+ * - a `logo`: the brand logo from Simple Icons (CC0, https://simpleicons.org),
+ *   imported by slug above, e.g. `siFigma`, or
+ * - a `glyph`: a simple line icon from skillGlyphs.ts, for concepts and for
+ *   tools without a logo in Simple Icons.
+ *
+ * `name` is a plain string, or `{ en, de }` if it should be translated.
  */
-export type Skill = {
-  name: string | Localized
-  logo?: SimpleIcon
-  /**
-   * Colour shown through cut-out parts of a logo, for logos whose original has
-   * coloured lettering there (e.g. the black "JS" of JavaScript).
-   */
-  knockout?: string
-  glyph?: GlyphName
-}
+export type Skill = { name: string | Localized } & (
+  | {
+      logo: SimpleIcon
+      /**
+       * Colour shown through cut-out parts of the logo, for logos whose original
+       * has coloured lettering there (e.g. the black "JS" of JavaScript).
+       */
+      knockout?: string
+    }
+  | { glyph: GlyphName }
+)
 
 export type SkillCategory = {
   id: string
   title: Localized
   skills: Skill[]
+}
+
+/** The skill name in every language (plain strings are the same in all languages). */
+export function skillName(skill: Skill): Localized {
+  return typeof skill.name === 'string' ? { en: skill.name, de: skill.name } : skill.name
 }
 
 export const skillCategories: SkillCategory[] = [
@@ -62,8 +71,9 @@ export const skillCategories: SkillCategory[] = [
     skills: [
       { name: 'DaVinci Resolve', logo: siDavinciresolve },
       { name: 'Reaper', glyph: 'daw' },
-      { name: { en: 'Video Editing', de: 'Video\u00adschnitt' }, glyph: 'film' }, // \u00ad = soft hyphen
-      { name: { en: 'Audio Editing', de: 'Audio\u00adbearbeitung' }, glyph: 'waveform' },
+      // ­ = soft hyphen: the browser may break the long German word there
+      { name: { en: 'Video Editing', de: 'Video­schnitt' }, glyph: 'film' },
+      { name: { en: 'Audio Editing', de: 'Audio­bearbeitung' }, glyph: 'waveform' },
       { name: 'MIDI', glyph: 'midi' },
     ],
   },
@@ -89,6 +99,3 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
 ]
-
-/** Show the skill name under each icon. */
-export const SHOW_SKILL_NAMES = true

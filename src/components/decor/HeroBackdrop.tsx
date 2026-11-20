@@ -4,7 +4,8 @@ import Sparkle from './Sparkle.tsx'
 /**
  * Decorative hero background in two parts:
  * - right/bottom ("galaxy"): gradient mesh, dot grid and geometric shapes behind the portrait
- * - left: a calm warm panel behind the text (HeroSplitDesktop; stacked layouts use HeroSplitStacked in the text block)
+ * - left: a calm, bluish off-white panel behind the text (HeroSplitDesktop; stacked
+ *   layouts use HeroSplitStacked inside the text block instead)
  * The dot grid fades in towards the galaxy side (left → right, or top → bottom when
  * stacked); the blurred panel edge on top of it makes the transition follow the curve.
  * All shapes sit on the galaxy side so the text panel stays plain.

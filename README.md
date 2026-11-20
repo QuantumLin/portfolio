@@ -33,7 +33,7 @@ npm install
 
 | Command           | Description                                                  |
 | ----------------- | ------------------------------------------------------------ |
-| `npm run dev`     | Start the development server (http://localhost:5173)         |
+| `npm run dev`     | Start the development server (http://localhost:5180)         |
 | `npm run build`   | Type-check (`tsc -b`) and create a production build in `dist/` |
 | `npm run preview` | Serve the production build locally (http://localhost:4173)   |
 | `npm run lint`    | Lint the code with ESLint                                    |
@@ -49,16 +49,19 @@ eslint.config.js               ESLint config (flat config)
 src/
 ├── main.tsx · App.tsx         Entry point, MotionConfig, dev grid overlay
 ├── pages/HomePage.tsx         One-page layout composing all sections
-├── sections/                  Hero, About, Projects, Contact sections
+├── sections/                  Hero, About, Skills, Projects, Contact sections
 ├── components/
-│   ├── decor/                 HeroBackdrop, HeroSplit, Sparkle
+│   ├── decor/                 HeroBackdrop, HeroSplit, Sparkle, SectionDivider
 │   ├── layout/                Container, Grid, Section, Footer
 │   ├── navigation/            Navbar (centered links, mobile menu), SideNav (node line), LanguageSwitch (EN/DE toggle)
-│   ├── ui/                    Button, SectionHeading, ProjectCard, ProjectModal, Slideshow, Reveal, RichText, placeholders
+│   ├── ui/                    Button, Logo, SectionHeading, LangLabel/LangStack (same size in every language), SkillIcon,
+│   │                          ProjectCard, ProjectModal, Slideshow, Reveal, RichText, ContactIcon, placeholders
 │   └── dev/GridOverlay.tsx    Column overlay (dev mode only)
-├── data/                      sections.ts (section ids), projects.ts (project list), contact.ts (personal/contact details)
+├── data/                      sections.ts (section ids), skills.ts + skillGlyphs.ts (skills and icons),
+│                              projects.ts (project list), contact.ts (personal/contact details)
 ├── i18n/                      Translations (EN/DE), legal texts (legal.ts), LanguageProvider, useLanguage
-├── hooks/                     useActiveSection, useScrolled, useInitialScroll, useIdle
+├── hooks/                     useActiveSection, useAnchorNavigation, useInitialScroll, useScrolled, useIdle, useWheelPaging
+├── utils/                     motion.ts (easing, reduce motion), links.ts (external link attributes)
 ├── styles/index.css           Design tokens (@theme), utilities, global base styles
 └── assets/                    Imported assets (images, fonts …)
 ```
@@ -71,16 +74,16 @@ All tokens live in the `@theme` block of [`src/styles/index.css`](src/styles/ind
 
 | Area       | Definition |
 | ---------- | ---------- |
-| Surfaces   | `ivory` `#dcdce3` (slightly bluish) and `sand` `#d1c5af` (muted, warm off-whites that are easy on the eyes at night) (gradient to `sand-deep`) – sections alternate between them |
+| Surfaces   | `ivory` `#dcdce3` (slightly bluish) and `sand` `#d1c5af` (muted off-whites that are easy on the eyes at night). Light sections get a faint, even violet → teal wash (`bg-ivory-wash`, mirrored: `bg-ivory-wash-flip`), sand sections a gradient to `sand-deep`. Two neighbouring light sections are separated by `SectionDivider` |
 | Text       | `ink` `#161836` (body), `muted` `#4a4c66` (secondary) |
 | Accents    | `galaxy` `#1d2160` (headings, primary button), `violet` `#6a4bd6`, `teal` `#17a2a0` (accents), `teal-deep` `#0a5654` (small labels); gradient via `bg-gradient-galaxy` / `text-gradient` |
 | Fonts      | **Fraunces** (`font-display`: headings, name, logo) – a soft humanist serif with the `SOFT` axis at 100; the hero name additionally uses the `WONK` alternates (`font-wonky`). **Inter** (`font-sans`: body text, navigation, buttons, labels). Both self-hosted via `@fontsource-variable` (no requests to Google Fonts, GDPR-friendly) |
-| Type scale | `text-display` (hero, fluid 48–120 px) › `text-heading` (section titles, fluid 36–64 px) › `text-lg/xl` (lead) › `text-base` › `text-xs` uppercase + tracking (labels) |
+| Type scale | `text-display` (hero, fluid 48–120 px) › `text-heading` (section titles, fluid 36–64 px) › `text-lg/xl` (lead) › `text-base` › `text-label` (small uppercase labels, a custom utility) |
 | Grid       | 4 columns (mobile) → 8 (from `md`) → 12 (from `lg`), gutters 16/24/32 px, max width 1280 px – `components/layout/Grid.tsx`. Above 1536 px the whole layout scales proportionally (root font size = 1/96 of the viewport width, capped at 28 px), so large monitors keep the laptop proportions instead of growing empty margins |
 | Spacing    | Tailwind's 4 px scale used in 8 px steps; section top padding `--spacing-section-top` (fluid 40–64 px), bottom padding `--spacing-section` (fluid 96–160 px), navbar height `--spacing-nav` (72 px) |
-| Headings   | Point-symmetric placement: the About title is centered over the right half (above the text), Projects is centered on the page, the Contact title is centered over the left half (from `md`; always left on phones) |
+| Headings   | Section titles are centered over their text from `md` (left-aligned on phones). About and Contact are point-symmetric: About has its text on the right, Contact on the left |
 | Hero split | Two complementary halves: a calm bluish off-white panel behind the text (colours: `--color-hero-panel-from/-to`) and a light, cool "galaxy" side (mesh, shapes) behind the portrait. No visible line: an invisible S-curve (wave when stacked) guides a heavily blurred panel edge, and the dot grid fades in towards the galaxy side (`HeroSplit.tsx`) |
-| Asymmetry  | Deliberate and sparing: offset column starts, staggered project cards (7/5 – 5/7), a few slightly rotated elements (portrait frame, badge, individual cards) |
+| Asymmetry  | Deliberate and sparing: offset column starts, the point-symmetric About/Contact layouts, a few slightly rotated elements (portrait frame, badge) |
 | Motion     | Subtle fade-in on scroll (`Reveal`) and navigation transitions; respects `prefers-reduced-motion` |
 
 **Dev tip:** In the development server, press **G** to toggle the column grid overlay.

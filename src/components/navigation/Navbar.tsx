@@ -4,59 +4,60 @@ import { sectionIds, type SectionId } from '../../data/sections.ts'
 import { useScrolled } from '../../hooks/useScrolled.ts'
 import { useLanguage } from '../../i18n/languageContext.ts'
 import Container from '../layout/Container.tsx'
+import Logo from '../ui/Logo.tsx'
 import LanguageSwitch from './LanguageSwitch.tsx'
 
 type NavbarProps = {
   active: SectionId
 }
 
-/** Fixed top navigation. Turns into a frosted bar once the page scrolls. */
+/**
+ * Fixed top navigation: logo | section links | language switch.
+ * Transparent at the very top, an (almost) opaque bar once the page scrolls.
+ * Below md the section links move into a drop-down menu.
+ */
 function Navbar({ active }: NavbarProps) {
   const { t } = useLanguage()
   const scrolled = useScrolled()
-  const [open, setOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
-  // Close the mobile menu when switching to desktop width.
+  // Close the mobile menu when the window becomes desktop-wide.
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 768px)')
-    const onChange = () => media.matches && setOpen(false)
-    media.addEventListener('change', onChange)
-    return () => media.removeEventListener('change', onChange)
+    const desktop = window.matchMedia('(min-width: 768px)')
+    const onChange = () => {
+      if (desktop.matches) setMenuOpen(false)
+    }
+    desktop.addEventListener('change', onChange)
+    return () => desktop.removeEventListener('change', onChange)
   }, [])
 
+  let barStyle = 'border-transparent'
+  if (menuOpen) barStyle = 'border-line/70 bg-ivory'
+  else if (scrolled) barStyle = 'border-line/70 bg-ivory/95'
+
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
-        open
-          ? 'border-b border-line/70 bg-ivory'
-          : scrolled
-            ? 'border-b border-line/70 bg-ivory/95'
-            : 'border-b border-transparent'
-      }`}
-    >
-      {/* Three columns from md: logo | centered section links | language switch */}
+    <header className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${barStyle}`}>
+      {/* From md: three columns – logo | centered section links | language switch */}
       <Container className="flex h-(--spacing-nav) items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr]">
-        <a href="#home" className="group flex items-center gap-3 justify-self-start" aria-label={t.a11y.homeLink}>
-          <span className="grid size-10 -rotate-6 place-items-center rounded-lg bg-galaxy font-display text-base font-bold text-ivory transition-transform duration-300 group-hover:rotate-0">
-            DD
-          </span>
-          {/* Hidden on tablets (md), where the five section links need the room */}
-          <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline md:hidden lg:inline">Portfolio</span>
-        </a>
+        {/* Wordmark hidden on tablets (md), where the five section links need the room */}
+        <Logo href="#home" className="justify-self-start" wordmarkClassName="hidden sm:inline md:hidden lg:inline" />
 
         <nav aria-label={t.a11y.mainNav} className="hidden md:block">
-            <ul className="flex items-center gap-1">
-              {sectionIds.map((id) => (
+          <ul className="flex items-center gap-1">
+            {sectionIds.map((id) => {
+              const isActive = id === active
+              return (
                 <li key={id}>
                   <a
                     href={`#${id}`}
-                    aria-current={active === id ? 'location' : undefined}
+                    aria-current={isActive ? 'location' : undefined}
                     className={`relative block px-3 py-2 font-sans text-base font-medium transition-colors lg:px-4 ${
-                      active === id ? 'text-galaxy' : 'text-muted hover:text-galaxy'
+                      isActive ? 'text-galaxy' : 'text-muted hover:text-galaxy'
                     }`}
                   >
                     {t.nav[id]}
-                    {active === id && (
+                    {/* Underline; Motion slides it from the old to the new active link (shared layoutId) */}
+                    {isActive && (
                       <motion.span
                         layoutId="nav-indicator"
                         className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-gradient-galaxy lg:inset-x-4"
@@ -64,35 +65,15 @@ function Navbar({ active }: NavbarProps) {
                     )}
                   </a>
                 </li>
-              ))}
-            </ul>
+              )
+            })}
+          </ul>
         </nav>
 
         <div className="flex items-center justify-self-end">
           <LanguageSwitch />
           <span aria-hidden className="mx-3 h-5 w-px bg-galaxy/20 md:hidden" />
-
-          <button
-            type="button"
-            className="grid size-10 place-items-center rounded-full text-galaxy md:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            aria-label={open ? t.a11y.closeMenu : t.a11y.openMenu}
-            onClick={() => setOpen((value) => !value)}
-          >
-            <span aria-hidden className="relative block h-3 w-5">
-              <span
-                className={`absolute left-0 block h-0.5 w-5 rounded bg-current transition-transform duration-300 ${
-                  open ? 'top-1.25 rotate-45' : 'top-0'
-                }`}
-              />
-              <span
-                className={`absolute left-0 block h-0.5 rounded bg-current transition-all duration-300 ${
-                  open ? 'top-1.25 w-5 -rotate-45' : 'top-2.5 w-3'
-                }`}
-              />
-            </span>
-          </button>
+          <MenuButton open={menuOpen} onToggle={() => setMenuOpen((open) => !open)} />
         </div>
       </Container>
 
@@ -102,9 +83,9 @@ function Navbar({ active }: NavbarProps) {
       <nav
         id="mobile-menu"
         aria-label={t.a11y.mainNav}
-        inert={!open}
-        className={`grid transition-[grid-template-rows,border-color] duration-300 ease-out md:hidden ${
-          open ? 'grid-rows-[1fr] border-t border-line/70' : 'grid-rows-[0fr] border-t border-transparent'
+        inert={!menuOpen}
+        className={`grid border-t transition-[grid-template-rows,border-color] duration-300 ease-out md:hidden ${
+          menuOpen ? 'grid-rows-[1fr] border-line/70' : 'grid-rows-[0fr] border-transparent'
         }`}
       >
         <div className="overflow-hidden">
@@ -114,12 +95,13 @@ function Navbar({ active }: NavbarProps) {
                 <li key={id}>
                   <a
                     href={`#${id}`}
-                    onClick={() => setOpen(false)}
-                    aria-current={active === id ? 'location' : undefined}
+                    onClick={() => setMenuOpen(false)}
+                    aria-current={id === active ? 'location' : undefined}
                     className={`flex items-baseline gap-4 py-3 font-display text-3xl font-medium ${
-                      active === id ? 'text-galaxy' : 'text-muted'
+                      id === active ? 'text-galaxy' : 'text-muted'
                     }`}
                   >
+                    {/* "01", "02", … */}
                     <span className="font-sans text-xs text-teal-deep">{String(index + 1).padStart(2, '0')}</span>
                     {t.nav[id]}
                   </a>
@@ -130,6 +112,40 @@ function Navbar({ active }: NavbarProps) {
         </div>
       </nav>
     </header>
+  )
+}
+
+type MenuButtonProps = {
+  open: boolean
+  onToggle: () => void
+}
+
+/** Two-line "hamburger" button (phones only) that morphs into an ✕ while the menu is open. */
+function MenuButton({ open, onToggle }: MenuButtonProps) {
+  const { t } = useLanguage()
+
+  return (
+    <button
+      type="button"
+      className="grid size-10 place-items-center rounded-full text-galaxy md:hidden"
+      aria-expanded={open}
+      aria-controls="mobile-menu"
+      aria-label={open ? t.a11y.closeMenu : t.a11y.openMenu}
+      onClick={onToggle}
+    >
+      <span aria-hidden className="relative block h-3 w-5">
+        <span
+          className={`absolute left-0 block h-0.5 w-5 rounded bg-current transition-transform duration-300 ${
+            open ? 'top-1.25 rotate-45' : 'top-0'
+          }`}
+        />
+        <span
+          className={`absolute left-0 block h-0.5 rounded bg-current transition-all duration-300 ${
+            open ? 'top-1.25 w-5 -rotate-45' : 'top-2.5 w-3'
+          }`}
+        />
+      </span>
+    </button>
   )
 }
 

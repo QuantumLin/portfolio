@@ -12,6 +12,13 @@ type SideNavProps = {
 const NODE_GAP_REM = 2.75 // distance between nodes – keep in sync with gap-11 below (rem, so it scales with the layout)
 const IDLE_TIMEOUT = 2000 // ms without activity before the nav fades out
 
+/** Look of a node: the active one is a diamond, sections above it are filled, the rest are rings. */
+const nodeStyles = {
+  active: 'rotate-45 rounded-[3px] border-violet bg-ivory',
+  passed: 'border-teal bg-teal',
+  upcoming: 'border-galaxy/30 bg-ivory group-hover:border-violet',
+}
+
 /**
  * Vertical "node line" on the left edge. Appears after leaving the hero and
  * fades out after a short period of inactivity (stays while hovered/focused).
@@ -63,6 +70,7 @@ function SideNav({ active, visible }: SideNavProps) {
               {sectionIds.map((id, index) => {
                 const isActive = id === active
                 const isPassed = index < activeIndex
+                const nodeState = isActive ? 'active' : isPassed ? 'passed' : 'upcoming'
                 return (
                   <li key={id} className="flex h-0 items-center justify-start">
                     <a
@@ -72,20 +80,14 @@ function SideNav({ active, visible }: SideNavProps) {
                     >
                       <span
                         aria-hidden
-                        className={`grid size-[15px] place-items-center rounded-full border transition-all duration-300 ${
-                          isActive
-                            ? 'rotate-45 rounded-[3px] border-violet bg-ivory'
-                            : isPassed
-                              ? 'border-teal bg-teal'
-                              : 'border-galaxy/30 bg-ivory group-hover:border-violet'
-                        }`}
+                        className={`grid size-[15px] place-items-center rounded-full border transition-all duration-300 ${nodeStyles[nodeState]}`}
                       >
                         {isActive && <span className="size-[7px] rounded-[1px] bg-gradient-galaxy" />}
                       </span>
                       <span
                         // Labels show on hover/focus; the active one stays visible only on
                         // very wide screens where the gutter has room for it.
-                        className={`rounded-full bg-ivory/95 px-2.5 py-1 font-sans whitespace-nowrap text-xs font-medium tracking-[0.2em] uppercase shadow-sm shadow-galaxy/5 transition-all duration-300 ${
+                        className={`rounded-full bg-ivory/95 px-2.5 py-1 whitespace-nowrap text-label shadow-sm shadow-galaxy/5 transition-all duration-300 ${
                           isActive ? 'text-galaxy 2xl:translate-x-0 2xl:opacity-100' : 'text-muted'
                         } -translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100`}
                       >

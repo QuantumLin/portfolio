@@ -1,6 +1,7 @@
 import Container from '../components/layout/Container.tsx'
 import Footer from '../components/layout/Footer.tsx'
 import LanguageSwitch from '../components/navigation/LanguageSwitch.tsx'
+import Logo from '../components/ui/Logo.tsx'
 import RichText from '../components/ui/RichText.tsx'
 import { contact } from '../data/contact.ts'
 import { useLanguage } from '../i18n/languageContext.ts'
@@ -10,7 +11,10 @@ type LegalPageProps = {
   page: LegalPageId
 }
 
-/** Standalone page for the legal notice (Impressum) or the privacy policy. */
+/**
+ * Standalone page for the legal notice (Impressum) or the privacy policy.
+ * The texts come from src/i18n/legal.ts; "./" links back to the portfolio.
+ */
 function LegalPage({ page }: LegalPageProps) {
   const { lang, t } = useLanguage()
   const doc = getLegalDocument(page, lang, contact)
@@ -19,12 +23,7 @@ function LegalPage({ page }: LegalPageProps) {
     <div className="flex min-h-dvh flex-col bg-ivory">
       <header className="border-b border-line/70">
         <Container className="flex h-(--spacing-nav) items-center justify-between">
-          <a href="./" className="group flex items-center gap-3" aria-label={t.a11y.homeLink}>
-            <span className="grid size-10 -rotate-6 place-items-center rounded-lg bg-galaxy font-display text-base font-bold text-ivory transition-transform duration-300 group-hover:rotate-0">
-              DD
-            </span>
-            <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline">Portfolio</span>
-          </a>
+          <Logo href="./" />
           <LanguageSwitch />
         </Container>
       </header>

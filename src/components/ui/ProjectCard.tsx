@@ -1,4 +1,4 @@
-import type { Localized } from '../../data/projects.ts'
+import type { Localized } from '../../i18n/translations.ts'
 import LangStack from './LangStack.tsx'
 import { PlaceholderMedia } from './Placeholder.tsx'
 

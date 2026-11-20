@@ -3,6 +3,9 @@ import type { SectionId } from '../data/sections.ts'
 export const languages = ['en', 'de'] as const
 export type Language = (typeof languages)[number]
 
+/** A text in every site language, e.g. `{ en: 'Projects', de: 'Projekte' }`. */
+export type Localized = Record<Language, string>
+
 /**
  * All user-facing copy. `en` defines the shape; `de` must match it exactly
  * (enforced by the `Translation` type).
@@ -141,10 +144,10 @@ const de: Translation = {
         detail: 'Hochschule der Medien, Stuttgart',
         period: 'Seit Sommersemester 2026',
       },
-      // ­ = soft hyphen, lets the long word break cleanly in narrow cards
+      // \u00ad = soft hyphen: lets the long word break cleanly in narrow cards
       background: {
         label: 'Hintergrund',
-        value: 'Anwendungs­entwicklung',
+        value: 'Anwendungs\u00adentwicklung',
         detail: 'Ausgebildeter Fachinformatiker',
         period: '2022 – 2025',
       },
@@ -190,3 +193,12 @@ const de: Translation = {
 }
 
 export const translations: Record<Language, Translation> = { en, de }
+
+/**
+ * Collects one text from the translations in every language, e.g.
+ * `localized((t) => t.hero.primaryCta)` → `{ en: 'View projects', de: 'Projekte ansehen' }`.
+ * Needed by LangLabel / LangStack, which render all languages at once.
+ */
+export function localized(pick: (t: Translation) => string): Localized {
+  return { en: pick(en), de: pick(de) }
+}
