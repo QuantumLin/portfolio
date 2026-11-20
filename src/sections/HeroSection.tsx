@@ -5,6 +5,7 @@ import { HeroSplitStacked } from '../components/decor/HeroSplit.tsx'
 import Container from '../components/layout/Container.tsx'
 import Grid from '../components/layout/Grid.tsx'
 import Button from '../components/ui/Button.tsx'
+import LangStack from '../components/ui/LangStack.tsx'
 import RichText from '../components/ui/RichText.tsx'
 import { PlaceholderMedia } from '../components/ui/Placeholder.tsx'
 import { useLanguage } from '../i18n/languageContext.ts'
@@ -38,7 +39,9 @@ function HeroSection() {
           >
             <HeroSplitStacked />
 
-            {/* Block as wide as its widest line, so the name centers over the tagline (from md; phones stay left-aligned because the tagline wraps there) */}
+            {/* Block as wide as the widest tagline of ALL languages, so the name sits at the
+                same position in every language; the active tagline is centered below it
+                (from md – phones stay left-aligned because the tagline wraps there). */}
             <div className="w-fit max-w-full">
               <h1 id="home-title" className="font-wonky text-display font-semibold text-galaxy md:text-center">
                 Daniel
@@ -46,17 +49,26 @@ function HeroSection() {
                 <span className="text-gradient">Dang</span>
               </h1>
 
-              <p className="mt-8 max-w-xl text-lg leading-relaxed text-balance text-muted md:text-xl">
-                <RichText text={t.hero.tagline} />
-              </p>
+              <LangStack className="mt-8 max-w-xl" itemClassName="md:justify-self-center md:text-center">
+                {(tr) => (
+                  <p className="text-lg leading-relaxed text-balance text-muted md:text-xl">
+                    <RichText text={tr.hero.tagline} />
+                  </p>
+                )}
+              </LangStack>
             </div>
 
-            <div className="mt-12 flex flex-wrap gap-4">
-              <Button href="#projects">{t.hero.primaryCta}</Button>
-              <Button href="#contact" variant="outline">
-                {t.hero.secondaryCta}
-              </Button>
-            </div>
+            {/* Button labels differ in length – on narrow phones one language may wrap to two rows */}
+            <LangStack className="mt-12">
+              {(tr) => (
+                <div className="flex flex-wrap gap-4">
+                  <Button href="#projects">{tr.hero.primaryCta}</Button>
+                  <Button href="#contact" variant="outline">
+                    {tr.hero.secondaryCta}
+                  </Button>
+                </div>
+              )}
+            </LangStack>
           </motion.div>
 
           <motion.div
