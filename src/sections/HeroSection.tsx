@@ -43,7 +43,7 @@ function HeroSection() {
             <div className="mt-12 flex flex-wrap gap-4">
               <Button href="#projects">View projects</Button>
               <Button href="#contact" variant="outline">
-                Get in touch
+                Find me
               </Button>
             </div>
           </motion.div>

@@ -24,7 +24,7 @@ function ProjectsSection() {
       <Container>
         <Grid className="items-end gap-y-8">
           <Reveal className="col-span-4 md:col-span-6 lg:col-span-6">
-            <SectionHeading id="projects" index={3} eyebrow="Work" title="Selected projects" />
+            <SectionHeading id="projects" title="Projects" />
           </Reveal>
           <Reveal delay={0.1} className="col-span-4 md:col-span-6 lg:col-span-4 lg:col-start-9">
             <div className="flex flex-wrap gap-2" aria-hidden>

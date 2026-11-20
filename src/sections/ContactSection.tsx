@@ -13,7 +13,7 @@ function ContactSection() {
       <Container>
         <Grid className="gap-y-16">
           <Reveal className="col-span-4 md:col-span-8 lg:col-span-6">
-            <SectionHeading id="contact" index={4} eyebrow="Contact" title="Let's work together" />
+            <SectionHeading id="contact" title="Find me" />
             <PlaceholderLines lines={3} className="mt-10 max-w-md" />
 
             <ul className="mt-12 space-y-4" aria-hidden>
