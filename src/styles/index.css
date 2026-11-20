@@ -46,6 +46,7 @@
   /* Layout */
   --spacing-nav: 4.5rem;
   --spacing-section: clamp(6rem, 4rem + 6vw, 10rem);
+  --spacing-section-top: clamp(2.5rem, 1.75rem + 2.5vw, 4rem);
 
   /* Brand gradient */
   --gradient-galaxy: linear-gradient(120deg, var(--color-galaxy) 0%, var(--color-violet) 55%, var(--color-teal) 100%);
@@ -54,6 +55,17 @@
   --animate-scroll-cue: scroll-cue 2s ease-in-out infinite;
   --animate-orbit: spin 60s linear infinite;
   --animate-twinkle: twinkle 4s ease-in-out infinite;
+  --animate-nudge: nudge 1.8s ease-in-out infinite;
+
+  @keyframes nudge {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(5px);
+    }
+  }
 
   @keyframes twinkle {
     0%,

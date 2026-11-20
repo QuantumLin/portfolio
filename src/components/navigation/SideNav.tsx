@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { sections, type SectionId } from '../../data/sections.ts'
+import { sectionIds, type SectionId } from '../../data/sections.ts'
 import { useIdle } from '../../hooks/useIdle.ts'
+import { useLanguage } from '../../i18n/languageContext.ts'
 
 type SideNavProps = {
   active: SectionId
@@ -17,7 +18,8 @@ const IDLE_TIMEOUT = 2000 // ms without activity before the nav fades out
  * The gradient track fills up to the active node.
  */
 function SideNav({ active, visible }: SideNavProps) {
-  const activeIndex = sections.findIndex((section) => section.id === active)
+  const { t } = useLanguage()
+  const activeIndex = sectionIds.indexOf(active)
   const idle = useIdle(IDLE_TIMEOUT)
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
@@ -28,7 +30,7 @@ function SideNav({ active, visible }: SideNavProps) {
     <AnimatePresence onExitComplete={() => setHovered(false)}>
       {shown && (
         <motion.nav
-          aria-label="Sections"
+          aria-label={t.a11y.sectionNav}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onFocus={() => setFocused(true)}
@@ -54,7 +56,7 @@ function SideNav({ active, visible }: SideNavProps) {
             />
 
             <ul className="relative flex flex-col gap-11">
-              {sections.map(({ id, label }, index) => {
+              {sectionIds.map((id, index) => {
                 const isActive = id === active
                 const isPassed = index < activeIndex
                 return (
@@ -67,11 +69,11 @@ function SideNav({ active, visible }: SideNavProps) {
                       <span
                         // Labels show on hover/focus; the active one stays visible only on
                         // very wide screens where the gutter has room for it.
-                        className={`rounded-full bg-ivory/85 px-2.5 py-1 font-sans text-xs font-medium tracking-[0.2em] uppercase shadow-sm shadow-galaxy/5 backdrop-blur-sm transition-all duration-300 ${
+                        className={`rounded-full bg-ivory/85 px-2.5 py-1 font-sans whitespace-nowrap text-xs font-medium tracking-[0.2em] uppercase shadow-sm shadow-galaxy/5 backdrop-blur-sm transition-all duration-300 ${
                           isActive ? 'text-galaxy 2xl:translate-x-0 2xl:opacity-100' : 'text-muted'
                         } translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100`}
                       >
-                        {label}
+                        {t.nav[id]}
                       </span>
                       <span
                         aria-hidden

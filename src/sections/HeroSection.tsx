@@ -1,33 +1,37 @@
 import { motion } from 'motion/react'
+import HeroBackdrop from '../components/decor/HeroBackdrop.tsx'
+import SectionDivider from '../components/decor/SectionDivider.tsx'
 import Container from '../components/layout/Container.tsx'
 import Grid from '../components/layout/Grid.tsx'
 import Button from '../components/ui/Button.tsx'
 import { PlaceholderMedia } from '../components/ui/Placeholder.tsx'
-import HeroBackdrop from '../components/decor/HeroBackdrop.tsx'
+import { useLanguage } from '../i18n/languageContext.ts'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 function HeroSection() {
+  const { t } = useLanguage()
+
   return (
     <section
       id="home"
       aria-labelledby="home-title"
-      className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-20 lg:pt-(--spacing-nav) lg:pb-16"
+      className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-32 lg:pt-[calc(var(--spacing-nav)+4rem)] lg:pb-32"
     >
       <HeroBackdrop />
 
       <Container>
+        {/* Columns 2–7 (text) and 8–11 (portrait): one empty column on each side keeps the pair centered */}
         <Grid className="items-center gap-y-16">
-          {/* Text: 7 of 12 columns */}
           <motion.div
-            className="col-span-4 md:col-span-8 lg:col-span-7"
+            className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-2"
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease }}
           >
             <p className="mb-8 inline-flex items-center gap-3 rounded-full border border-galaxy/15 bg-ivory/70 px-4 py-1.5 font-sans text-xs font-medium tracking-[0.2em] text-muted uppercase">
               <span className="size-1.5 rounded-full bg-teal" />
-              Portfolio
+              {t.hero.eyebrow}
             </p>
 
             <h1 id="home-title" className="font-wonky text-display font-semibold text-galaxy">
@@ -36,26 +40,23 @@ function HeroSection() {
               <span className="text-gradient">Dang</span>
             </h1>
 
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-balance text-muted md:text-xl">
-              Software Developer · Web · Design · Media
-            </p>
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-balance text-muted md:text-xl">{t.hero.tagline}</p>
 
             <div className="mt-12 flex flex-wrap gap-4">
-              <Button href="#projects">View projects</Button>
+              <Button href="#projects">{t.hero.primaryCta}</Button>
               <Button href="#contact" variant="outline">
-                Get in touch
+                {t.hero.secondaryCta}
               </Button>
             </div>
           </motion.div>
 
-          {/* Image: offset start column for a deliberate asymmetry */}
           <motion.div
-            className="col-span-4 md:col-span-6 md:col-start-2 lg:col-span-4 lg:col-start-9"
+            className="col-span-4 md:col-span-6 md:col-start-2 lg:col-span-4 lg:col-start-8"
             initial={{ opacity: 0, y: 32, rotate: 0 }}
             animate={{ opacity: 1, y: 0, rotate: 2 }}
             transition={{ duration: 0.9, delay: 0.15, ease }}
           >
-            <div className="relative mx-auto max-w-64 sm:max-w-xs lg:max-w-sm">
+            <div className="relative mx-auto max-w-56 sm:max-w-64 lg:max-w-xs">
               {/* Orbit: dashed ring with two planets, slowly rotating behind the portrait */}
               <div
                 aria-hidden
@@ -67,7 +68,7 @@ function HeroSection() {
               {/* Offset frame, rotated against the image */}
               <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 -rotate-5 rounded-3xl border-2 border-teal/60" />
               <div className="relative rounded-3xl bg-ivory p-2 shadow-2xl shadow-galaxy/15 ring-1 ring-galaxy/10">
-                <PlaceholderMedia label="Portrait" className="aspect-4/5 rounded-[1.25rem]" />
+                <PlaceholderMedia label={t.hero.portrait} className="aspect-4/5 rounded-[1.25rem]" />
               </div>
               {/* Sticker badge */}
               <div className="absolute -bottom-6 -left-6 -rotate-8 rounded-xl bg-galaxy px-4 py-3 font-sans text-xs font-semibold tracking-[0.2em] text-ivory uppercase shadow-lg shadow-galaxy/30">
@@ -78,17 +79,28 @@ function HeroSection() {
         </Grid>
       </Container>
 
-      {/* Scroll cue */}
+      {/* Scroll cue: label + bouncing chevron */}
       <a
         href="#about"
-        aria-label="Scroll to About"
-        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 font-sans text-[0.65rem] tracking-[0.3em] text-muted uppercase md:flex"
+        aria-label={t.a11y.scrollToAbout}
+        className="group absolute bottom-20 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-sans text-[0.65rem] tracking-[0.3em] text-muted uppercase transition-colors hover:text-violet md:flex lg:bottom-24"
       >
-        Scroll
-        <span className="relative h-10 w-px overflow-hidden bg-galaxy/15">
-          <span className="absolute inset-x-0 top-0 h-1/2 animate-scroll-cue bg-violet motion-reduce:animate-none" />
-        </span>
+        {t.hero.scroll}
+        <svg
+          aria-hidden
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="size-5 animate-nudge text-violet motion-reduce:animate-none"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
       </a>
+
+      <SectionDivider />
     </section>
   )
 }
