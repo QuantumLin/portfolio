@@ -15,7 +15,8 @@ const focusableSelector =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
 
 /**
- * Large project window (not fullscreen) over a blurred page.
+ * Large project window (not fullscreen) over a dimmed page. (Dimmed, not blurred:
+ * a backdrop blur over the whole page is very slow without GPU acceleration.)
  * Top: slideshow. Below: title, meta, description, my role and technologies
  * (placeholder lines for projects without content yet).
  * Closes via ✕, Esc or a click on the backdrop; locks page scroll, keeps
@@ -76,7 +77,7 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
       {project && (
         <motion.div
           key="overlay"
-          className="fixed inset-0 z-70 grid place-items-center bg-galaxy-deep/30 p-3 backdrop-blur-md sm:p-6 md:p-10"
+          className="fixed inset-0 z-70 grid place-items-center bg-galaxy-deep/60 p-3 sm:p-6 md:p-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
