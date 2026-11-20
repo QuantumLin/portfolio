@@ -2,6 +2,7 @@ import Container from '../components/layout/Container.tsx'
 import Grid from '../components/layout/Grid.tsx'
 import Section from '../components/layout/Section.tsx'
 import ContactIcon from '../components/ui/ContactIcon.tsx'
+import LangStack from '../components/ui/LangStack.tsx'
 import Reveal from '../components/ui/Reveal.tsx'
 import SectionHeading from '../components/ui/SectionHeading.tsx'
 import { contact } from '../data/contact.ts'
@@ -43,7 +44,10 @@ function ContactSection() {
         <Grid className="items-center gap-y-12">
           <Reveal className="col-span-4 md:col-span-6 md:col-start-2 lg:col-span-5 lg:col-start-2">
             <SectionHeading id="contact" title={t.contact.title} align="center" />
-            <p className="mt-6 text-base leading-relaxed text-ink/80 md:text-lg">{t.contact.intro}</p>
+            {/* Same size in every language (see LangStack) */}
+            <LangStack className="mt-6" itemClassName="self-center">
+              {(tr) => <p className="text-base leading-relaxed text-ink/80 md:text-lg">{tr.contact.intro}</p>}
+            </LangStack>
           </Reveal>
 
           {channels.length > 0 && (
