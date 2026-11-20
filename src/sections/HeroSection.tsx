@@ -4,6 +4,7 @@ import { HeroSplitStacked } from '../components/decor/HeroSplit.tsx'
 import Container from '../components/layout/Container.tsx'
 import Grid from '../components/layout/Grid.tsx'
 import Button from '../components/ui/Button.tsx'
+import RichText from '../components/ui/RichText.tsx'
 import { PlaceholderMedia } from '../components/ui/Placeholder.tsx'
 import { useLanguage } from '../i18n/languageContext.ts'
 
@@ -37,7 +38,9 @@ function HeroSection() {
               <span className="text-gradient">Dang</span>
             </h1>
 
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-balance text-muted md:text-xl">{t.hero.tagline}</p>
+            <p className="mt-8 max-w-xl text-lg leading-relaxed text-balance text-muted md:text-xl">
+              <RichText text={t.hero.tagline} />
+            </p>
 
             <div className="mt-12 flex flex-wrap gap-4">
               <Button href="#projects">{t.hero.primaryCta}</Button>
