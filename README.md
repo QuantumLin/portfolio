@@ -33,7 +33,7 @@ npm install
 
 | Command           | Description                                                  |
 | ----------------- | ------------------------------------------------------------ |
-| `npm run dev`     | Start the development server (http://localhost:5173)         |
+| `npm run dev`     | Start the development server (http://localhost:5180)         |
 | `npm run build`   | Type-check (`tsc -b`) and create a production build in `dist/` |
 | `npm run preview` | Serve the production build locally (http://localhost:4173)   |
 | `npm run lint`    | Lint the code with ESLint                                    |

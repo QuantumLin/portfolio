@@ -12,6 +12,12 @@ export default defineConfig({
   // The deploy workflow sets BASE_PATH automatically from the repository name;
   // locally the app is served from the root.
   base: process.env.BASE_PATH ?? '/',
+  // Own fixed port (5173 is used by another local project). strictPort makes
+  // Vite fail loudly instead of silently picking the next free port.
+  server: {
+    port: 5180,
+    strictPort: true,
+  },
   build: {
     rollupOptions: {
       // Multi-page build: portfolio + legal pages (Impressum, privacy policy)
