@@ -30,7 +30,7 @@ const en = {
     scrollToAbout: 'Scroll to About',
   },
   hero: {
-    tagline: 'Software Developer · Web · Design · Media',
+    tagline: 'All things **software, web, design & media**.',
     primaryCta: 'View projects',
     secondaryCta: 'Find me',
     portrait: 'Portrait',
@@ -38,17 +38,25 @@ const en = {
   },
   about: {
     title: 'About me',
-    lead: 'I’m Daniel Dang – a developer with an eye for design, working where code meets media.',
+    lead: 'I’m Daniel Dang – part developer, part designer, part media maker.',
     paragraphs: [
-      'Trained as an **IT specialist in application development**, I learned to build software that is reliable and maintainable. Now I’m studying **Audiovisual Media (B.Eng.)** at Hochschule der Medien in Stuttgart – adding design, image, sound and storytelling to the mix.',
-      'I care about how things look and feel as much as how they run. Curious? Take a look at my projects or [reach out](#contact).',
+      'I trained as an **IT specialist in application development** and am now studying **Audiovisual Media (B.Eng.)** in Stuttgart – adding design, image, sound and storytelling to the mix.',
+      'Every step of a project shapes the final result, so I care about how things look and feel as much as how they work. Take a look at my [projects](#projects) or [find me](#contact).',
     ],
     facts: {
-      studying: { label: 'Studying', value: 'Audiovisual Media, B.Eng.', detail: 'Hochschule der Medien, Stuttgart' },
-      background: { label: 'Background', value: 'Application Development', detail: 'Trained IT specialist' },
-      focus: { label: 'Focus' },
+      studying: {
+        label: 'Studying',
+        value: 'Audiovisual Media, B.Eng.',
+        detail: 'Hochschule der Medien, Stuttgart',
+        period: 'Since summer semester 2026',
+      },
+      background: {
+        label: 'Background',
+        value: 'Application Development',
+        detail: 'Trained IT specialist',
+        period: '2022 – 2025',
+      },
     },
-    detailImage: 'Detail',
   },
   projects: {
     title: 'Projects',
@@ -89,7 +97,7 @@ const de: Translation = {
     scrollToAbout: 'Zu „Über mich“ scrollen',
   },
   hero: {
-    tagline: 'Softwareentwicklung · Web · Design · Medien',
+    tagline: 'Alles rund um **Software, Web, Design & Medien**.',
     primaryCta: 'Projekte ansehen',
     secondaryCta: 'Finde mich',
     portrait: 'Porträt',
@@ -97,18 +105,26 @@ const de: Translation = {
   },
   about: {
     title: 'Über mich',
-    lead: 'Ich bin Daniel Dang – Entwickler mit Gespür für Design, an der Schnittstelle von Code und Medien.',
+    lead: 'Ich bin Daniel Dang – Entwickler, Designer und Medienmacher in einem.',
     paragraphs: [
-      'Als ausgebildeter **Fachinformatiker für Anwendungsentwicklung** habe ich gelernt, zuverlässige und wartbare Software zu bauen. Heute studiere ich **Audiovisuelle Medien (B.Eng.)** an der Hochschule der Medien in Stuttgart – und ergänze das um Gestaltung, Bild, Ton und Storytelling.',
-      'Mir ist wichtig, wie sich etwas anfühlt und aussieht – genauso wie, dass es läuft. Neugierig? Schau dir meine Projekte an oder [schreib mir](#contact).',
+      'Nach meiner Ausbildung zum **Fachinformatiker für Anwendungsentwicklung** studiere ich jetzt **Audiovisuelle Medien (B.Eng.)** in Stuttgart – dazu kommen Gestaltung, Bild, Ton und Storytelling.',
+      'Jeder Schritt eines Projekts prägt das Endergebnis. Deshalb achte ich genauso darauf, wie etwas aussieht und sich anfühlt, wie darauf, dass es funktioniert. Schau dir meine [Projekte](#projects) an oder [nimm Kontakt auf](#contact).',
     ],
     facts: {
-      studying: { label: 'Studium', value: 'Audiovisuelle Medien, B.Eng.', detail: 'Hochschule der Medien, Stuttgart' },
+      studying: {
+        label: 'Studium',
+        value: 'Audiovisuelle Medien, B.Eng.',
+        detail: 'Hochschule der Medien, Stuttgart',
+        period: 'Seit Sommersemester 2026',
+      },
       // ­ = soft hyphen, lets the long word break cleanly in narrow cards
-      background: { label: 'Hintergrund', value: 'Anwendungs­entwicklung', detail: 'Ausgebildeter Fachinformatiker' },
-      focus: { label: 'Fokus' },
+      background: {
+        label: 'Hintergrund',
+        value: 'Anwendungs­entwicklung',
+        detail: 'Ausgebildeter Fachinformatiker',
+        period: '2022 – 2025',
+      },
     },
-    detailImage: 'Detail',
   },
   projects: {
     title: 'Projekte',
