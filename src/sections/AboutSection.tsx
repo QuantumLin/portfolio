@@ -63,7 +63,7 @@ function AboutSection() {
                       const { label, value, detail, period } = factsOf(tr)[index]
                       return (
                         <>
-                          <h3 className="mb-4 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">{label}</h3>
+                          <h3 className="mb-4 font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">{label}</h3>
                           <p className="font-display text-xl leading-snug font-semibold text-galaxy hyphens-auto">{value}</p>
                           <p className="mt-1 text-sm text-muted">{detail}</p>
                           <p className="mt-4 border-t border-galaxy/10 pt-3 font-sans text-xs text-muted/90 tabular-nums">

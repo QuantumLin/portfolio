@@ -34,7 +34,6 @@ const en = {
     primaryCta: 'View projects',
     secondaryCta: 'Find me',
     portrait: 'Portrait',
-    scroll: 'Scroll',
   },
   about: {
     title: 'About me',
@@ -122,7 +121,6 @@ const de: Translation = {
     primaryCta: 'Projekte ansehen',
     secondaryCta: 'Finde mich',
     portrait: 'Porträt',
-    scroll: 'Scrollen',
   },
   about: {
     title: 'Über mich',

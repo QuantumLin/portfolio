@@ -23,7 +23,7 @@ function LegalPage({ page }: LegalPageProps) {
             <span className="grid size-10 -rotate-6 place-items-center rounded-lg bg-galaxy font-display text-base font-bold text-ivory transition-transform duration-300 group-hover:rotate-0">
               DD
             </span>
-            <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline">Daniel Dang</span>
+            <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline">Portfolio</span>
           </a>
           <LanguageSwitch />
         </Container>

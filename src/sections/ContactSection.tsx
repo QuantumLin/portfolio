@@ -69,7 +69,7 @@ function ContactSection() {
                           <ContactIcon channel={key} />
                         </span>
                         <span className="flex min-w-0 flex-col gap-1">
-                          <span className="font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
+                          <span className="font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">
                             {t.contact.channels[key]}
                           </span>
                           <span className="truncate font-display text-base font-semibold text-galaxy sm:text-lg">{display}</span>

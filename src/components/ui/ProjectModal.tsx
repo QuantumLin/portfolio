@@ -124,20 +124,20 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
                   <div className="mt-8 grid gap-8 md:grid-cols-[3fr_2fr] md:gap-10">
                     <div className="space-y-6">
                       <section>
-                        <h3 className="mb-2 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
+                        <h3 className="mb-2 font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">
                           {t.projects.details.description}
                         </h3>
                         <p className="text-base leading-relaxed text-ink/80">{project.content.description[lang]}</p>
                       </section>
                       <section>
-                        <h3 className="mb-2 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
+                        <h3 className="mb-2 font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">
                           {t.projects.details.role}
                         </h3>
                         <p className="text-base leading-relaxed text-ink/80">{project.content.role[lang]}</p>
                       </section>
                     </div>
                     <section>
-                      <h3 className="mb-3 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
+                      <h3 className="mb-3 font-sans text-xs font-medium tracking-[0.2em] text-teal-deep uppercase">
                         {t.projects.details.tech}
                       </h3>
                       <ul className="flex flex-wrap gap-2">

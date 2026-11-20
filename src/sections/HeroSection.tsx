@@ -1,32 +1,27 @@
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
+import { motion } from 'motion/react'
 import HeroBackdrop from '../components/decor/HeroBackdrop.tsx'
 import { HeroSplitStacked } from '../components/decor/HeroSplit.tsx'
 import Container from '../components/layout/Container.tsx'
 import Grid from '../components/layout/Grid.tsx'
 import Button from '../components/ui/Button.tsx'
+import LangLabel from '../components/ui/LangLabel.tsx'
 import LangStack from '../components/ui/LangStack.tsx'
 import RichText from '../components/ui/RichText.tsx'
 import { PlaceholderMedia } from '../components/ui/Placeholder.tsx'
-import { useScrolled } from '../hooks/useScrolled.ts'
 import { useLanguage } from '../i18n/languageContext.ts'
+import { translations } from '../i18n/translations.ts'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 function HeroSection() {
   const { t } = useLanguage()
-  // The looping scroll cue only runs at the very top: once the visitor scrolls it has done
-  // its job, and animating it while scrolling is costly without GPU acceleration.
-  const sectionRef = useRef<HTMLElement>(null)
-  const inView = useInView(sectionRef)
-  const scrolled = useScrolled()
-  // Remove the animation entirely (not just pause it): a paused CSS animation still
-  // makes the browser repaint far more while scrolling without GPU acceleration.
-  const cueAnimated = inView && !scrolled
+  const cta = {
+    primary: { en: translations.en.hero.primaryCta, de: translations.de.hero.primaryCta },
+    secondary: { en: translations.en.hero.secondaryCta, de: translations.de.hero.secondaryCta },
+  }
 
   return (
     <section
-      ref={sectionRef}
       id="home"
       aria-labelledby="home-title"
       className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-20 lg:pt-[calc(var(--spacing-nav)+4rem)] lg:pb-20"
@@ -61,19 +56,18 @@ function HeroSection() {
                   </p>
                 )}
               </LangStack>
-            </div>
 
-            {/* Button labels differ in length – on narrow phones one language may wrap to two rows */}
-            <LangStack className="mt-12">
-              {(tr) => (
-                <div className="flex flex-wrap gap-4">
-                  <Button href="#projects">{tr.hero.primaryCta}</Button>
-                  <Button href="#contact" variant="outline">
-                    {tr.hero.secondaryCta}
-                  </Button>
-                </div>
-              )}
-            </LangStack>
+              {/* Centered under the tagline (from md). Each label is as wide as its longest
+                  translation (LangLabel), so the buttons sit at the same spot in every language. */}
+              <div className="mt-12 flex flex-wrap gap-4 md:justify-center">
+                <Button href="#projects">
+                  <LangLabel text={cta.primary} />
+                </Button>
+                <Button href="#contact" variant="outline">
+                  <LangLabel text={cta.secondary} />
+                </Button>
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
@@ -106,27 +100,26 @@ function HeroSection() {
         </Grid>
       </Container>
 
-      {/* Scroll cue: label + bouncing chevron */}
+      {/* Static scroll arrow along the left screen edge (no animation – cheap to render) */}
       <a
         href="#about"
         aria-label={t.a11y.scrollToAbout}
-        className="group absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-sans text-[0.65rem] tracking-[0.3em] text-muted uppercase transition-colors hover:text-violet md:flex"
+        className="group absolute bottom-4 left-3 hidden flex-col items-center text-violet md:flex xl:left-6"
       >
-        {t.hero.scroll}
+        <span aria-hidden className="h-32 w-0.5 rounded-full bg-linear-to-b from-violet/0 via-violet/80 to-violet lg:h-44" />
         <svg
           aria-hidden
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`size-5 text-violet ${cueAnimated ? 'animate-nudge motion-reduce:animate-none' : ''}`}
+          className="-mt-3.5 size-6 transition-transform duration-300 group-hover:translate-y-1"
         >
           <path d="m6 9 6 6 6-6" />
         </svg>
       </a>
-
     </section>
   )
 }

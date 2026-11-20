@@ -10,7 +10,7 @@ const base =
 
 const variants = {
   primary: 'bg-galaxy text-ivory shadow-lg shadow-galaxy/20 hover:-translate-y-0.5 hover:bg-violet',
-  outline: 'border border-galaxy/25 text-galaxy hover:border-teal hover:text-teal',
+  outline: 'border border-galaxy/25 text-galaxy hover:border-teal hover:text-teal-deep',
 } as const
 
 /** Link styled as a button – the site's call-to-action element. */

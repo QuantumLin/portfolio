@@ -13,7 +13,7 @@ function HeroBackdrop() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
       <div className="absolute inset-0 bg-hero-mesh" />
-      <div className="absolute inset-0 bg-dot-grid [mask-image:linear-gradient(to_bottom,transparent_30%,black_80%)] lg:[mask-image:linear-gradient(to_right,transparent_40%,black_95%)]" />
+      <div className="absolute inset-0 bg-dot-grid [mask-image:linear-gradient(to_bottom,transparent_30%,black_70%)] lg:[mask-image:linear-gradient(to_right,transparent_40%,black_80%)]" />
 
       {/* Large planet, cut by the section edge. Planet + ring share a center per breakpoint (offset + size / 2) */}
       <div className="absolute -right-24 -bottom-40 size-80 rounded-full bg-gradient-galaxy opacity-90 shadow-[inset_-24px_-24px_60px_rgb(14_17_51/0.35)] md:-right-32 md:-bottom-64 md:size-104 lg:-right-20 lg:-bottom-64 lg:size-96" />

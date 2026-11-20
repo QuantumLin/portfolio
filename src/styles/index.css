@@ -11,15 +11,20 @@
    Spacing  Tailwind's 4px scale, used in 8px steps (2, 4, 6, 8, 12, 16 …).
    ========================================================================== */
 @theme {
-  /* Surfaces: alternate per section */
-  --color-ivory: #f8f4ec;
-  --color-sand: #ebe1cf;
-  --color-sand-deep: #e3d6bf;
+  /* Surfaces: alternate per section. Muted, warm off-whites – easy on the eyes at night */
+  --color-ivory: #dcdce3; /* cool, slightly bluish off-white */
+  --color-sand: #d1c5af;
+  --color-sand-deep: #c8b9a0;
+
+  /* Home: calm panel behind the text (left half / top when stacked) – the bluish
+     off-white of the sections, slightly deeper towards the bottom right */
+  --color-hero-panel-from: var(--color-ivory);
+  --color-hero-panel-to: #d3d4dd;
 
   /* Ink & lines */
   --color-ink: #161836;
-  --color-muted: #5b5d78;
-  --color-line: #d9cdb8;
+  --color-muted: #4a4c66;
+  --color-line: #bfb196;
 
   /* Accent family (galaxy) */
   --color-galaxy: #1d2160;
@@ -27,6 +32,8 @@
   --color-violet: #6a4bd6;
   --color-violet-soft: #b9a8f0;
   --color-teal: #17a2a0;
+  /* Darker teal for small text (labels) – readable on the sand surfaces */
+  --color-teal-deep: #0a5654;
   --color-teal-soft: #9fdcd8;
 
   /* Fonts */
@@ -53,17 +60,6 @@
 
   /* Animations */
   --animate-scroll-cue: scroll-cue 2s ease-in-out infinite;
-  --animate-nudge: nudge 1.8s ease-in-out infinite;
-
-  @keyframes nudge {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(5px);
-    }
-  }
 
 
   @keyframes scroll-cue {
@@ -99,10 +95,10 @@
 @utility bg-hero-mesh {
   background-color: var(--color-ivory);
   background-image:
-    radial-gradient(50% 55% at 90% 10%, color-mix(in oklab, var(--color-violet) 20%, transparent), transparent 70%),
-    radial-gradient(40% 45% at 66% 80%, color-mix(in oklab, var(--color-galaxy) 7%, transparent), transparent 70%),
-    radial-gradient(40% 50% at 64% 100%, color-mix(in oklab, var(--color-teal) 16%, transparent), transparent 70%),
-    linear-gradient(165deg, #f8f6f6 35%, #f1edf4 100%);
+    radial-gradient(55% 60% at 90% 8%, color-mix(in oklab, var(--color-violet) 36%, transparent), transparent 70%),
+    radial-gradient(45% 50% at 68% 72%, color-mix(in oklab, var(--color-galaxy) 16%, transparent), transparent 70%),
+    radial-gradient(42% 52% at 62% 100%, color-mix(in oklab, var(--color-teal) 30%, transparent), transparent 70%),
+    linear-gradient(165deg, #d7d5e0 35%, #cac5da 100%);
 }
 
 /* Soft glow as a plain radial gradient – looks like a blurred circle, costs no filter */
@@ -116,7 +112,7 @@
 
 /* Subtle dot grid used as background texture */
 @utility bg-dot-grid {
-  background-image: radial-gradient(circle, color-mix(in oklab, var(--color-galaxy) 18%, transparent) 1px, transparent 1.5px);
+  background-image: radial-gradient(circle, color-mix(in oklab, var(--color-galaxy) 30%, transparent) 1px, transparent 1.5px);
   background-size: 24px 24px;
 }
 

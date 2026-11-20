@@ -40,7 +40,7 @@ function Navbar({ active }: NavbarProps) {
           <span className="grid size-10 -rotate-6 place-items-center rounded-lg bg-galaxy font-display text-base font-bold text-ivory transition-transform duration-300 group-hover:rotate-0">
             DD
           </span>
-          <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline">Daniel Dang</span>
+          <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline">Portfolio</span>
         </a>
 
         <nav aria-label={t.a11y.mainNav} className="hidden md:block">
@@ -119,7 +119,7 @@ function Navbar({ active }: NavbarProps) {
                       active === id ? 'text-galaxy' : 'text-muted'
                     }`}
                   >
-                    <span className="font-sans text-xs text-teal">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="font-sans text-xs text-teal-deep">{String(index + 1).padStart(2, '0')}</span>
                     {t.nav[id]}
                   </a>
                 </li>
