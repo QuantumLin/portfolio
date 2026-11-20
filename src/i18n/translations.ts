@@ -16,6 +16,7 @@ const en = {
   nav: {
     home: 'Home',
     about: 'About',
+    skills: 'Skills',
     projects: 'Projects',
     contact: 'Contact',
   } satisfies Record<SectionId, string>,
@@ -56,6 +57,9 @@ const en = {
         period: '2022 – 2025',
       },
     },
+  },
+  skills: {
+    title: 'Technical Skills',
   },
   projects: {
     title: 'Projects',
@@ -103,6 +107,7 @@ const de: Translation = {
   nav: {
     home: 'Start',
     about: 'Über mich',
+    skills: 'Skills',
     projects: 'Projekte',
     contact: 'Kontakt',
   },
@@ -144,6 +149,9 @@ const de: Translation = {
         period: '2022 – 2025',
       },
     },
+  },
+  skills: {
+    title: 'Technische Skills',
   },
   projects: {
     title: 'Projekte',

@@ -18,7 +18,7 @@ function ProjectsSection() {
   const placeholderTitle = { en: translations.en.projects.placeholderTitle, de: translations.de.projects.placeholderTitle }
 
   return (
-    <Section id="projects" tone="ivory">
+    <Section id="projects" tone="sand">
       <div aria-hidden className="absolute top-1/4 -left-56 -z-10 size-160 bg-glow-violet" />
 
       <Container>

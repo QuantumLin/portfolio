@@ -8,11 +8,11 @@ import { languages } from '../../i18n/translations.ts'
  * visible. Used for button labels, so buttons keep the same size and
  * position in every language.
  */
-function LangLabel({ text }: { text: Localized }) {
+function LangLabel({ text, className = 'text-center' }: { text: Localized; className?: string }) {
   const { lang } = useLanguage()
 
   return (
-    <span className="inline-grid text-center">
+    <span className={`inline-grid ${className}`}>
       {languages.map((code) => (
         <span
           key={code}

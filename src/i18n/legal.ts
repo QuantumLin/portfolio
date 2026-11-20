@@ -68,6 +68,12 @@ function imprint(lang: Language, c: ContactDetails): LegalDocument {
             'Die auf dieser Website veröffentlichten Inhalte – insbesondere Texte, Bilder, Videos, Grafiken und Code – sind, soweit nicht anders gekennzeichnet, von mir erstellt und urheberrechtlich geschützt. Eine Vervielfältigung oder Verwendung außerhalb der Grenzen des Urheberrechts ist ohne meine vorherige Zustimmung nicht gestattet. Inhalte Dritter sind als solche gekennzeichnet.',
           ],
         },
+        {
+          heading: 'Marken',
+          paragraphs: [
+            'Alle genannten Produktnamen und Logos sind Marken ihrer jeweiligen Inhaber. Ihre Verwendung dient ausschließlich der Kennzeichnung der eingesetzten Technologien und stellt keine Verbindung zu den Inhabern oder eine Billigung durch sie dar. Die Logo-Grafiken stammen von [Simple Icons](https://simpleicons.org).',
+          ],
+        },
       ],
       updated: UPDATED.de,
     }
@@ -84,6 +90,12 @@ function imprint(lang: Language, c: ContactDetails): LegalDocument {
         heading: 'Copyright',
         paragraphs: [
           'Unless stated otherwise, the content published on this website – in particular texts, images, videos, graphics and code – was created by me and is protected by copyright. Any reproduction or use beyond the limits of copyright law requires my prior consent. Third-party content is marked as such.',
+        ],
+      },
+      {
+        heading: 'Trademarks',
+        paragraphs: [
+          'All product names and logos mentioned are trademarks of their respective owners. They are used solely to identify the technologies concerned and do not imply any affiliation with or endorsement by their owners. The logo graphics are taken from [Simple Icons](https://simpleicons.org).',
         ],
       },
     ],

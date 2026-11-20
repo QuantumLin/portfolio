@@ -10,6 +10,7 @@ import AboutSection from '../sections/AboutSection.tsx'
 import ContactSection from '../sections/ContactSection.tsx'
 import HeroSection from '../sections/HeroSection.tsx'
 import ProjectsSection from '../sections/ProjectsSection.tsx'
+import SkillsSection from '../sections/SkillsSection.tsx'
 
 /** One-page layout: all sections stacked, navigation via in-page anchors. */
 function HomePage() {
@@ -31,6 +32,7 @@ function HomePage() {
       <main>
         <HeroSection />
         <AboutSection />
+        <SkillsSection />
         <ProjectsSection />
         <ContactSection />
       </main>

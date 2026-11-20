@@ -40,7 +40,8 @@ function Navbar({ active }: NavbarProps) {
           <span className="grid size-10 -rotate-6 place-items-center rounded-lg bg-galaxy font-display text-base font-bold text-ivory transition-transform duration-300 group-hover:rotate-0">
             DD
           </span>
-          <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline">Portfolio</span>
+          {/* Hidden on tablets (md), where the five section links need the room */}
+          <span className="hidden font-display text-lg font-semibold text-galaxy sm:inline md:hidden lg:inline">Portfolio</span>
         </a>
 
         <nav aria-label={t.a11y.mainNav} className="hidden md:block">
@@ -50,7 +51,7 @@ function Navbar({ active }: NavbarProps) {
                   <a
                     href={`#${id}`}
                     aria-current={active === id ? 'location' : undefined}
-                    className={`relative block px-4 py-2 font-sans text-base font-medium transition-colors ${
+                    className={`relative block px-3 py-2 font-sans text-base font-medium transition-colors lg:px-4 ${
                       active === id ? 'text-galaxy' : 'text-muted hover:text-galaxy'
                     }`}
                   >
@@ -58,7 +59,7 @@ function Navbar({ active }: NavbarProps) {
                     {active === id && (
                       <motion.span
                         layoutId="nav-indicator"
-                        className="absolute inset-x-4 -bottom-0.5 h-0.5 rounded-full bg-gradient-galaxy"
+                        className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-gradient-galaxy lg:inset-x-4"
                       />
                     )}
                   </a>
