@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { sections, type SectionId } from '../../data/sections.ts'
+import { useIdle } from '../../hooks/useIdle.ts'
 
 type SideNavProps = {
   active: SectionId
@@ -7,19 +9,32 @@ type SideNavProps = {
 }
 
 const NODE_GAP = 44 // px between nodes – keep in sync with the gap-11 below
+const IDLE_TIMEOUT = 2000 // ms without activity before the nav fades out
 
 /**
- * Vertical "node line" on the right edge. Appears after leaving the hero.
+ * Vertical "node line" on the right edge. Appears after leaving the hero and
+ * fades out after a short period of inactivity (stays while hovered/focused).
  * The gradient track fills up to the active node.
  */
 function SideNav({ active, visible }: SideNavProps) {
   const activeIndex = sections.findIndex((section) => section.id === active)
+  const idle = useIdle(IDLE_TIMEOUT)
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+
+  const shown = visible && (!idle || hovered || focused)
 
   return (
-    <AnimatePresence>
-      {visible && (
+    <AnimatePresence onExitComplete={() => setHovered(false)}>
+      {shown && (
         <motion.nav
           aria-label="Sections"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          onFocus={() => setFocused(true)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false)
+          }}
           // Sits inside the container's side gutter (lg: 40px), so it never covers grid content.
           className="fixed top-1/2 right-3 z-40 hidden -translate-y-1/2 lg:block xl:right-6"
           initial={{ opacity: 0, x: 24 }}
