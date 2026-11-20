@@ -22,7 +22,7 @@ function ProjectCard({ title, thumbnailLabel, onOpen }: ProjectCardProps) {
           className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-gradient-galaxy transition-transform duration-500 group-hover:scale-x-100"
         />
       </div>
-      <h3 className="flex items-center justify-between gap-4 px-2 pt-4 pb-2 font-display text-xl font-semibold text-galaxy md:text-2xl">
+      <h3 className="px-2 pt-4 pb-2 font-display text-xl font-semibold text-galaxy md:text-2xl">
         <button
           type="button"
           aria-haspopup="dialog"
@@ -31,12 +31,6 @@ function ProjectCard({ title, thumbnailLabel, onOpen }: ProjectCardProps) {
         >
           {title}
         </button>
-        <span
-          aria-hidden
-          className="grid size-8 shrink-0 place-items-center rounded-full border border-galaxy/15 font-sans text-base text-galaxy transition duration-300 group-hover:border-violet group-hover:bg-violet group-hover:text-ivory"
-        >
-          ↗
-        </span>
       </h3>
     </article>
   )

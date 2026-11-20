@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'motion/react'
+import { motion } from 'motion/react'
 import { sectionIds, type SectionId } from '../../data/sections.ts'
 import { useScrolled } from '../../hooks/useScrolled.ts'
 import { useLanguage } from '../../i18n/languageContext.ts'
@@ -95,39 +95,39 @@ function Navbar({ active }: NavbarProps) {
         </div>
       </Container>
 
-      <AnimatePresence>
-        {open && (
-          <motion.nav
-            id="mobile-menu"
-            aria-label={t.a11y.mainNav}
-            className="overflow-hidden border-t border-line/70 md:hidden"
-            initial={{ height: 0 }}
-            animate={{ height: 'auto' }}
-            exit={{ height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-          >
-            <Container>
-              <ul className="py-4">
-                {sectionIds.map((id, index) => (
-                  <li key={id}>
-                    <a
-                      href={`#${id}`}
-                      onClick={() => setOpen(false)}
-                      aria-current={active === id ? 'location' : undefined}
-                      className={`flex items-baseline gap-4 py-3 font-display text-3xl font-medium ${
-                        active === id ? 'text-galaxy' : 'text-muted'
-                      }`}
-                    >
-                      <span className="font-sans text-xs text-teal">{String(index + 1).padStart(2, '0')}</span>
-                      {t.nav[id]}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </Container>
-          </motion.nav>
-        )}
-      </AnimatePresence>
+      {/* Mobile menu: expands with a CSS grid-rows transition (0fr → 1fr).
+          Not animated with Motion's height: 'auto' – measuring it makes Motion reset
+          the scroll position, which cancels the smooth scroll to the tapped section. */}
+      <nav
+        id="mobile-menu"
+        aria-label={t.a11y.mainNav}
+        inert={!open}
+        className={`grid transition-[grid-template-rows,border-color] duration-300 ease-out md:hidden ${
+          open ? 'grid-rows-[1fr] border-t border-line/70' : 'grid-rows-[0fr] border-t border-transparent'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <Container>
+            <ul className="py-4">
+              {sectionIds.map((id, index) => (
+                <li key={id}>
+                  <a
+                    href={`#${id}`}
+                    onClick={() => setOpen(false)}
+                    aria-current={active === id ? 'location' : undefined}
+                    className={`flex items-baseline gap-4 py-3 font-display text-3xl font-medium ${
+                      active === id ? 'text-galaxy' : 'text-muted'
+                    }`}
+                  >
+                    <span className="font-sans text-xs text-teal">{String(index + 1).padStart(2, '0')}</span>
+                    {t.nav[id]}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </div>
+      </nav>
     </header>
   )
 }
