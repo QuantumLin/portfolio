@@ -22,9 +22,9 @@ function HeroBackdrop() {
       {/* Outlined, rotated square just right of the curve */}
       <div className="absolute top-[10%] left-[71%] hidden size-14 rotate-12 rounded-2xl border-2 border-violet/30 lg:block" />
 
-      {/* Sparkles */}
-      <Sparkle className="absolute top-[26%] right-[6%] size-6 animate-twinkle text-violet motion-reduce:animate-none" />
-      <Sparkle className="absolute top-[84%] left-[60%] hidden size-4 animate-twinkle text-teal [animation-delay:1.5s] motion-reduce:animate-none lg:block" />
+      {/* Sparkles (static – continuous twinkling forced large repaints without GPU acceleration) */}
+      <Sparkle className="absolute top-[26%] right-[6%] size-6 text-violet" />
+      <Sparkle className="absolute top-[84%] left-[60%] hidden size-4 text-teal lg:block" />
 
       <HeroSplitDesktop />
     </div>

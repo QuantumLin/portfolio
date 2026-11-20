@@ -53,8 +53,6 @@
 
   /* Animations */
   --animate-scroll-cue: scroll-cue 2s ease-in-out infinite;
-  --animate-orbit: spin 60s linear infinite;
-  --animate-twinkle: twinkle 4s ease-in-out infinite;
   --animate-nudge: nudge 1.8s ease-in-out infinite;
 
   @keyframes nudge {
@@ -67,17 +65,6 @@
     }
   }
 
-  @keyframes twinkle {
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.45;
-      transform: scale(0.8);
-    }
-  }
 
   @keyframes scroll-cue {
     0% {
@@ -123,9 +110,7 @@
   background-image: radial-gradient(closest-side, color-mix(in oklab, var(--color-violet) 11%, transparent), transparent);
 }
 
-/* Pause the hero's looping decorations while the hero is off screen (set in HeroSection) */
-[data-offscreen] .animate-orbit,
-[data-offscreen] .animate-twinkle,
+/* Pause the hero's looping scroll cue once the page is scrolled or the hero is off screen (set in HeroSection) */
 [data-offscreen] .animate-nudge {
   animation-play-state: paused;
 }
