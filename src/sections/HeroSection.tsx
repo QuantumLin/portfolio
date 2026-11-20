@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import HeroBackdrop from '../components/decor/HeroBackdrop.tsx'
-import SectionDivider from '../components/decor/SectionDivider.tsx'
+import { HeroSplitStacked } from '../components/decor/HeroSplit.tsx'
 import Container from '../components/layout/Container.tsx'
 import Grid from '../components/layout/Grid.tsx'
 import Button from '../components/ui/Button.tsx'
@@ -16,7 +16,7 @@ function HeroSection() {
     <section
       id="home"
       aria-labelledby="home-title"
-      className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-32 lg:pt-[calc(var(--spacing-nav)+4rem)] lg:pb-32"
+      className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-20 lg:pt-[calc(var(--spacing-nav)+4rem)] lg:pb-20"
     >
       <HeroBackdrop />
 
@@ -24,15 +24,12 @@ function HeroSection() {
         {/* Columns 2–7 (text) and 8–11 (portrait): one empty column on each side keeps the pair centered */}
         <Grid className="items-center gap-y-16">
           <motion.div
-            className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-2"
+            className="relative col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-2"
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease }}
           >
-            <p className="mb-8 inline-flex items-center gap-3 rounded-full border border-galaxy/15 bg-ivory/70 px-4 py-1.5 font-sans text-xs font-medium tracking-[0.2em] text-muted uppercase">
-              <span className="size-1.5 rounded-full bg-teal" />
-              {t.hero.eyebrow}
-            </p>
+            <HeroSplitStacked />
 
             <h1 id="home-title" className="font-wonky text-display font-semibold text-galaxy">
               Daniel
@@ -83,7 +80,7 @@ function HeroSection() {
       <a
         href="#about"
         aria-label={t.a11y.scrollToAbout}
-        className="group absolute bottom-20 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-sans text-[0.65rem] tracking-[0.3em] text-muted uppercase transition-colors hover:text-violet md:flex lg:bottom-24"
+        className="group absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-sans text-[0.65rem] tracking-[0.3em] text-muted uppercase transition-colors hover:text-violet md:flex"
       >
         {t.hero.scroll}
         <svg
@@ -100,7 +97,6 @@ function HeroSection() {
         </svg>
       </a>
 
-      <SectionDivider />
     </section>
   )
 }

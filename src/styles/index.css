@@ -112,11 +112,10 @@
 @utility bg-hero-mesh {
   background-color: var(--color-ivory);
   background-image:
-    radial-gradient(55% 60% at 88% 12%, color-mix(in oklab, var(--color-violet) 34%, transparent), transparent 70%),
-    radial-gradient(40% 45% at 62% 78%, color-mix(in oklab, var(--color-galaxy) 14%, transparent), transparent 70%),
-    radial-gradient(45% 55% at 0% 100%, color-mix(in oklab, var(--color-teal) 30%, transparent), transparent 70%),
-    radial-gradient(30% 35% at 18% 8%, color-mix(in oklab, var(--color-teal) 12%, transparent), transparent 70%),
-    linear-gradient(165deg, var(--color-ivory) 35%, #efe9f3 100%);
+    radial-gradient(50% 55% at 90% 10%, color-mix(in oklab, var(--color-violet) 20%, transparent), transparent 70%),
+    radial-gradient(40% 45% at 66% 80%, color-mix(in oklab, var(--color-galaxy) 7%, transparent), transparent 70%),
+    radial-gradient(40% 50% at 64% 100%, color-mix(in oklab, var(--color-teal) 16%, transparent), transparent 70%),
+    linear-gradient(165deg, #f8f6f6 35%, #f1edf4 100%);
 }
 
 @utility bg-gradient-galaxy {

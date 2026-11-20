@@ -3,7 +3,7 @@ import Navbar from '../components/navigation/Navbar.tsx'
 import SideNav from '../components/navigation/SideNav.tsx'
 import { sectionIds } from '../data/sections.ts'
 import { useActiveSection } from '../hooks/useActiveSection.ts'
-import { useScrollToHash } from '../hooks/useScrollToHash.ts'
+import { useInitialScroll } from '../hooks/useInitialScroll.ts'
 import { useLanguage } from '../i18n/languageContext.ts'
 import AboutSection from '../sections/AboutSection.tsx'
 import ContactSection from '../sections/ContactSection.tsx'
@@ -14,7 +14,7 @@ import ProjectsSection from '../sections/ProjectsSection.tsx'
 function HomePage() {
   const { t } = useLanguage()
   const active = useActiveSection(sectionIds)
-  useScrollToHash()
+  useInitialScroll()
 
   return (
     <>

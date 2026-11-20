@@ -13,7 +13,7 @@ function AboutSection() {
   const facts: { label: string; value?: string; detail?: string }[] = [studying, background, focus]
 
   return (
-    <Section id="about" tone="sand" divider={{ flip: true }}>
+    <Section id="about" tone="sand">
       <Container>
         {/* Heading and text share the right half; the heading is centered over the text.
             Mirrors the contact heading, which is centered over the left half. */}

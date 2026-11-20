@@ -50,14 +50,14 @@ src/
 ├── pages/HomePage.tsx         One-page layout composing all sections
 ├── sections/                  Hero, About, Projects, Contact sections
 ├── components/
-│   ├── decor/                 HeroBackdrop, SectionDivider (gradient transitions), Sparkle
+│   ├── decor/                 HeroBackdrop, HeroSplit, Sparkle
 │   ├── layout/                Container, Grid, Section, Footer
 │   ├── navigation/            Navbar (centered links, mobile menu), SideNav (node line), LanguageSwitch (EN/DE toggle)
 │   ├── ui/                    Button, SectionHeading, ProjectCard, Reveal, RichText, placeholders
 │   └── dev/GridOverlay.tsx    Column overlay (dev mode only)
 ├── data/sections.ts           Section ids (order = page order)
 ├── i18n/                      Translations (EN/DE), LanguageProvider, useLanguage
-├── hooks/                     useActiveSection, useScrolled, useScrollToHash, useIdle
+├── hooks/                     useActiveSection, useScrolled, useInitialScroll, useIdle
 ├── styles/index.css           Design tokens (@theme), utilities, global base styles
 └── assets/                    Imported assets (images, fonts …)
 ```
@@ -78,7 +78,7 @@ All tokens live in the `@theme` block of [`src/styles/index.css`](src/styles/ind
 | Grid       | 4 columns (mobile) → 8 (from `md`) → 12 (from `lg`), gutters 16/24/32 px, max width 1280 px – `components/layout/Grid.tsx` |
 | Spacing    | Tailwind's 4 px scale used in 8 px steps; section top padding `--spacing-section-top` (fluid 40–64 px), bottom padding `--spacing-section` (fluid 96–160 px), navbar height `--spacing-nav` (72 px) |
 | Headings   | Point-symmetric placement: the About title is centered over the right half (above the text), Projects is centered on the page, the Contact title is centered over the left half (from `md`; always left on phones) |
-| Transitions | `SectionDivider`: straight section edges with a soft violet/teal glow fading upwards and a thin gradient line on the boundary; direction alternates per section |
+| Hero split | Two complementary halves: a calm warm cream panel behind the text and a light, cool "galaxy" side (mesh, shapes) behind the portrait. No visible line: an invisible S-curve (wave when stacked) guides a heavily blurred panel edge, and the dot grid fades in towards the galaxy side (`HeroSplit.tsx`) |
 | Asymmetry  | Deliberate and sparing: offset column starts, staggered project cards (7/5 – 5/7), a few slightly rotated elements (portrait frame, badge, individual cards) |
 | Motion     | Subtle fade-in on scroll (`Reveal`) and navigation transitions; respects `prefers-reduced-motion` |
 

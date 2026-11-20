@@ -30,7 +30,6 @@ const en = {
     scrollToAbout: 'Scroll to About',
   },
   hero: {
-    eyebrow: 'Portfolio',
     tagline: 'Software Developer · Web · Design · Media',
     primaryCta: 'View projects',
     secondaryCta: 'Find me',
@@ -90,7 +89,6 @@ const de: Translation = {
     scrollToAbout: 'Zu „Über mich“ scrollen',
   },
   hero: {
-    eyebrow: 'Portfolio',
     tagline: 'Softwareentwicklung · Web · Design · Medien',
     primaryCta: 'Projekte ansehen',
     secondaryCta: 'Finde mich',

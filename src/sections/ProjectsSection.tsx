@@ -21,7 +21,7 @@ function ProjectsSection() {
   const { t } = useLanguage()
 
   return (
-    <Section id="projects" tone="ivory" divider={{}}>
+    <Section id="projects" tone="ivory">
       <div aria-hidden className="absolute top-1/3 -left-40 -z-10 size-120 rounded-full bg-violet/10 blur-3xl" />
 
       <Container>

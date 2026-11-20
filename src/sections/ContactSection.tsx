@@ -16,7 +16,7 @@ function ContactSection() {
   ]
 
   return (
-    <Section id="contact" tone="sand" divider={{ flip: true }} className="min-h-[80dvh]">
+    <Section id="contact" tone="sand" className="min-h-[80dvh]">
       <Container>
         <Grid className="gap-y-16">
           <Reveal className="col-span-4 md:col-span-8 lg:col-span-6">
