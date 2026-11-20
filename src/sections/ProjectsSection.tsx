@@ -18,9 +18,7 @@ function ProjectsSection() {
   const placeholderTitle = { en: translations.en.projects.placeholderTitle, de: translations.de.projects.placeholderTitle }
 
   return (
-    <Section id="projects" tone="ivory">
-      <div aria-hidden className="absolute top-1/4 -left-56 -z-10 size-160 bg-glow-violet" />
-
+    <Section id="projects" tone="ivory-flip">
       {/* Divider to Skills (same background colour): a beige line that fades out
           gently towards both ends, broken in the middle by three dots in the
           accent colours. The line halves are mirrored copies of one gradient. */}
