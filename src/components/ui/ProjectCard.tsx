@@ -19,7 +19,7 @@ type ProjectCardProps = {
  */
 function ProjectCard({ title, thumbnailLabel, onOpen }: ProjectCardProps) {
   return (
-    <article className="group relative h-full cursor-pointer rounded-3xl border border-galaxy/10 bg-ivory p-3 shadow-sm shadow-galaxy/5 transition duration-300 ease-out hover:scale-[1.03] hover:shadow-2xl hover:shadow-galaxy/15 has-[:focus-visible]:scale-[1.03] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-violet motion-reduce:hover:scale-100">
+    <article className="group relative h-full cursor-pointer rounded-3xl border border-galaxy/10 bg-white/35 p-3 shadow-sm shadow-galaxy/5 transition duration-300 ease-out hover:scale-[1.03] hover:shadow-2xl hover:shadow-galaxy/15 has-[:focus-visible]:scale-[1.03] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-violet motion-reduce:hover:scale-100">
       <div className="relative overflow-hidden rounded-2xl">
         <PlaceholderMedia label={thumbnailLabel} className="aspect-16/10 rounded-2xl bg-sand/60" />
         <span
