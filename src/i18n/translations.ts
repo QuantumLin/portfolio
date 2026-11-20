@@ -60,8 +60,18 @@ const en = {
   },
   projects: {
     title: 'Projects',
-    tags: ['Software', 'Web', 'Design', 'Media'],
-    preview: 'Preview',
+    thumbnail: 'Thumbnail',
+    placeholderTitle: 'Project title',
+    modal: {
+      close: 'Close',
+      gallery: 'Project images',
+      image: 'Image',
+      previous: 'Previous image',
+      next: 'Next image',
+      goTo: 'Go to image',
+      hintMouse: 'Scroll to browse',
+      hintTouch: 'Swipe to browse',
+    },
   },
   contact: {
     title: 'Find me',
@@ -128,8 +138,18 @@ const de: Translation = {
   },
   projects: {
     title: 'Projekte',
-    tags: ['Software', 'Web', 'Design', 'Medien'],
-    preview: 'Vorschau',
+    thumbnail: 'Vorschaubild',
+    placeholderTitle: 'Projekttitel',
+    modal: {
+      close: 'Schließen',
+      gallery: 'Projektbilder',
+      image: 'Bild',
+      previous: 'Vorheriges Bild',
+      next: 'Nächstes Bild',
+      goTo: 'Gehe zu Bild',
+      hintMouse: 'Scrollen zum Blättern',
+      hintTouch: 'Wischen zum Blättern',
+    },
   },
   contact: {
     title: 'Finde mich',
