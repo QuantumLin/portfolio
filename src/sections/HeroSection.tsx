@@ -32,15 +32,18 @@ function HeroSection() {
           >
             <HeroSplitStacked />
 
-            <h1 id="home-title" className="font-wonky text-display font-semibold text-galaxy">
-              Daniel
-              <br />
-              <span className="text-gradient">Dang</span>
-            </h1>
+            {/* Block as wide as its widest line, so the name centers over the tagline (from md; phones stay left-aligned because the tagline wraps there) */}
+            <div className="w-fit max-w-full">
+              <h1 id="home-title" className="font-wonky text-display font-semibold text-galaxy md:text-center">
+                Daniel
+                <br />
+                <span className="text-gradient">Dang</span>
+              </h1>
 
-            <p className="mt-8 max-w-xl text-lg leading-relaxed text-balance text-muted md:text-xl">
-              <RichText text={t.hero.tagline} />
-            </p>
+              <p className="mt-8 max-w-xl text-lg leading-relaxed text-balance text-muted md:text-xl">
+                <RichText text={t.hero.tagline} />
+              </p>
+            </div>
 
             <div className="mt-12 flex flex-wrap gap-4">
               <Button href="#projects">{t.hero.primaryCta}</Button>

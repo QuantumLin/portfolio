@@ -19,7 +19,31 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Personal contact details for the legal notice / contact section.
+    # Stored as repository secrets (Settings → Secrets and variables → Actions),
+    # so they never appear in the repository or in the (public) workflow logs.
+    env:
+      VITE_CONTACT_NAME: ${{ secrets.CONTACT_NAME }}
+      VITE_CONTACT_STREET: ${{ secrets.CONTACT_STREET }}
+      VITE_CONTACT_CITY: ${{ secrets.CONTACT_CITY }}
+      VITE_CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}
+      VITE_CONTACT_PHONE: ${{ secrets.CONTACT_PHONE }}
+      VITE_CONTACT_GITHUB: ${{ secrets.CONTACT_GITHUB }}
+      VITE_CONTACT_LINKEDIN: ${{ secrets.CONTACT_LINKEDIN }}
     steps:
+      # Refuse to publish a legal notice with "[…]" placeholders.
+      - name: Check contact details
+        run: |
+          missing=""
+          for name in STREET CITY EMAIL PHONE; do
+            var="VITE_CONTACT_$name"
+            [ -n "${!var}" ] || missing="$missing CONTACT_$name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secrets:$missing (Settings → Secrets and variables → Actions)"
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v4
 

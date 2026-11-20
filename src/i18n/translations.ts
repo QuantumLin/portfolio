@@ -75,11 +75,17 @@ const en = {
   },
   contact: {
     title: 'Find me',
-    channels: ['Email', 'GitHub', 'LinkedIn'],
-    fields: { name: 'Name', email: 'Email', message: 'Message' },
+    intro: 'Questions, ideas or a project in mind? I’m happy to hear from you – the quickest way to reach me is by email.',
+    channels: { email: 'Email', github: 'GitHub', linkedin: 'LinkedIn' },
   },
   footer: {
     backToTop: 'Back to top',
+    imprint: 'Legal notice',
+    privacy: 'Privacy policy',
+  },
+  legal: {
+    backToPortfolio: 'Back to portfolio',
+    lastUpdated: 'Last updated',
   },
 }
 
@@ -153,11 +159,17 @@ const de: Translation = {
   },
   contact: {
     title: 'Finde mich',
-    channels: ['E-Mail', 'GitHub', 'LinkedIn'],
-    fields: { name: 'Name', email: 'E-Mail', message: 'Nachricht' },
+    intro: 'Fragen, Ideen oder ein Projekt im Kopf? Ich freue mich über deine Nachricht – am schnellsten erreichst du mich per E-Mail.',
+    channels: { email: 'E-Mail', github: 'GitHub', linkedin: 'LinkedIn' },
   },
   footer: {
     backToTop: 'Nach oben',
+    imprint: 'Impressum',
+    privacy: 'Datenschutz',
+  },
+  legal: {
+    backToPortfolio: 'Zurück zum Portfolio',
+    lastUpdated: 'Stand',
   },
 }
 

@@ -1,6 +1,9 @@
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
+
+const page = (file: string) => fileURLToPath(new URL(file, import.meta.url))
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,4 +12,14 @@ export default defineConfig({
   // The deploy workflow sets BASE_PATH automatically from the repository name;
   // locally the app is served from the root.
   base: process.env.BASE_PATH ?? '/',
+  build: {
+    rollupOptions: {
+      // Multi-page build: portfolio + legal pages (Impressum, privacy policy)
+      input: {
+        main: page('./index.html'),
+        impressum: page('./impressum.html'),
+        datenschutz: page('./datenschutz.html'),
+      },
+    },
+  },
 })
