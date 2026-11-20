@@ -1,25 +1,25 @@
 # Portfolio
 
-Persönliche Portfolio-Website zur Präsentation von Software-, Webentwicklungs-, Design- und Medienprojekten.
+Personal portfolio website showcasing software, web development, design and media projects.
 
-> **Status:** Technisches Grundgerüst. Design und Inhalte folgen in späteren Schritten.
+> **Status:** Base design system and one-page layout are in place. Real content follows in later steps.
 
-## Tech-Stack
+## Tech Stack
 
-| Bereich         | Technologie                                        |
-| --------------- | -------------------------------------------------- |
-| Frontend        | [React 19](https://react.dev)                      |
-| Sprache         | [TypeScript 6.0](https://www.typescriptlang.org)   |
-| Build / Dev     | [Vite 8](https://vite.dev)                         |
-| Styling         | [Tailwind CSS 4](https://tailwindcss.com) (Vite-Plugin) |
-| Animationen     | [Motion](https://motion.dev) (`motion/react`)      |
-| Schriften       | Space Grotesk + Inter via [Fontsource](https://fontsource.org) |
-| Linting         | [ESLint](https://eslint.org) + typescript-eslint, React-Hooks- & React-Refresh-Regeln |
-| Hosting         | GitHub Pages via GitHub Actions                    |
+| Area        | Technology                                                                 |
+| ----------- | -------------------------------------------------------------------------- |
+| Frontend    | [React 19](https://react.dev)                                              |
+| Language    | [TypeScript 6.0](https://www.typescriptlang.org)                           |
+| Build / Dev | [Vite 8](https://vite.dev)                                                 |
+| Styling     | [Tailwind CSS 4](https://tailwindcss.com) (Vite plugin)                    |
+| Animation   | [Motion](https://motion.dev) (`motion/react`)                              |
+| Fonts       | Space Grotesk + Inter via [Fontsource](https://fontsource.org)             |
+| Linting     | [ESLint](https://eslint.org) + typescript-eslint, React Hooks & React Refresh rules |
+| Hosting     | GitHub Pages via GitHub Actions                                            |
 
-## Voraussetzungen
+## Prerequisites
 
-- Node.js **≥ 20.19** (empfohlen: 24 LTS)
+- Node.js **≥ 20.19** (recommended: 24 LTS)
 - npm **≥ 10**
 - Git
 
@@ -29,87 +29,87 @@ Persönliche Portfolio-Website zur Präsentation von Software-, Webentwicklungs-
 npm install
 ```
 
-## Befehle
+## Scripts
 
-| Befehl            | Beschreibung                                           |
-| ----------------- | ------------------------------------------------------ |
-| `npm run dev`     | Development Server starten (http://localhost:5173)     |
-| `npm run build`   | Typprüfung (`tsc -b`) und Produktions-Build nach `dist/` |
-| `npm run preview` | Produktions-Build lokal ausliefern (http://localhost:4173) |
-| `npm run lint`    | Code mit ESLint prüfen                                 |
+| Command           | Description                                                  |
+| ----------------- | ------------------------------------------------------------ |
+| `npm run dev`     | Start the development server (http://localhost:5173)         |
+| `npm run build`   | Type-check (`tsc -b`) and create a production build in `dist/` |
+| `npm run preview` | Serve the production build locally (http://localhost:4173)   |
+| `npm run lint`    | Lint the code with ESLint                                    |
 
-## Projektstruktur
+## Project Structure
 
 ```
-.github/workflows/deploy.yml   GitHub-Pages-Deployment (Build + Deploy)
-index.html                     HTML-Einstiegspunkt
-vite.config.ts                 Vite-Konfiguration (React, Tailwind, base-Pfad)
-eslint.config.js               ESLint-Konfiguration (Flat Config)
+.github/workflows/deploy.yml   GitHub Pages deployment (build + deploy)
+index.html                     HTML entry point
+vite.config.ts                 Vite config (React, Tailwind, base path)
+eslint.config.js               ESLint config (flat config)
 src/
-├── main.tsx · App.tsx         Einstieg, MotionConfig, Dev-Grid-Overlay
-├── pages/HomePage.tsx         One-Page: setzt alle Sections zusammen
-├── sections/                  Hero-, About-, Projects-, Contact-Section
+├── main.tsx · App.tsx         Entry point, MotionConfig, dev grid overlay
+├── pages/HomePage.tsx         One-page layout composing all sections
+├── sections/                  Hero, About, Projects, Contact sections
 ├── components/
 │   ├── layout/                Container, Grid, Section, Footer
-│   ├── navigation/            Navbar (inkl. Mobile-Menü), SideNav (Knotenlinie)
-│   ├── ui/                    Button, SectionHeading, ProjectCard, Reveal, Platzhalter
-│   └── dev/GridOverlay.tsx    Spalten-Overlay (nur im Dev-Modus)
-├── data/sections.ts           Section-Liste (IDs + Labels) für Navigation & Seite
+│   ├── navigation/            Navbar (incl. mobile menu), SideNav (node line)
+│   ├── ui/                    Button, SectionHeading, ProjectCard, Reveal, placeholders
+│   └── dev/GridOverlay.tsx    Column overlay (dev mode only)
+├── data/sections.ts           Section list (ids + labels) for navigation and page
 ├── hooks/                     useActiveSection, useScrolled, useScrollToHash
-├── styles/index.css           Design-Tokens (@theme), Utilities, globale Basis-Styles
-└── assets/                    Importierte Assets (Bilder, Fonts …)
+├── styles/index.css           Design tokens (@theme), utilities, global base styles
+└── assets/                    Imported assets (images, fonts …)
 ```
 
-Statische Dateien, die unverändert ausgeliefert werden sollen (z. B. `favicon.svg`, `robots.txt`), gehören in einen Ordner `public/` im Projektwurzelverzeichnis.
+Static files that should be served as-is (e.g. `favicon.svg`, `robots.txt`) belong in a `public/` folder at the project root.
 
-## Design-System
+## Design System
 
-Alle Tokens liegen im `@theme`-Block von [`src/styles/index.css`](src/styles/index.css) und stehen als Tailwind-Klassen zur Verfügung (z. B. `bg-sand`, `text-galaxy`, `text-display`).
+All tokens live in the `@theme` block of [`src/styles/index.css`](src/styles/index.css) and are available as Tailwind classes (e.g. `bg-sand`, `text-galaxy`, `text-display`).
 
-| Bereich | Festlegung |
-| --- | --- |
-| Flächen | `ivory` `#f8f4ec` und `sand` `#ebe1cf` (Verlauf zu `sand-deep`) – Sections wechseln abwechselnd |
-| Text | `ink` `#161836` (Fließtext), `muted` `#5b5d78` (Nebentext) |
-| Akzente | `galaxy` `#1d2160` (Überschriften, Primär-Button), `violet` `#6a4bd6`, `teal` `#17a2a0`; Verlauf `bg-gradient-galaxy` / `text-gradient` |
-| Schriften | **Space Grotesk** (Überschriften, Labels) + **Inter** (Fließtext), selbst gehostet via `@fontsource-variable` (keine Google-Fonts-Requests, DSGVO-freundlich) |
-| Typo-Skala | `text-display` (Hero, fluid 48–120 px) › `text-heading` (Section-Titel, fluid 36–64 px) › `text-lg/xl` (Lead) › `text-base` › `text-xs` uppercase + Laufweite (Labels) |
-| Raster | 4 Spalten (mobil) → 8 (ab `md`) → 12 (ab `lg`), Gutter 16/24/32 px, max. Breite 1280 px – `components/layout/Grid.tsx` |
-| Spacing | Tailwind-4-px-Skala in 8-px-Schritten; Section-Abstand `--spacing-section` (fluid 96–160 px), Navbar-Höhe `--spacing-nav` (72 px) |
-| Asymmetrie | Gezielt und sparsam: versetzte Spaltenstarts, gestaffelte Projektkarten (7/5 – 5/7), wenige leicht rotierte Elemente (Porträtrahmen, Badge, einzelne Karten) |
-| Bewegung | Motion: dezentes Einblenden beim Scrollen (`Reveal`), Navigation; respektiert `prefers-reduced-motion` |
+| Area       | Definition |
+| ---------- | ---------- |
+| Surfaces   | `ivory` `#f8f4ec` and `sand` `#ebe1cf` (gradient to `sand-deep`) – sections alternate between them |
+| Text       | `ink` `#161836` (body), `muted` `#5b5d78` (secondary) |
+| Accents    | `galaxy` `#1d2160` (headings, primary button), `violet` `#6a4bd6`, `teal` `#17a2a0`; gradient via `bg-gradient-galaxy` / `text-gradient` |
+| Fonts      | **Space Grotesk** (headings, labels) + **Inter** (body), self-hosted via `@fontsource-variable` (no requests to Google Fonts, GDPR-friendly) |
+| Type scale | `text-display` (hero, fluid 48–120 px) › `text-heading` (section titles, fluid 36–64 px) › `text-lg/xl` (lead) › `text-base` › `text-xs` uppercase + tracking (labels) |
+| Grid       | 4 columns (mobile) → 8 (from `md`) → 12 (from `lg`), gutters 16/24/32 px, max width 1280 px – `components/layout/Grid.tsx` |
+| Spacing    | Tailwind's 4 px scale used in 8 px steps; section padding `--spacing-section` (fluid 96–160 px), navbar height `--spacing-nav` (72 px) |
+| Asymmetry  | Deliberate and sparing: offset column starts, staggered project cards (7/5 – 5/7), a few slightly rotated elements (portrait frame, badge, individual cards) |
+| Motion     | Subtle fade-in on scroll (`Reveal`) and navigation transitions; respects `prefers-reduced-motion` |
 
-**Dev-Tipp:** Im Development Server blendet die Taste **G** das Spaltenraster als Overlay ein bzw. aus.
+**Dev tip:** In the development server, press **G** to toggle the column grid overlay.
 
-**Platzhalter:** Graue Balken (`PlaceholderLines`) und schraffierte Flächen (`PlaceholderMedia`) markieren, wo später echte Inhalte stehen.
+**Placeholders:** Grey bars (`PlaceholderLines`) and hatched areas (`PlaceholderMedia`) mark where real content will go.
 
-## Architekturentscheidungen
+## Architecture Decisions
 
-- **One-Page ohne React Router:** Alle Sections liegen auf einer Seite und werden über Anker (`#about` …) angesteuert. `useActiveSection` (IntersectionObserver) markiert den aktiven Abschnitt in Navbar und Knotenlinie. Routing wird ergänzt, sobald mehrere Seiten (z. B. Projekt-Detailseiten) entstehen. Auf GitHub Pages ist dann ein `HashRouter` oder ein `404.html`-Fallback nötig, da Pages kein SPA-Fallback kennt.
-- **Tailwind CSS 4 über `@tailwindcss/vite`:** Keine `tailwind.config.js` und kein PostCSS nötig. Design-Tokens (Farben, Fonts, Abstände) werden später im `@theme`-Block in `src/styles/index.css` definiert.
-- **Dynamischer `base`-Pfad:** `vite.config.ts` liest `BASE_PATH` aus der Umgebung (Standard `/`). Der Workflow setzt den Wert automatisch über `actions/configure-pages` – für ein Projekt-Repository z. B. `/Portfolio/`, für ein `<user>.github.io`-Repository `/`. Ein Umbenennen des Repositorys erfordert daher keine Codeänderung.
-- **Keine absoluten Asset-Pfade:** Assets werden in Komponenten importiert (`import img from '../assets/x.png'`), damit Vite den `base`-Pfad korrekt voranstellt. Für Dateien aus `public/` im Code `import.meta.env.BASE_URL` verwenden.
-- **ESLint statt oxlint, TypeScript 6.0 statt 7:** typescript-eslint unterstützt derzeit nur TypeScript `< 6.1`. Deshalb ist TypeScript auf `~6.0` festgelegt. Ein Upgrade auf TypeScript 7 ist möglich, sobald typescript-eslint es unterstützt.
-- **Motion** (`motion/react`) für Ein-/Ausblendungen der Navigation und Scroll-Reveals; global über `MotionConfig reducedMotion="user"` an die Systemeinstellung gekoppelt.
+- **One page without React Router:** All sections live on a single page and are reached via anchors (`#about` …). `useActiveSection` (IntersectionObserver) highlights the active section in the navbar and the side node line. Routing will be added once multiple pages exist (e.g. project detail pages). On GitHub Pages this will then require a `HashRouter` or a `404.html` fallback, since Pages has no SPA fallback.
+- **Tailwind CSS 4 via `@tailwindcss/vite`:** No `tailwind.config.js` and no PostCSS needed. Design tokens (colors, fonts, spacing) are defined in the `@theme` block in `src/styles/index.css`.
+- **Dynamic `base` path:** `vite.config.ts` reads `BASE_PATH` from the environment (default `/`). The workflow sets it automatically via `actions/configure-pages` – e.g. `/Portfolio/` for a project repository, `/` for a `<user>.github.io` repository. Renaming the repository therefore requires no code change.
+- **No absolute asset paths:** Assets are imported in components (`import img from '../assets/x.png'`) so Vite prefixes the `base` path correctly. For files in `public/`, use `import.meta.env.BASE_URL` in code.
+- **ESLint instead of oxlint, TypeScript 6.0 instead of 7:** typescript-eslint currently only supports TypeScript `< 6.1`, so TypeScript is pinned to `~6.0`. Upgrading to TypeScript 7 is possible once typescript-eslint supports it.
+- **Motion** (`motion/react`) powers the navigation transitions and scroll reveals; it is globally tied to the OS setting via `MotionConfig reducedMotion="user"`.
 
 ## Deployment (GitHub Pages)
 
-Der Workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) läuft bei jedem Push auf `main` (oder manuell über *Actions → Run workflow*):
+The workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) runs on every push to `main` (or manually via *Actions → Run workflow*):
 
-1. **build:** `npm ci` → `actions/configure-pages` (ermittelt den Base-Pfad) → `npm run build` → `actions/upload-pages-artifact` lädt `dist/` hoch.
-2. **deploy:** `actions/deploy-pages` veröffentlicht das Artifact in der Umgebung `github-pages`.
+1. **build:** `npm ci` → `actions/configure-pages` (determines the base path) → `npm run build` → `actions/upload-pages-artifact` uploads `dist/`.
+2. **deploy:** `actions/deploy-pages` publishes the artifact to the `github-pages` environment.
 
-Benötigte Workflow-Berechtigungen (bereits gesetzt): `contents: read`, `pages: write`, `id-token: write`.
+Required workflow permissions (already set): `contents: read`, `pages: write`, `id-token: write`.
 
-### Manuelle Schritte auf GitHub
+### Manual Steps on GitHub
 
-1. Repository auf GitHub anlegen (z. B. `Portfolio`) – **ohne** README/.gitignore, da diese bereits existieren.
-2. Remote verbinden und pushen:
+1. Create the repository on GitHub (e.g. `Portfolio`) – **without** a README/.gitignore, since they already exist.
+2. Add the remote and push:
    ```bash
    git remote add origin https://github.com/<user>/<repo>.git
    git push -u origin main
    ```
-3. Im Repository **Settings → Pages → Build and deployment → Source** auf **„GitHub Actions“** stellen.
-4. Unter **Actions** prüfen, ob der Workflow „Deploy to GitHub Pages“ erfolgreich läuft (ggf. nach Schritt 3 über *Run workflow* erneut starten).
-5. Die Seite ist anschließend erreichbar unter `https://<user>.github.io/<repo>/`.
+3. In the repository, set **Settings → Pages → Build and deployment → Source** to **"GitHub Actions"**.
+4. Under **Actions**, check that the "Deploy to GitHub Pages" workflow succeeds (if needed, re-run it via *Run workflow* after step 3).
+5. The site is then available at `https://<user>.github.io/<repo>/`.
 
-Optional: Unter **Settings → Environments → github-pages** sind die Deployment-Branch-Regeln einsehbar (Standard: nur `main`).
+Optional: **Settings → Environments → github-pages** shows the deployment branch rules (default: `main` only).
