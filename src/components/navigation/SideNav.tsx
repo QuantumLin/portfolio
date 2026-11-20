@@ -9,11 +9,11 @@ type SideNavProps = {
   visible: boolean
 }
 
-const NODE_GAP = 44 // px between nodes – keep in sync with the gap-11 below
+const NODE_GAP_REM = 2.75 // distance between nodes – keep in sync with gap-11 below (rem, so it scales with the layout)
 const IDLE_TIMEOUT = 2000 // ms without activity before the nav fades out
 
 /**
- * Vertical "node line" on the right edge. Appears after leaving the hero and
+ * Vertical "node line" on the left edge. Appears after leaving the hero and
  * fades out after a short period of inactivity (stays while hovered/focused).
  * The gradient track fills up to the active node.
  */
@@ -38,22 +38,22 @@ function SideNav({ active, visible }: SideNavProps) {
             if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false)
           }}
           // Sits inside the container's side gutter (lg: 40px), so it never covers grid content.
-          className="fixed top-1/2 right-3 z-40 hidden -translate-y-1/2 lg:block xl:right-6"
-          initial={{ opacity: 0, x: 24 }}
+          className="fixed top-1/2 left-3 z-40 hidden -translate-y-1/2 lg:block xl:left-6"
+          initial={{ opacity: 0, x: -24 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 24 }}
+          exit={{ opacity: 0, x: -24 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
         >
           <div className="relative">
             {/* Track */}
-            <span aria-hidden className="absolute inset-y-0 right-[7px] w-px bg-galaxy/15" />
+            <span aria-hidden className="absolute inset-y-0 left-[7px] w-px bg-galaxy/15" />
             {/* Progress: full-length line scaled from the top. Animating a transform
                 (instead of height) needs no layout measurement – Motion would otherwise
                 reset the scroll position and cancel smooth in-page scrolling. */}
             <motion.span
               aria-hidden
-              className="absolute top-0 right-[7px] w-px origin-top bg-linear-to-b from-violet to-teal"
-              style={{ height: (sectionIds.length - 1) * NODE_GAP }}
+              className="absolute top-0 left-[7px] w-px origin-top bg-linear-to-b from-violet to-teal"
+              style={{ height: `${(sectionIds.length - 1) * NODE_GAP_REM}rem` }}
               initial={false}
               animate={{ scaleY: activeIndex / (sectionIds.length - 1) }}
               transition={{ type: 'spring', stiffness: 160, damping: 24 }}
@@ -64,21 +64,12 @@ function SideNav({ active, visible }: SideNavProps) {
                 const isActive = id === active
                 const isPassed = index < activeIndex
                 return (
-                  <li key={id} className="flex h-0 items-center justify-end">
+                  <li key={id} className="flex h-0 items-center justify-start">
                     <a
                       href={`#${id}`}
                       aria-current={isActive ? 'location' : undefined}
                       className="group flex items-center gap-3 py-2"
                     >
-                      <span
-                        // Labels show on hover/focus; the active one stays visible only on
-                        // very wide screens where the gutter has room for it.
-                        className={`rounded-full bg-ivory/95 px-2.5 py-1 font-sans whitespace-nowrap text-xs font-medium tracking-[0.2em] uppercase shadow-sm shadow-galaxy/5 transition-all duration-300 ${
-                          isActive ? 'text-galaxy 2xl:translate-x-0 2xl:opacity-100' : 'text-muted'
-                        } translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100`}
-                      >
-                        {t.nav[id]}
-                      </span>
                       <span
                         aria-hidden
                         className={`grid size-[15px] place-items-center rounded-full border transition-all duration-300 ${
@@ -90,6 +81,15 @@ function SideNav({ active, visible }: SideNavProps) {
                         }`}
                       >
                         {isActive && <span className="size-[7px] rounded-[1px] bg-gradient-galaxy" />}
+                      </span>
+                      <span
+                        // Labels show on hover/focus; the active one stays visible only on
+                        // very wide screens where the gutter has room for it.
+                        className={`rounded-full bg-ivory/95 px-2.5 py-1 font-sans whitespace-nowrap text-xs font-medium tracking-[0.2em] uppercase shadow-sm shadow-galaxy/5 transition-all duration-300 ${
+                          isActive ? 'text-galaxy 2xl:translate-x-0 2xl:opacity-100' : 'text-muted'
+                        } -translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100`}
+                      >
+                        {t.nav[id]}
                       </span>
                     </a>
                   </li>
