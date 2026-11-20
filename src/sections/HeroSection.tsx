@@ -8,20 +8,23 @@ import Button from '../components/ui/Button.tsx'
 import LangStack from '../components/ui/LangStack.tsx'
 import RichText from '../components/ui/RichText.tsx'
 import { PlaceholderMedia } from '../components/ui/Placeholder.tsx'
+import { useScrolled } from '../hooks/useScrolled.ts'
 import { useLanguage } from '../i18n/languageContext.ts'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
 function HeroSection() {
   const { t } = useLanguage()
-  // Looping decorations (orbit, sparkles, scroll cue) pause while the hero is off screen.
+  // The looping scroll cue only runs at the very top: once the visitor scrolls it has done
+  // its job, and animating it while scrolling is costly without GPU acceleration.
   const sectionRef = useRef<HTMLElement>(null)
   const inView = useInView(sectionRef)
+  const scrolled = useScrolled()
 
   return (
     <section
       ref={sectionRef}
-      data-offscreen={inView ? undefined : true}
+      data-offscreen={inView && !scrolled ? undefined : true}
       id="home"
       aria-labelledby="home-title"
       className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-20 lg:pt-[calc(var(--spacing-nav)+4rem)] lg:pb-20"
@@ -78,10 +81,11 @@ function HeroSection() {
             transition={{ duration: 0.9, delay: 0.15, ease }}
           >
             <div className="relative mx-auto max-w-56 sm:max-w-64 lg:max-w-xs">
-              {/* Orbit: dashed ring with two planets, slowly rotating behind the portrait */}
+              {/* Orbit: dashed ring with two planets behind the portrait (static – a rotating ring this
+                  large is expensive to redraw without GPU acceleration) */}
               <div
                 aria-hidden
-                className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[150%] -translate-1/2 animate-orbit rounded-full border border-dashed border-violet/35 motion-reduce:animate-none"
+                className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[150%] -translate-1/2 rotate-45 rounded-full border border-dashed border-violet/35"
               >
                 <span className="absolute top-[14.6%] left-[14.6%] size-4 -translate-1/2 rounded-full bg-teal shadow-[0_0_0_6px] shadow-teal/15" />
                 <span className="absolute right-[14.6%] bottom-[14.6%] size-2.5 translate-1/2 rounded-full bg-violet" />
