@@ -62,6 +62,11 @@ const en = {
     title: 'Projects',
     thumbnail: 'Thumbnail',
     placeholderTitle: 'Project title',
+    details: {
+      description: 'About the project',
+      role: 'My role',
+      tech: 'Technologies',
+    },
     modal: {
       close: 'Close',
       gallery: 'Project images',
@@ -146,6 +151,11 @@ const de: Translation = {
     title: 'Projekte',
     thumbnail: 'Vorschaubild',
     placeholderTitle: 'Projekttitel',
+    details: {
+      description: 'Über das Projekt',
+      role: 'Meine Rolle',
+      tech: 'Technologien',
+    },
     modal: {
       close: 'Schließen',
       gallery: 'Projektbilder',

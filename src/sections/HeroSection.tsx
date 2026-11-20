@@ -20,11 +20,13 @@ function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
   const inView = useInView(sectionRef)
   const scrolled = useScrolled()
+  // Remove the animation entirely (not just pause it): a paused CSS animation still
+  // makes the browser repaint far more while scrolling without GPU acceleration.
+  const cueAnimated = inView && !scrolled
 
   return (
     <section
       ref={sectionRef}
-      data-offscreen={inView && !scrolled ? undefined : true}
       id="home"
       aria-labelledby="home-title"
       className="relative isolate flex min-h-dvh items-center overflow-hidden bg-ivory pt-[calc(var(--spacing-nav)+3rem)] pb-20 lg:pt-[calc(var(--spacing-nav)+4rem)] lg:pb-20"
@@ -119,7 +121,7 @@ function HeroSection() {
           strokeWidth="1.75"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="size-5 animate-nudge text-violet motion-reduce:animate-none"
+          className={`size-5 text-violet ${cueAnimated ? 'animate-nudge motion-reduce:animate-none' : ''}`}
         >
           <path d="m6 9 6 6 6-6" />
         </svg>

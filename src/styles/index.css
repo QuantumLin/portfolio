@@ -110,11 +110,6 @@
   background-image: radial-gradient(closest-side, color-mix(in oklab, var(--color-violet) 11%, transparent), transparent);
 }
 
-/* Pause the hero's looping scroll cue once the page is scrolled or the hero is off screen (set in HeroSection) */
-[data-offscreen] .animate-nudge {
-  animation-play-state: paused;
-}
-
 @utility bg-gradient-galaxy {
   background-image: var(--gradient-galaxy);
 }
