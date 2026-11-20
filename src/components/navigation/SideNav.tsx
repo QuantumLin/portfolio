@@ -47,11 +47,15 @@ function SideNav({ active, visible }: SideNavProps) {
           <div className="relative">
             {/* Track */}
             <span aria-hidden className="absolute inset-y-0 right-[7px] w-px bg-galaxy/15" />
-            {/* Progress */}
+            {/* Progress: full-length line scaled from the top. Animating a transform
+                (instead of height) needs no layout measurement – Motion would otherwise
+                reset the scroll position and cancel smooth in-page scrolling. */}
             <motion.span
               aria-hidden
               className="absolute top-0 right-[7px] w-px origin-top bg-linear-to-b from-violet to-teal"
-              animate={{ height: activeIndex * NODE_GAP }}
+              style={{ height: (sectionIds.length - 1) * NODE_GAP }}
+              initial={false}
+              animate={{ scaleY: activeIndex / (sectionIds.length - 1) }}
               transition={{ type: 'spring', stiffness: 160, damping: 24 }}
             />
 

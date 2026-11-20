@@ -3,6 +3,7 @@ import Navbar from '../components/navigation/Navbar.tsx'
 import SideNav from '../components/navigation/SideNav.tsx'
 import { sectionIds } from '../data/sections.ts'
 import { useActiveSection } from '../hooks/useActiveSection.ts'
+import { useAnchorNavigation } from '../hooks/useAnchorNavigation.ts'
 import { useInitialScroll } from '../hooks/useInitialScroll.ts'
 import { useLanguage } from '../i18n/languageContext.ts'
 import AboutSection from '../sections/AboutSection.tsx'
@@ -15,6 +16,7 @@ function HomePage() {
   const { t } = useLanguage()
   const active = useActiveSection(sectionIds)
   useInitialScroll()
+  useAnchorNavigation()
 
   return (
     <>

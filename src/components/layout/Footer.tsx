@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useLanguage } from '../../i18n/languageContext.ts'
 import { legalHrefs, type LegalPageId } from '../../i18n/legal.ts'
 import Container from './Container.tsx'
@@ -12,13 +13,29 @@ type FooterProps = {
 /** Dark galaxy footer with copyright, legal links and "back to top". */
 function Footer({ backHref = '#home', current }: FooterProps) {
   const { t } = useLanguage()
+  const ref = useRef<HTMLElement>(null)
+
+  // Publish the footer height as --footer-height (used by the contact section so
+  // that "contact + footer" always fills the screen below the navbar).
+  useEffect(() => {
+    const footer = ref.current
+    if (!footer) return
+    const root = document.documentElement
+    const observer = new ResizeObserver(() => root.style.setProperty('--footer-height', `${footer.offsetHeight}px`))
+    observer.observe(footer)
+    return () => {
+      observer.disconnect()
+      root.style.removeProperty('--footer-height')
+    }
+  }, [])
+
   const links: { id: LegalPageId; label: string }[] = [
     { id: 'imprint', label: t.footer.imprint },
     { id: 'privacy', label: t.footer.privacy },
   ]
 
   return (
-    <footer className="bg-galaxy-deep text-ivory/70">
+    <footer ref={ref} className="bg-galaxy-deep text-ivory/70">
       <Container className="flex flex-col items-start justify-between gap-6 py-10 font-sans text-xs tracking-[0.15em] uppercase md:flex-row md:items-center">
         <p>© {new Date().getFullYear()} Daniel Dang</p>
 

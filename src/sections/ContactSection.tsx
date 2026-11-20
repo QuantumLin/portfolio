@@ -35,7 +35,10 @@ function ContactSection() {
   )
 
   return (
-    <Section id="contact" tone="sand" className="min-h-[60dvh]">
+    // Last section: at least "screen − navbar − footer" tall, so that jumping here via
+    // the navigation can put its top edge right below the navbar. lvh = largest
+    // viewport height (mobile address bar hidden), so it also holds on phones.
+    <Section id="contact" tone="sand" className="min-h-[calc(100lvh-var(--spacing-nav)-var(--footer-height,0px))]">
       <Container>
         <Grid className="items-center gap-y-12">
           <Reveal className="col-span-4 md:col-span-6 md:col-start-2 lg:col-span-5 lg:col-start-2">
