@@ -1,6 +1,7 @@
 import Container from '../components/layout/Container.tsx'
 import Grid from '../components/layout/Grid.tsx'
 import Section from '../components/layout/Section.tsx'
+import ContactIcon from '../components/ui/ContactIcon.tsx'
 import Reveal from '../components/ui/Reveal.tsx'
 import SectionHeading from '../components/ui/SectionHeading.tsx'
 import { contact } from '../data/contact.ts'
@@ -43,26 +44,29 @@ function ContactSection() {
           </Reveal>
 
           {channels.length > 0 && (
-            <Reveal delay={0.1} className="col-span-4 md:col-span-6 md:col-start-2 lg:col-span-4 lg:col-start-8">
+            <Reveal delay={0.1} className="col-span-4 md:col-span-6 md:col-start-2 lg:col-span-5 lg:col-start-7 xl:col-span-4 xl:col-start-8">
               <ul className="divide-y divide-galaxy/10 border-y border-galaxy/10">
                 {channels.map(({ key, href, display, external }) => (
                   <li key={key}>
                     <a
                       href={href}
                       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="group flex items-center justify-between gap-6 py-5 transition-[padding] duration-300 hover:px-2"
+                      className="group flex items-center py-5"
                     >
-                      <span className="flex min-w-0 flex-col gap-1">
-                        <span className="font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
-                          {t.contact.channels[key]}
+                      {/* Hover nudges the content via transform – no layout change, so the text never re-wraps */}
+                      <span className="flex min-w-0 items-center gap-4 transition-transform duration-300 group-hover:translate-x-1.5">
+                        <span
+                          aria-hidden
+                          className="grid size-11 shrink-0 place-items-center rounded-xl bg-ivory/70 text-galaxy shadow-sm shadow-galaxy/5 ring-1 ring-galaxy/10 transition duration-300 group-hover:bg-galaxy group-hover:text-ivory"
+                        >
+                          <ContactIcon channel={key} />
                         </span>
-                        <span className="font-display text-lg font-semibold break-words text-galaxy md:text-xl">{display}</span>
-                      </span>
-                      <span
-                        aria-hidden
-                        className="grid size-9 shrink-0 place-items-center rounded-full border border-galaxy/15 text-galaxy transition duration-300 group-hover:border-violet group-hover:bg-violet group-hover:text-ivory"
-                      >
-                        ↗
+                        <span className="flex min-w-0 flex-col gap-1">
+                          <span className="font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
+                            {t.contact.channels[key]}
+                          </span>
+                          <span className="truncate font-display text-base font-semibold text-galaxy sm:text-lg">{display}</span>
+                        </span>
                       </span>
                     </a>
                   </li>
