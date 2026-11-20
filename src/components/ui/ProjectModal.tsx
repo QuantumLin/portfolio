@@ -8,7 +8,6 @@ import Slideshow from './Slideshow.tsx'
 
 type ProjectModalProps = {
   project: Project | null
-  title: string
   onClose: () => void
 }
 
@@ -17,14 +16,15 @@ const focusableSelector =
 
 /**
  * Large project window (not fullscreen) over a blurred page.
- * Top: slideshow. Below: title and description.
+ * Top: slideshow. Below: title, meta, description, my role and technologies
+ * (placeholder lines for projects without content yet).
  * Closes via ✕, Esc or a click on the backdrop; locks page scroll, keeps
  * keyboard focus inside and returns it to the card afterwards.
  * Rendered into <body> via a portal so it sits above the navbar (sections
  * create their own stacking contexts).
  */
-function ProjectModal({ project, title, onClose }: ProjectModalProps) {
-  const { t } = useLanguage()
+function ProjectModal({ project, onClose }: ProjectModalProps) {
+  const { lang, t } = useLanguage()
   const titleId = useId()
   const panelRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
@@ -108,14 +108,53 @@ function ProjectModal({ project, title, onClose }: ProjectModalProps) {
             </button>
 
             {/* Upper half: slideshow */}
-            <Slideshow count={project.imageCount} className="aspect-16/9 max-h-[52dvh] w-full shrink-0" />
+            <Slideshow count={project.imageCount} className="aspect-2/1 max-h-[40dvh] w-full shrink-0" />
 
-            {/* Lower half: title + description (scrolls if long) */}
+            {/* Lower half: project details (scrolls if long) */}
             <div className="overflow-y-auto px-6 pt-8 pb-10 md:px-10">
               <h2 id={titleId} className="text-3xl font-semibold text-galaxy md:text-4xl">
-                {title}
+                {project.content?.title[lang] ?? t.projects.placeholderTitle}
               </h2>
-              <PlaceholderLines lines={5} className="mt-6 max-w-3xl" />
+
+              {project.content ? (
+                <>
+                  <p className="mt-3 font-sans text-sm text-muted">{project.content.meta[lang]}</p>
+
+                  <div className="mt-8 grid gap-8 md:grid-cols-[3fr_2fr] md:gap-10">
+                    <div className="space-y-6">
+                      <section>
+                        <h3 className="mb-2 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
+                          {t.projects.details.description}
+                        </h3>
+                        <p className="text-base leading-relaxed text-ink/80">{project.content.description[lang]}</p>
+                      </section>
+                      <section>
+                        <h3 className="mb-2 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
+                          {t.projects.details.role}
+                        </h3>
+                        <p className="text-base leading-relaxed text-ink/80">{project.content.role[lang]}</p>
+                      </section>
+                    </div>
+                    <section>
+                      <h3 className="mb-3 font-sans text-xs font-medium tracking-[0.2em] text-teal uppercase">
+                        {t.projects.details.tech}
+                      </h3>
+                      <ul className="flex flex-wrap gap-2">
+                        {project.content.tech.map((tech) => (
+                          <li
+                            key={tech}
+                            className="rounded-full border border-galaxy/15 bg-sand/50 px-3 py-1 font-sans text-sm text-galaxy"
+                          >
+                            {tech}
+                          </li>
+                        ))}
+                      </ul>
+                    </section>
+                  </div>
+                </>
+              ) : (
+                <PlaceholderLines lines={5} className="mt-6 max-w-3xl" />
+              )}
             </div>
           </motion.div>
         </motion.div>

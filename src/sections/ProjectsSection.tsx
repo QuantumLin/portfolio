@@ -8,11 +8,14 @@ import Reveal from '../components/ui/Reveal.tsx'
 import SectionHeading from '../components/ui/SectionHeading.tsx'
 import { projects, type Project } from '../data/projects.ts'
 import { useLanguage } from '../i18n/languageContext.ts'
+import { translations } from '../i18n/translations.ts'
 
 function ProjectsSection() {
   const { t } = useLanguage()
   const [selected, setSelected] = useState<Project | null>(null)
   const close = useCallback(() => setSelected(null), [])
+  // Placeholder cards (no content yet) show a generic title in each language.
+  const placeholderTitle = { en: translations.en.projects.placeholderTitle, de: translations.de.projects.placeholderTitle }
 
   return (
     <Section id="projects" tone="ivory">
@@ -33,7 +36,7 @@ function ProjectsSection() {
               className={`col-span-4 lg:col-span-5 ${index % 2 === 0 ? 'lg:col-start-2' : ''}`}
             >
               <ProjectCard
-                title={t.projects.placeholderTitle}
+                title={project.content?.title ?? placeholderTitle}
                 thumbnailLabel={t.projects.thumbnail}
                 onOpen={() => setSelected(project)}
               />
@@ -42,7 +45,7 @@ function ProjectsSection() {
         </Grid>
       </Container>
 
-      <ProjectModal project={selected} title={t.projects.placeholderTitle} onClose={close} />
+      <ProjectModal project={selected} onClose={close} />
     </Section>
   )
 }
