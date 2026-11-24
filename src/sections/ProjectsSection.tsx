@@ -26,7 +26,7 @@ function ProjectsSection() {
   const closeModal = useCallback(() => setSelected(null), [])
 
   return (
-    <Section id="projects" tone="ivory-flip">
+    <Section id="projects" tone="ivory-flip" compact>
       <SectionDivider />
 
       <Container>

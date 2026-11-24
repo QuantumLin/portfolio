@@ -60,6 +60,8 @@
   --spacing-nav: 4.5rem;
   --spacing-section: clamp(6rem, 4rem + 6vw, 10rem);
   --spacing-section-top: clamp(2.5rem, 1.75rem + 2.5vw, 4rem);
+  --spacing-section-compact: clamp(4rem, 2.5rem + 4vw, 6rem);
+  --spacing-section-top-compact: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
 
   /* Brand gradient */
   --gradient-galaxy: linear-gradient(120deg, var(--color-galaxy) 0%, var(--color-violet) 55%, var(--color-teal) 100%);

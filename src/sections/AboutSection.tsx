@@ -43,7 +43,7 @@ function AboutSection() {
   const { t } = useLanguage()
 
   return (
-    <Section id="about" tone="sand">
+    <Section id="about" tone="sand" compact>
       <Container>
         <Grid className="items-center gap-y-12">
           <div className="col-span-4 md:col-span-6 md:col-start-2 lg:col-span-5 lg:col-start-7 lg:row-start-1">

@@ -16,7 +16,7 @@ function SkillsSection() {
   const { lang, t } = useLanguage()
 
   return (
-    <Section id="skills" tone="ivory">
+    <Section id="skills" tone="ivory" compact>
       <Container>
         <Reveal>
           <SectionHeading id="skills" title={t.skills.title} />
